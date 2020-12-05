@@ -1,7 +1,7 @@
 <template>
   <section ref="slides" class="slides">
-    <SecondSequence/>
-    <SampleSlide />
+    <SecondSequence :current-state="stateOfSlide(0)" @next-slide="nextSlide" @prev-slide="prevSlide" />
+    <SampleSlide :current-state="stateOfSlide(1)" @next-slide="nextSlide" @prev-slide="prevSlide" />
   </section>
 </template>
 
@@ -15,7 +15,8 @@ export default {
     SecondSequence
   },
   data: () => ({
-    currentSlide: 0
+    currentSlide: 0,
+    numberOfSlides: 3
   }),
   created () {
     window.addEventListener('keydown', this.keyUp)
@@ -24,9 +25,9 @@ export default {
     window.removeEventListener('keydown', this.keyUp)
   },
   computed: {
-    numberOfSlides () {
-      return this.$refs.slides.querySelectorAll('.slide').length
-    }
+    // numberOfSlides () {
+    //   return this.$refs.slides.querySelectorAll('.slide').length
+    // }
   },
   methods: {
     stateOfSlide (slide) {
