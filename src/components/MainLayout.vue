@@ -1,6 +1,7 @@
 <template>
   <section ref="slides" class="slides">
     <SecondSequence/>
+    <SevenSequence/>
     <SampleSlide />
   </section>
 </template>
@@ -8,11 +9,13 @@
 <script>
 import SampleSlide from "@/components/slides/SampleSlide";
 import SecondSequence from "@/components/slides/SecondSequence";
+import SevenSequence from "@/components/slides/SevenSequence";
 export default {
   name: 'MainLayout',
   components: {
     SampleSlide,
-    SecondSequence
+    SecondSequence,
+    SevenSequence
   },
   data: () => ({
     currentSlide: 0

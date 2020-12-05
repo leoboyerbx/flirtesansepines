@@ -10,7 +10,7 @@ import MainLayout from "@/components/MainLayout";
 export default {
   name: 'App',
   components: {
-    MainLayout
+    MainLayout  
   }
 }
 </script>
