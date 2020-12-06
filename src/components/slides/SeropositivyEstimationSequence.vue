@@ -2,7 +2,7 @@
   <article class="seropositivity-estimation" :class="currentState">
     <div class="container">
       <h1>{{ msg }}</h1>
-      <p class="estimation-number" v-text="total"></p>
+      <p class="estimation-number">{{ number }}</p>
       <input class="slider" type="range" min="1000" max="10000" step="1000" v-model="number">
     </div>
   </article>
@@ -12,7 +12,7 @@
 export default {
   name: 'IntroductionSequence',
   data: () => ({
-    msg: "A votre avis, combien de cas de séropositivité ont été definis en 2019 en France ?",
+    msg: "A votre avis, combien de cas de séropositivité ont été découverts en 2019 en France ?",
     number:1000
   }),
   props: {
@@ -103,9 +103,8 @@ export default {
 
       &::-moz-range-track {
         width: 100%;
-        height: 12.8px;
         cursor: pointer;
-        box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+        //box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
         background: url('../../assets/track.svg');
         background-size: contain;
         background-position: 50%;

@@ -31,7 +31,7 @@ export default {
     keys: ['age', "never", "over12Months", "in12Months"],
     tooltipWidth: 210,
     bandSpacing: 30,
-    tooltipVisible: true,
+    tooltipVisible: false,
     tooltipValues: {
       percentage: 0,
       key: '',
@@ -136,6 +136,9 @@ export default {
           .attr("height", y.bandwidth() - this.bandSpacing)
           .attr("x", d => x(d[1]))
           .attr("width", d => (this.dataWidth - x(d[1] - d[0])))
+          .on('mouseover', () => {
+            this.tooltipVisible = true
+          })
           .on('mousemove',  _throttle((e, d) => {
             this.tooltipValues = {
               percentage: (d[1] - d[0]),
@@ -143,7 +146,10 @@ export default {
               x: e.pageX,
               y: e.pageY
             }
-          }, 100))
+          }, 50))
+          .on('mouseleave', () => {
+            this.tooltipVisible = false
+          })
         this.generateAxis()
     },
   }
