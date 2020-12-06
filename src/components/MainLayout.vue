@@ -24,7 +24,7 @@ export default {
   },
   data: () => ({
     currentSlide: 0,
-    numberOfSlides: 3
+    numberOfSlides: 20
   }),
   created () {
     window.addEventListener('keydown', this.keyUp)

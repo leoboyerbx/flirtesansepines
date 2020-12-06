@@ -1,5 +1,10 @@
 <template>
-  <svg class="screeningBehaviourDataviz" :width="width" :height="height"></svg>
+  <div class="screeningBehaviourDataviz">
+    <svg :width="width" :height="height" ref="svg"></svg>
+    <div class="tooltip" :class="{ visible: tooltipVisible }">
+      Data: valeur
+    </div>
+  </div>
 </template>
 
 <script>
@@ -16,12 +21,12 @@ export default {
   },
   data: () => ({
     svg: null,
-    margin: {top: 20, right: 40, bottom: 60, left: 100},
+    margin: {top: 20, right: 200, bottom: 60, left: 100},
     keys: ['age', "never", "over12Months", "in12Months"],
-    colors: ["#f7fcf0", "#e0f3db", "#ccebc5"],
-    legendCellSize: 20,
+    colors: ["#d47171", "#347bae", "#ccebc5"],
     tooltipWidth: 210,
-    bandSpacing: 30
+    bandSpacing: 30,
+    tooltipVisible: false
   }),
   computed: {
     dataWidth () {
@@ -39,17 +44,18 @@ export default {
   },
   methods: {
     initSvg() {
-      this.svg = d3.select(this.$el).attr("id", "svg")
+      this.svg = d3.select(this.$refs.svg).attr("id", "svg")
           .append("g")
           .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")")
-      this.renderSvg();
+
+      this.renderSvg()
     },
     renderSvg () {
       const data = this.dataSource
       const stack = d3.stack()
-        .keys(this.keys)
-        .order(d3.stackOrderNone)
-        .offset(d3.stackOffsetNone)
+          .keys(this.keys)
+          .order(d3.stackOrderNone)
+          .offset(d3.stackOffsetNone)
 
       const series = stack(this.dataSource)
 
@@ -70,9 +76,8 @@ export default {
           .style("text-anchor", "end")
           .attr('class', 'axis-text')
       yAxis.selectAll(".domain, line").remove()
-          // .attr("y", -this.bandSpacing/2)
-          // .attr("dy", - this.bandSpacing / 2 + 'px')
-
+      // .attr("y", -this.bandSpacing/2)
+      // .attr("dy", - this.bandSpacing / 2 + 'px')
 
       const groups = this.svg.selectAll("g.groupe")
           .data(series)
@@ -91,16 +96,31 @@ export default {
           .attr("height", y.bandwidth() - this.bandSpacing)
           .attr("x", d => x(d[1]))
           .attr("width", d => (this.dataWidth - x(d[1] - d[0])))
-    }
+    },
   }
 }
 </script>
 
 <style lang="scss">
-  .screeningBehaviourDataviz {
-    .axis-text {
-      //fill: #f00;
-      font-size: 1.1em;
+.screeningBehaviourDataviz {
+  position: relative;
+  .tooltip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #00000088;
+    color: #fff;
+    font-family: sans-serif;
+    padding: 10px;
+    border-radius: 3px;
+    opacity: 0;
+    &.visible {
+      opacity: 1;
     }
   }
+  .axis-text {
+    //fill: #f00;
+    font-size: 1.1em;
+  }
+}
 </style>

@@ -2,7 +2,7 @@
   <article class="screening-behaviors" :class="currentState">
     <ScreeningBehaviorsDataviz
       :dataSource="dataSource"
-      :width="600"
+      :width="800"
       :height="400"
     />
   </article>
