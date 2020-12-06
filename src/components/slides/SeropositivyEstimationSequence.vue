@@ -2,8 +2,9 @@
   <article class="seropositivity-estimation" :class="currentState">
     <div class="container">
       <h1>{{ msg }}</h1>
-      <p class="estimation-number" v-text="total"></p>
+      <p class="estimation-number">{{ number}}</p>
       <input class="slider" type="range" min="1000" max="10000" step="1000" v-model="number">
+      <button @click="submitEstimation"> Valider </button>
     </div>
   </article>
 </template>
@@ -13,7 +14,8 @@ export default {
   name: 'SeroposotivityEstimationSequence',
   data: () => ({
     msg: "A ton avis, combien de cas de séropositivité ont été définis en 2019 en France ?",
-    number:1000
+    number:1000,
+    userEstimation: ''  
   }),
   props: {
     currentState: {
@@ -21,9 +23,10 @@ export default {
       default: 'future'
     }
   },
-  computed: {
-    total: function () {
-      return this.number
+  methods: {
+    submitEstimation() {
+      this.userEstimation = this.number;
+      this.$emit('next-slide');
     }
   }
 }
