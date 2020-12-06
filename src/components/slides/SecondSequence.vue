@@ -13,7 +13,7 @@ export default {
   name: 'SecondSequence',
    data() {
     return {
-      msg:" A votre avis quel graphique est le vrai ? ",
+      msg:" A ton avis, quel graphique est le vrai ? ",
       height: 600,
       width: 600
     }

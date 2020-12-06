@@ -153,6 +153,7 @@ export default {
 <style lang="scss">
 .screeningBehaviourDataviz {
   position: relative;
+  display:flex;
   .tooltip {
     pointer-events: none;
     position: absolute;
@@ -172,6 +173,10 @@ export default {
     //fill: #f00;
     font-family: $titleFont;
     font-size: 1.1em;
+  }
+
+  svg{
+    margin:auto;
   }
 }
 </style>

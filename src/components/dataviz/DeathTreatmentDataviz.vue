@@ -1,5 +1,5 @@
 <template>
-  <article id="seven_sequence_container" :class="currentState">
+  <article id="death-treatment-dataviz" :class="currentState">
     <div id="chart"></div>
   </article>
 </template>
@@ -9,7 +9,7 @@ import * as d3 from 'd3';
 export default {
   watch: {
   },
-  name: 'SevenSequence',
+  name: 'DeathTreatmentDataviz',
   props: {
     currentState: {
       type: String,
@@ -115,21 +115,12 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 
-#seven_sequence_container{
-  display: none;
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
+#death-treatment-dataviz{
   
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #fff;
-  display: none;
-  &.current {
-    display: block;
+
+  #chart {
+    display:flex;
+    justify-content: center;
   }
 }
 

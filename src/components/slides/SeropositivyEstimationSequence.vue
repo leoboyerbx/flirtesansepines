@@ -10,9 +10,9 @@
 
 <script>
 export default {
-  name: 'IntroductionSequence',
+  name: 'SeroposotivityEstimationSequence',
   data: () => ({
-    msg: "A votre avis, combien de cas de séropositivité ont été definis en 2019 en France ?",
+    msg: "A ton avis, combien de cas de séropositivité ont été définis en 2019 en France ?",
     number:1000
   }),
   props: {
