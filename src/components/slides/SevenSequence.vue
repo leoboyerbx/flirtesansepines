@@ -1,7 +1,7 @@
 <template>
-  <div id="seven_sequence_container" :class="currentState">
+  <article id="seven_sequence_container" :class="currentState">
     <div id="chart"></div>
-  </div>
+  </article>
 </template>
 
 <script>
@@ -11,7 +11,10 @@ export default {
   },
   name: 'SevenSequence',
   props: {
-    currentState: String
+    currentState: {
+      type: String,
+      default: 'future'
+    }
   },
   mounted() {
     this.generateLineChart();
@@ -113,6 +116,11 @@ export default {
 <style scoped lang="scss">
 
 #seven_sequence_container{
+  display: none;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  
   position: fixed;
   top: 0;
   left: 0;
@@ -125,18 +133,4 @@ export default {
   }
 }
 
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
 </style>

@@ -26,6 +26,12 @@ export default {
 <style scoped lang="scss">
 
 .experience-introduction {
+    display:none;
+
+    &.current {
+        display: block;
+    }
+
     width: 100vw;
     height: 100vh;
     background: rgb(92,144,182);
