@@ -2,9 +2,10 @@
   <section ref="slides" class="slides">
     <IntroductionSequence :current-state="stateOfSlide(0)" @next-slide="nextSlide" @prev-slide="prevSlide"/>
     <SeropositivyEstimationSequence :current-state="stateOfSlide(1)" @next-slide="nextSlide" @prev-slide="prevSlide"/>
-    <ScreeningBehaviorsSequence :current-state="stateOfSlide(2)" @next-slide="nextSlide" @prev-slide="prevSlide" />
-    <ReasonsOfScreeningLowSequence :current-state="stateOfSlide(3)" @next-slide="nextSlide" @prev-slide="prevSlide" />
-    <SevenSequence :current-state="stateOfSlide(4)" @next-slide="nextSlide" @prev-slide="prevSlide" />
+    <SeropositivitySequence :current-state="stateOfSlide(2)" @next-slide="nextSlide" @prev-slide="prevSlide"/>
+    <ScreeningBehaviorsSequence :current-state="stateOfSlide(3)" @next-slide="nextSlide" @prev-slide="prevSlide" />
+    <ReasonsOfScreeningLowSequence :current-state="stateOfSlide(4)" @next-slide="nextSlide" @prev-slide="prevSlide" />
+    <SevenSequence :current-state="stateOfSlide(5)" @next-slide="nextSlide" @prev-slide="prevSlide" />
   </section>
 </template>
 
@@ -14,9 +15,12 @@ import SevenSequence from "@/components/slides/SevenSequence";
 import ScreeningBehaviorsSequence from "@/components/slides/ScreeningBehaviorsSequence";
 import SeropositivyEstimationSequence from "@/components/slides/SeropositivyEstimationSequence";
 import ReasonsOfScreeningLowSequence from "@/components/slides/ReasonsOfScreeningLowSequence";
+import SeropositivitySequence from "@/components/slides/SeropositivitySequence";
+
 export default {
   name: 'MainLayout',
   components: {
+    SeropositivitySequence,
     IntroductionSequence,
     SeropositivyEstimationSequence,
     ScreeningBehaviorsSequence,

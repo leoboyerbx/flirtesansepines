@@ -29,7 +29,6 @@ export default {
     svg: null,
     margin: {top: 20, right: 200, bottom: 60, left: 100},
     keys: ['age', "never", "over12Months", "in12Months"],
-    tooltipWidth: 210,
     bandSpacing: 30,
     tooltipVisible: false,
     tooltipValues: {

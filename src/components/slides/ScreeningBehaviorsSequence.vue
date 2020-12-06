@@ -10,7 +10,7 @@
 
 <script>
 import { csv } from 'd3'
-import ScreeningBehaviorsDataviz from "@/components/ScreeningBehaviorsDataviz";
+import ScreeningBehaviorsDataviz from "@/components/dataviz/ScreeningBehaviorsDataviz";
 
 export default {
   name: "ScreeningBehaviorsSequence",
