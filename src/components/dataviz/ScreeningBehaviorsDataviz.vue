@@ -19,7 +19,6 @@ import _throttle from 'lodash.throttle'
 export default {
   name: "ScreeningBehaviorsDataviz",
   props: {
-    // taille en pixel du composant
     width: { type: Number },
     height: { type: Number },
 
@@ -95,7 +94,7 @@ export default {
       this.renderSvg()
     },
     generateAxis () {
-      const {x, y} = this.scaleBands
+      const { x, y } = this.scaleBands
 
       const yAxisGenerator = d3.axisLeft(y)
       const yAxis = this.svg.append("g")
@@ -139,11 +138,12 @@ export default {
             this.tooltipVisible = true
           })
           .on('mousemove',  _throttle((e, d) => {
+            const pointer = d3.pointer(e, this.svg.node().parentNode.parentNode)
             this.tooltipValues = {
               percentage: (d[1] - d[0]),
               key: d.key,
-              x: e.pageX,
-              y: e.pageY
+              x: pointer[0],
+              y: pointer[1]
             }
           }, 50))
           .on('mouseleave', () => {
