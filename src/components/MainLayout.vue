@@ -1,16 +1,19 @@
 <template>
   <section ref="slides" class="slides">
     <SecondSequence :current-state="stateOfSlide(0)" @next-slide="nextSlide" @prev-slide="prevSlide" />
-    <SampleSlide :current-state="stateOfSlide(1)" @next-slide="nextSlide" @prev-slide="prevSlide" />
+    <ScreeningBehaviorsSequence :current-state="stateOfSlide(1)" @next-slide="nextSlide" @prev-slide="prevSlide" />
+    <SampleSlide :current-state="stateOfSlide(2)" @next-slide="nextSlide" @prev-slide="prevSlide" />
   </section>
 </template>
 
 <script>
 import SampleSlide from "@/components/slides/SampleSlide";
 import SecondSequence from "@/components/slides/SecondSequence";
+import ScreeningBehaviorsSequence from "@/components/slides/ScreeningBehaviorsSequence";
 export default {
   name: 'MainLayout',
   components: {
+    ScreeningBehaviorsSequence,
     SampleSlide,
     SecondSequence
   },
