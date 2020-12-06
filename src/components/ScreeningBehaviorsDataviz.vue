@@ -1,14 +1,20 @@
 <template>
   <div class="screeningBehaviourDataviz">
     <svg :width="width" :height="height" ref="svg"></svg>
-    <div class="tooltip" :class="{ visible: tooltipVisible }">
-      Data: valeur
+    <div
+        class="tooltip"
+        ref="tooltip"
+        :class="{ visible: tooltipVisible }"
+        :style="`transform: translate(${tooltipValues.x}px, ${tooltipValues.y}px)`"
+    >
+      {{ tooltipKey }}: {{ tooltipValues.percentage }}%
     </div>
   </div>
 </template>
 
 <script>
 import * as d3 from 'd3'
+import _throttle from 'lodash.throttle'
 
 export default {
   name: "ScreeningBehaviorsDataviz",
@@ -25,7 +31,13 @@ export default {
     keys: ['age', "never", "over12Months", "in12Months"],
     tooltipWidth: 210,
     bandSpacing: 30,
-    tooltipVisible: false
+    tooltipVisible: true,
+    tooltipValues: {
+      percentage: 0,
+      key: '',
+      x: 0,
+      y: 0
+    }
   }),
   computed: {
     dataWidth () {
@@ -34,38 +46,57 @@ export default {
     dataHeight() {
       return this.height - this.margin.top - this.margin.bottom
     },
-    colors () { return this.$globals.dataColors }
+    scaleBands () {
+      const data = this.dataSource
+      const series = this.series
+      return{
+        x: d3.scaleLinear()
+            .domain([0, d3.max(series[series.length - 1], d => d[1])])
+            .range([this.dataWidth, 0]),
+        y: d3.scaleBand()
+            .domain(data.map(d => d.age))
+            .range([0, this.dataHeight])
+      }
+    },
+    series () {
+      const stack = d3.stack()
+          .keys(this.keys)
+          .order(d3.stackOrderNone)
+          .offset(d3.stackOffsetNone)
+
+      return stack(this.dataSource)
+    },
+    colors () { return this.$globals.dataColors },
+    tooltipKey () {
+      switch (this.tooltipValues.key){
+        case 'never':
+          return 'Jamais'
+        case 'in12Months':
+          return "Dans les 12 derniers mois"
+        case 'over12Months':
+          return 'Il y a plus de 12 mois'
+      }
+      return ''
+    }
   },
   mounted() {
-    this.initSvg();
+      this.initSvg();
   },
-  updated() {
-    this.renderSvg()
+  watch: {
+    dataSource () {
+      this.renderSvg()
+    }
   },
   methods: {
     initSvg() {
       this.svg = d3.select(this.$refs.svg).attr("id", "svg")
           .append("g")
           .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")")
-
+      this.tooltip = d3.select(this.$refs.tooltip)
       this.renderSvg()
     },
-    renderSvg () {
-      const data = this.dataSource
-      const stack = d3.stack()
-          .keys(this.keys)
-          .order(d3.stackOrderNone)
-          .offset(d3.stackOffsetNone)
-
-      const series = stack(this.dataSource)
-
-      const y = d3.scaleBand()
-          .domain(data.map(d => d.age))
-          .range([0, this.dataHeight])
-
-      const x = d3.scaleLinear()
-          .domain([0, d3.max(series[series.length - 1], d => d[1])])
-          .range([this.dataWidth, 0]);
+    generateAxis () {
+      const {x, y} = this.scaleBands
 
       const yAxisGenerator = d3.axisLeft(y)
       const yAxis = this.svg.append("g")
@@ -76,26 +107,44 @@ export default {
           .style("text-anchor", "end")
           .attr('class', 'axis-text')
       yAxis.selectAll(".domain, line").remove()
-      // .attr("y", -this.bandSpacing/2)
-      // .attr("dy", - this.bandSpacing / 2 + 'px')
+    },
 
+    renderSvg () {
+      console.log('rendering svg')
+      const {x, y} = this.scaleBands
+      const series= this.series
       const groups = this.svg.selectAll("g.groupe")
           .data(series)
-          .enter()
-          .append("g")
-          .style("fill", (d, i) => this.colors[i - 1]);
+          .enter().append('g')
+          .style("fill", (d, i) => this.colors[i - 1])
+          // .exit().remove()
 
       // let rect =
+
+
       groups.selectAll("rect")
-          .data(d => d)
-          .enter()
-          .append("rect")
+          .data(d => {
+            d.forEach(child => {
+              child.key = d.key
+            })
+            return d
+          })
+          .enter().append('rect')
           .attr("y", (d ,i) => {
             return (i * y.bandwidth()) + this.bandSpacing / 2
           })
           .attr("height", y.bandwidth() - this.bandSpacing)
           .attr("x", d => x(d[1]))
           .attr("width", d => (this.dataWidth - x(d[1] - d[0])))
+          .on('mousemove',  _throttle((e, d) => {
+            this.tooltipValues = {
+              percentage: (d[1] - d[0]),
+              key: d.key,
+              x: e.pageX,
+              y: e.pageY
+            }
+          }, 100))
+        this.generateAxis()
     },
   }
 }
@@ -105,15 +154,16 @@ export default {
 .screeningBehaviourDataviz {
   position: relative;
   .tooltip {
+    pointer-events: none;
     position: absolute;
     top: 0;
     left: 0;
     background-color: #00000088;
     color: #fff;
-    font-family: sans-serif;
     padding: 10px;
     border-radius: 3px;
     opacity: 0;
+    transition: all .05s;
     &.visible {
       opacity: 1;
     }
