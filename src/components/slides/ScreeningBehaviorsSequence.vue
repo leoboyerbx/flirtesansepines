@@ -1,7 +1,9 @@
 <template>
   <article class="screening-behaviors" :class="currentState">
     <ScreeningBehaviorsDataviz
-      :data="dataSource"
+      :dataSource="dataSource"
+      :width="600"
+      :height="400"
     />
   </article>
 </template>
