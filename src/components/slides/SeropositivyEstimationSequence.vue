@@ -13,9 +13,8 @@
 export default {
   name: 'SeroposotivityEstimationSequence',
   data: () => ({
-    msg: "A ton avis, combien de cas de séropositivité ont été définis en 2019 en France ?",
-    number:1000,
-    userEstimation: ''  
+    msg: "A votre avis, combien de cas de séropositivité ont été découverts en 2019 en France ?",
+    number:1000
   }),
   props: {
     currentState: {
@@ -106,9 +105,8 @@ export default {
 
       &::-moz-range-track {
         width: 100%;
-        height: 12.8px;
         cursor: pointer;
-        box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+        //box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
         background: url('../../assets/track.svg');
         background-size: contain;
         background-position: 50%;
