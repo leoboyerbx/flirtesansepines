@@ -2,8 +2,9 @@
   <article class="seropositivity-estimation" :class="currentState">
     <div class="container">
       <h1>{{ msg }}</h1>
-      <p class="estimation-number">{{ number }}</p>
+      <p class="estimation-number">{{ number}}</p>
       <input class="slider" type="range" min="1000" max="10000" step="1000" v-model="number">
+      <button @click="submitEstimation"> Valider </button>
     </div>
   </article>
 </template>
@@ -21,9 +22,10 @@ export default {
       default: 'future'
     }
   },
-  computed: {
-    total: function () {
-      return this.number
+  methods: {
+    submitEstimation() {
+      this.userEstimation = this.number;
+      this.$emit('next-slide');
     }
   }
 }

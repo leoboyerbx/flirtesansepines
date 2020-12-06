@@ -1,5 +1,6 @@
 <template>
   <article class="screening-behaviors" :class="currentState">
+    <h1>Comportement face au dépistage</h1>
     <ScreeningBehaviorsDataviz
       :dataSource="dataSource"
       :width="800"
@@ -52,8 +53,18 @@ export default {
   width: 100%;
   height: 100%;
   background-color: $backgroundColor;
+  margin: auto;
   &.current {
     display: block;
+  }
+
+  h1 {
+      font-family: $titleFont;
+      font-size: 3.5em;
+      margin: 1.5em auto;
+      color: $themeBlue3;
+      text-align: center;
+      max-width: 60%;
   }
 
 }
