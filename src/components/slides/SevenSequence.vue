@@ -31,7 +31,7 @@ export default {
 
       const y = d3.scaleLinear()
           .range([height, 0]);
-      
+
 
       const line = d3.line()
           .x(d => x(d.year))
@@ -57,7 +57,7 @@ export default {
               //map[d.year] = d; // sauvegarde sous forme de hashmap de nos données.
               //console.log(map)
           });
-    
+
 
           x.domain(d3.extent(data, d => d.year));
           y.domain(d3.extent(data, d => d.value));
@@ -69,13 +69,13 @@ export default {
           svg.append("g")
               .attr("transform", "translate(0," + height + ")")
               .call(d3.axisBottom(x));
-          
+
           // Ajout de l'axe Y et du texte associé pour la légende
           svg.append("g")
               .call(d3.axisLeft(y))
 
-          
-          // Ajout de la grille horizontale (pour l'axe Y donc). Pour chaque tiret (ticks), on ajoute une ligne qui va 
+
+          // Ajout de la grille horizontale (pour l'axe Y donc). Pour chaque tiret (ticks), on ajoute une ligne qui va
           // de la gauche à la droite du graphique et qui se situe à la bonne hauteur.
           svg.selectAll("y axis").data(y.ticks(10)).enter()
               .append("line")
@@ -84,7 +84,7 @@ export default {
               .attr("x2", width)
               .attr("y1", d => y(d))
               .attr("y2", d => y(d));
-          
+
           // Ajout d'un path calculé par la fonction line à partir des données de notre fichier.
           svg.append("path")
               .datum(data)
@@ -121,6 +121,13 @@ export default {
   width: 100vw;
   height: 100vh;
   
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  display: none;
   &.current {
     display: block;
   }

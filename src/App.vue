@@ -9,12 +9,14 @@ import MainLayout from "@/components/MainLayout";
 export default {
   name: 'App',
   components: {
-    MainLayout  
+    MainLayout
   }
 }
 </script>
 
 <style lang="scss">
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;1,400;1,600&family=Yeseva+One&display=swap');
+
 html {
   box-sizing: border-box;
 }
@@ -22,6 +24,7 @@ html {
   box-sizing: inherit;
 }
 body {
+  font-family: $paragraphFont;
   margin: 0;
   padding: 0;
   height: 100%;
