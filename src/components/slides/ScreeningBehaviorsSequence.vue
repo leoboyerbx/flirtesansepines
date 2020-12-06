@@ -42,6 +42,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
+//@import '@/assets/scss/globals.scss';
+
 .screening-behaviors {
   display: none;
   position: fixed;
@@ -49,7 +51,7 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #f6f6f6;
+  background-color: $backgroundColor;
   &.current {
     display: block;
   }

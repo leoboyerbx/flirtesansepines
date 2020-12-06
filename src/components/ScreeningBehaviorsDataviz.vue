@@ -23,7 +23,6 @@ export default {
     svg: null,
     margin: {top: 20, right: 200, bottom: 60, left: 100},
     keys: ['age', "never", "over12Months", "in12Months"],
-    colors: ["#d47171", "#347bae", "#ccebc5"],
     tooltipWidth: 210,
     bandSpacing: 30,
     tooltipVisible: false
@@ -34,7 +33,8 @@ export default {
     },
     dataHeight() {
       return this.height - this.margin.top - this.margin.bottom
-    }
+    },
+    colors () { return this.$globals.dataColors }
   },
   mounted() {
     this.initSvg();
@@ -120,6 +120,7 @@ export default {
   }
   .axis-text {
     //fill: #f00;
+    font-family: $titleFont;
     font-size: 1.1em;
   }
 }

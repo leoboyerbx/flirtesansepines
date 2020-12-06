@@ -2,7 +2,7 @@
   <section ref="slides" class="slides">
     <IntroductionSequence :current-state="stateOfSlide(0)" @next-slide="nextSlide" @prev-slide="prevSlide"/>
     <ScreeningBehaviorsSequence :current-state="stateOfSlide(2)" @next-slide="nextSlide" @prev-slide="prevSlide" />
-    <SevenSequence/>
+    <SevenSequence :current-state="stateOfSlide(3)" />
   </section>
 </template>
 

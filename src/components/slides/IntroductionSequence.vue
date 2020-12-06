@@ -11,7 +11,7 @@
 export default {
   name: 'IntroductionSequence',
     data: () => ({
-        title: "Flirt sans épines"
+        title: "Flirte sans épines"
     }),
    props: {
     currentState: {
@@ -30,6 +30,7 @@ export default {
     height: 100vh;
     background: rgb(92,144,182);
     background: radial-gradient(circle, rgba(92,144,182,1) 0%, rgba(3,25,65,1) 100%);
+    font-family: $titleFont;
 
     .container{
         display: flex;
@@ -52,7 +53,7 @@ export default {
             width: 30%;
         }
 
-       
+
     }
 }
 
