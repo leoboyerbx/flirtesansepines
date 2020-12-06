@@ -1,8 +1,8 @@
 <template>
   <section ref="slides" class="slides">
     <IntroductionSequence :current-state="stateOfSlide(0)" @next-slide="nextSlide" @prev-slide="prevSlide"/>
-    <ScreeningBehaviorsSequence :current-state="stateOfSlide(2)" @next-slide="nextSlide" @prev-slide="prevSlide" />
-    <SevenSequence/>
+    <ScreeningBehaviorsSequence :current-state="stateOfSlide(1)" @next-slide="nextSlide" @prev-slide="prevSlide" />
+    <SevenSequence :current-state="stateOfSlide(2)" @next-slide="nextSlide" @prev-slide="prevSlide" />
   </section>
 </template>
 
