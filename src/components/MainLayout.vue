@@ -7,19 +7,15 @@
 </template>
 
 <script>
-import SampleSlide from "@/components/slides/SampleSlide";
-import SecondSequence from "@/components/slides/SecondSequence";
-import ScreeningBehaviorsSequence from "@/components/slides/ScreeningBehaviorsSequence";
-import SevenSequence from "@/components/slides/SevenSequence";
 import IntroductionSequence from "@/components/slides/IntroductionSequence";
+import SevenSequence from "@/components/slides/SevenSequence";
+import ScreeningBehaviorsSequence from "@/components/slides/ScreeningBehaviorsSequence";
 export default {
   name: 'MainLayout',
   components: {
+    IntroductionSequence,
     ScreeningBehaviorsSequence,
-    SampleSlide,
-    SecondSequence,
-    SevenSequence,
-    IntroductionSequence
+    SevenSequence
   },
   data: () => ({
     currentSlide: 0,

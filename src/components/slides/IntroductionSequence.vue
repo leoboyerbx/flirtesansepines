@@ -36,11 +36,23 @@ export default {
         justify-content: space-between;
         align-items: center;
         color: white;
-        max-width: 80%;
+        max-width: 75%;
+        min-height: 100%;
+        margin: auto;
+
+        h1 {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 70px;
+        }
 
         img {
-            height: 50%;
+            width: 30%;
         }
+
+       
     }
 }
 
