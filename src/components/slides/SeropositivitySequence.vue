@@ -1,8 +1,8 @@
 <template>
   <article class="seropositivity-data" :class="currentState" @click="tmpClick">
     <SeropositivityDataviz
-      :width="600"
-      :height="300"
+      :width="800"
+      :height="400"
       :data-source="dataSource"
     />
   </article>
@@ -11,7 +11,7 @@
 <script>
 import SeropositivityDataviz from "@/components/dataviz/SeropositivityDataviz";
 import * as d3 from 'd3'
-import {csv} from "d3";
+import {csv} from 'd3'
 
 function randomLetters() {
   return d3.shuffle("abcdefghijklmnopqrstuvwxyz".split(""))
@@ -25,7 +25,7 @@ export default {
   data: () => ({
     msg: "A votre avis, combien de cas de séropositivité ont été découverts en 2019 en France ?",
     number:1000,
-    dataSource: null
+    dataSource: []
   }),
   props: {
     currentState: {
@@ -38,13 +38,10 @@ export default {
   },
   methods: {
     async getDataSource () {
-      // const dataSource = await csv('datas/screeningBehaviors.csv', data => {
-      //   data.never = parseFloat(data.never)
-      //   data.over12Months = parseFloat(data.over12Months)
-      //   data.in12Months = parseFloat(data.in12Months)
-      //   return data
-      // })
-      this.dataSource = await randomLetters()
+      this.dataSource = await csv('datas/VIH.csv', data => {
+        data.value = +data.value
+        return data
+      })
     },
     tmpClick () {
       this.getDataSource()
@@ -69,9 +66,11 @@ export default {
   width:100%;
   height: 100%;
   background-color: $backgroundColor;
+  justify-content: center;
+  align-items: center;
 
   &.current {
-    display: block;
+    display: flex;
   }
 }
 

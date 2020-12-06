@@ -14,7 +14,6 @@
 
 <script>
 import * as d3 from 'd3'
-import _throttle from 'lodash.throttle'
 
 export default {
   name: "SeropositivityDataviz",
@@ -46,14 +45,28 @@ export default {
 
       return stack(this.dataSource)
     },
-    colors () { return this.$globals.dataColors }
+    colors () { return this.$globals.dataColors },
+    xScale () {
+      return d3.scaleBand()
+          .domain(this.dataSource.map(d => d.year))
+          .range([0, this.dataWidth])
+          .padding(0.2)
+    },
+    yScale () {
+      return d3.scaleLinear()
+          .range([this.dataHeight, 0])
+          .domain([0, d3.max(this.dataSource, d => d.value)])
+    },
+    xAxis() {
+      return d3.axisBottom(this.xScale)
+    }
   },
   mounted() {
       this.initSvg();
   },
   watch: {
     dataSource () {
-      this.renderSvg()
+      this.updateSvg()
     }
   },
   methods: {
@@ -61,14 +74,39 @@ export default {
       this.svg = d3.select(this.$refs.svg).attr("id", "svg")
           .append("g")
           .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")")
+      this.initAxis()
+      this.updateSvg()
     },
-    renderSvg () {
-      console.log('hey')
-      this.svg.selectAll("text")
-          .data(this.dataSource)
-          .join("text")
-          .attr("x", (d, i) => i * 16)
-          .text(d => d);
+    initAxis () {
+      const axis = this.svg.append("g")
+          .attr("class", "x axis")
+          .attr("transform", "translate(0," + this.dataHeight + ")")
+          .call(this.xAxis)
+      this.styleXAxis(axis)
+    },
+    updateAxis () {
+      this.styleXAxis(this.svg.selectAll('g.x.axis').call(this.xAxis))
+    },
+    styleXAxis (axis) {
+      // axis.selectAll("text")
+      //     .style("fill", "#f00")
+    },
+    updateSvg () {
+      this.svg.selectAll('rect')
+        .data(this.dataSource)
+        .join('rect')
+        .style('fill', this.$globals.dataColors[1])
+        .attr('x', d => this.xScale(d.year))
+        .attr('width', this.xScale.bandwidth())
+        .attr("y", d =>  this.yScale(d.value))
+        .attr("height", d => this.dataHeight - this.yScale(d.value))
+
+      this.updateAxis()
+      // this.svg.selectAll("text")
+      //     .data(this.dataSource)
+      //     .join("text")
+      //     .attr("x", (d, i) => i * 16)
+      //     .text(d => d);
     },
   }
 }
