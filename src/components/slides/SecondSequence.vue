@@ -1,13 +1,13 @@
 <template>
   <div class="container">
-    <p> {{ msg }}</p>
-    <div id="diagram"></div>
-    <div class="cursor"></div>
+    <p> {{ msg }} </p>
+    <p> Test</p>
+    <div id="diagram" width="600" height="500"></div>
+
   </div>
 </template>
-
 <script>
-// import * as d3 from "d3"
+//import * as d3 from "d3"
 
 export default {
   name: 'SecondSequence',
@@ -15,30 +15,42 @@ export default {
     return {
       msg:" A votre avis quel graphique est le vrai ? ",
       height: 600,
-      width: 600,
-      vihSeropositivy: [
-        {year: "2010", value: 6629},
-        {year: "2014", value: 6559},
-        {year: "2018", value: 6155}
-      ]
+      width: 600
     }
   },
   mounted() {
-    this.generateDiagram();
+    //this.generateDiagram();
   },
   methods: {
     generateDiagram(){
+        /*var svg = d3.select("#diagram"),
+            margin = 200,
+            width = svg.attr("width") - margin,
+            height = svg.attr("height") - margin;
 
-        //  var svg = d3.select("#diagram"),
-        // margin = 200,
-        // width = svg.attr("width") - margin,
-        // height = svg.attr("height") - margin;
-        // //
-        // // var xScale = d3.scaleBand().range ([0, width]).padding(0.4),
-        // //     yScale = d3.scaleLinear().range ([height, 0]);
-        // //
-        // // var g = svg.append("g")
-        // //           .attr("transform", "translate(" + 100 + "," + 100 + ")");
+        var xScale = d3.scaleLinear().range([0,width - 100])
+            yScale = d3.scaleLinear().range ([height, 0]);
+
+        var g = svg.append("g").attr("transform", "translate(" + 100 + "," + 100 + ")");
+
+        d3.csv("datas/VIH.csv").then(data => {
+          data.year = parseFloat(data.year)
+          //data.value = parseFloat(data.value)
+
+          xScale.domain(data.map(function(d) { return d.year; }));
+          yScale.domain(data.map( function(d) { return d.value; }));
+
+          g.append("g")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(xScale));
+
+          g.append("g") .call(d3.axisLeft(yScale))
+
+
+
+
+
+        })*/
     }
 
   }
