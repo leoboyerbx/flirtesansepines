@@ -1,11 +1,8 @@
 <template>
   <section ref="slides" class="slides">
-    <SecondSequence :current-state="stateOfSlide(0)" @next-slide="nextSlide" @prev-slide="prevSlide" />
-    <ScreeningBehaviorsSequence :current-state="stateOfSlide(1)" @next-slide="nextSlide" @prev-slide="prevSlide" />
+    <IntroductionSequence :current-state="stateOfSlide(0)" @next-slide="nextSlide" @prev-slide="prevSlide"/>
+    <ScreeningBehaviorsSequence :current-state="stateOfSlide(2)" @next-slide="nextSlide" @prev-slide="prevSlide" />
     <SevenSequence/>
-    <SampleSlide :current-state="stateOfSlide(2)" @next-slide="nextSlide" @prev-slide="prevSlide" />
-    <SecondSequence/>
-    <SampleSlide />
   </section>
 </template>
 
@@ -14,13 +11,15 @@ import SampleSlide from "@/components/slides/SampleSlide";
 import SecondSequence from "@/components/slides/SecondSequence";
 import ScreeningBehaviorsSequence from "@/components/slides/ScreeningBehaviorsSequence";
 import SevenSequence from "@/components/slides/SevenSequence";
+import IntroductionSequence from "@/components/slides/IntroductionSequence";
 export default {
   name: 'MainLayout',
   components: {
     ScreeningBehaviorsSequence,
     SampleSlide,
     SecondSequence,
-    SevenSequence
+    SevenSequence,
+    IntroductionSequence
   },
   data: () => ({
     currentSlide: 0,

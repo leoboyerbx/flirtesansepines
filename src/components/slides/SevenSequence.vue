@@ -1,6 +1,5 @@
 <template>
   <div id="seven_sequence_container">
-    <h1>test</h1>
     <div id="chart"></div>
   </div>
 </template>
@@ -24,13 +23,12 @@ export default {
             width = 500,
             height = 400 - margin.top - margin.bottom;
 
-      //console.log("test")
-
       const x = d3.scaleLinear()
           .range([0, width]);
 
       const y = d3.scaleLinear()
           .range([height, 0]);
+      
 
       const line = d3.line()
           .x(d => x(d.year))
@@ -57,9 +55,7 @@ export default {
               //console.log(map)
           });
     
-          // Contrairement au tutoriel Bar Chart, plutôt que de prendre un range entre 0 et le max on demande 
-          // directement à D3JS de nous donner le min et le max avec la fonction 'd3.extent', pour la date comme 
-          // pour le cours de fermeture (close).
+
           x.domain(d3.extent(data, d => d.year));
           y.domain(d3.extent(data, d => d.value));
 
@@ -74,13 +70,7 @@ export default {
           // Ajout de l'axe Y et du texte associé pour la légende
           svg.append("g")
               .call(d3.axisLeft(y))
-              /*.append("text")
-                  .attr("fill", "#f1F1F1")
-                  .attr("transform", "rotate(-90)")
-                  .attr("y", 6)
-                  .attr("dy", "0.71em")
-                  .style("text-anchor", "end")
-                  .text("Pts");*/
+
           
           // Ajout de la grille horizontale (pour l'axe Y donc). Pour chaque tiret (ticks), on ajoute une ligne qui va 
           // de la gauche à la droite du graphique et qui se situe à la bonne hauteur.
@@ -99,23 +89,13 @@ export default {
               .style("stroke", "#3498db")
               .attr("class", "line")
               .attr("d", line);
-      });
+     });
 
       d3.csv("datas/VIH_test.csv").then(function(data) {
-          // Conversion des données du fichier, parsing des dates et '+' pour expliciter une valeur numérique.
-         
-    
-          // Contrairement au tutoriel Bar Chart, plutôt que de prendre un range entre 0 et le max on demande 
-          // directement à D3JS de nous donner le min et le max avec la fonction 'd3.extent', pour la date comme 
-          // pour le cours de fermeture (close).
+
           x.domain(d3.extent(data, d => d.year));
           y.domain(d3.extent(data, d => d.number));
 
-
-         
-          
-     
-          
           // Ajout d'un path calculé par la fonction line à partir des données de notre fichier.
           svg.append("path")
               .datum(data)
