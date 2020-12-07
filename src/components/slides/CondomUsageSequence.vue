@@ -32,14 +32,11 @@ export default {
   width:100%;
   height: 100%;
   background-color: $backgroundColor;
-  display: flex;
   justify-content: center;
-  width: 100vw;
-  height: 100vh;
   align-items: center;
 
   &.current {
-    display: block;
+    display: flex;
   }
 
 
