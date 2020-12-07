@@ -85,7 +85,8 @@ export default {
       this.styleXAxis(axis)
     },
     updateAxis () {
-      this.styleXAxis(this.svg.selectAll('g.x.axis').call(this.xAxis))
+      const axis = this.svg.selectAll('g.x.axis').call(this.xAxis)
+      this.styleXAxis(axis)
     },
     styleXAxis (axis) {
       // axis.selectAll("text")
