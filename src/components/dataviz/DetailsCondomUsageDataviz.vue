@@ -45,6 +45,9 @@ export default {
     },
     yAxis() {
       return d3.axisLeft(this.yScale)
+    },
+    transition () {
+      this.svg.transition().duration(750)
     }
   },
   mounted() {
@@ -78,7 +81,7 @@ export default {
       this.styleYAxis(yAxis)
     },
     updateAxis () {
-      const xAxis = this.svg.selectAll('g.x.axis').call(this.xAxis)
+      const xAxis = this.svg.selectAll('g.x.axis').transition(this.transition).call(this.xAxis)
       this.styleXAxis(xAxis)
       const yAxis = this.svg.selectAll('g.y.axis').call(this.yAxis)
       this.styleYAxis(yAxis)
@@ -94,29 +97,18 @@ export default {
     updateSvg () {
       this.svg.selectAll('rect')
         .data(this.dataSource)
-        .join('rect')
-        .style('fill', this.$globals.dataColors[1])
-        .attr('x', 0 )
-        .attr('width', d => this.xScale(d.value))
-        .attr("y", d =>  this.yScale(d.reason))
-        .attr("height", this.yScale.bandwidth())
-
+        .join(
+          enter => enter.append('rect').style('fill', this.$globals.dataColors[1])
+            .attr('x', 0 )
+            .attr('width', d => this.xScale(d.value))
+            .attr("y", d =>  this.yScale(d.reason))
+            .attr("height", this.yScale.bandwidth()),
+          update => update
+            .call(update => update.transition(this.transition)
+              .attr('width', d => this.xScale(d.value)))
+        )
+        
       this.updateAxis()
-      // this.svg.selectAll('rect')
-      //   .data(this.dataSource)
-      //   .join('rect')
-      //   .style('fill', this.$globals.dataColors[1])
-      //   .attr('x', d => this.xScale(d.reason))
-      //   .attr('width', this.xScale.bandwidth())
-      //   .attr("y", d =>  this.yScale(d.value))
-      //   .attr("height", d => this.dataHeight - this.yScale(d.value))
-
-      // this.updateAxis()
-      // this.svg.selectAll("text")
-      //     .data(this.dataSource)
-      //     .join("text")
-      //     .attr("x", (d, i) => i * 16)
-      //     .text(d => d);
     },
   }
 }

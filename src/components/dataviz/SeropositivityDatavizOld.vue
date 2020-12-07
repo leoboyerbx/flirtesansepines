@@ -98,11 +98,6 @@ export default {
         .attr("height", d => this.dataHeight - this.yScale(d.value))
 
       this.updateAxis()
-      // this.svg.selectAll("text")
-      //     .data(this.dataSource)
-      //     .join("text")
-      //     .attr("x", (d, i) => i * 16)
-      //     .text(d => d);
     },
   }
 }
