@@ -1,9 +1,10 @@
 module.exports = {
-    css: {
-        loaderOptions: {
-            sass: {
-                prependData: `@import "@/assets/scss/_variables.scss";`
-            }
-        }
+  lintOnSave: false,
+  css: {
+    loaderOptions: {
+      sass: {
+        prependData: `@import "@/assets/scss/_variables.scss";`
+      }
     }
-};
+  }
+}

@@ -44,7 +44,7 @@ export default {
       })
     },
     tmpClick () {
-      this.getDataSource()
+      this.dataSource[0].value = 10000
     }
   },
   computed: {

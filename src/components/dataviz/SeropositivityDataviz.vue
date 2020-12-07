@@ -65,8 +65,12 @@ export default {
       this.initSvg();
   },
   watch: {
-    dataSource () {
-      this.updateSvg()
+    dataSource: {
+      immediate: true,
+      deep: true,
+      handler() {
+        this.updateSvg()
+      }
     }
   },
   methods: {
