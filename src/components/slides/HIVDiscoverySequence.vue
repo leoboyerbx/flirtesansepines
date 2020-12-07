@@ -1,31 +1,26 @@
 <template>
   <article class="seropositivity-data" :class="currentState" @click="tmpClick">
-    <SeropositivityDataviz
+    <HIVDiscoveryDataviz
       :width="800"
       :height="400"
-      :data-source="dataSource"
+      :data-source="currentDataSource"
     />
   </article>
 </template>
 
 <script>
-import SeropositivityDataviz from "@/components/dataviz/SeropositivityDataviz";
 import * as d3 from 'd3'
 import {csv} from 'd3'
-
-function randomLetters() {
-  return d3.shuffle("abcdefghijklmnopqrstuvwxyz".split(""))
-      .slice(0, Math.floor(6 + Math.random() * 20))
-      .sort();
-}
+import HIVDiscoveryDataviz from "@/components/dataviz/HIVDiscoveryDataviz";
 
 export default {
-  name: 'SeropositivitySequence',
-  components: {SeropositivityDataviz},
+  name: 'HIVDiscoverySequence',
+  components: {HIVDiscoveryDataviz},
   data: () => ({
     msg: "A votre avis, combien de cas de séropositivité ont été découverts en 2019 en France ?",
     number:1000,
-    dataSource: []
+    dataSource: [],
+    viewMode: 1
   }),
   props: {
     currentState: {
@@ -38,8 +33,14 @@ export default {
   },
   methods: {
     async getDataSource () {
-      this.dataSource = await csv('datas/VIH.csv', data => {
-        data.value = +data.value
+      this.dataSource = await csv('datas/hivDiscovery.csv', data => {
+        data.total = +data.total
+        data.men = +data.men
+        data.women = +data.women
+        data.hsh = +data.hsh
+        data.hetero = +data.hetero
+        data.drug = +data.drug
+        data.other = +data.other
         return data
       })
     },
@@ -48,6 +49,24 @@ export default {
     }
   },
   computed: {
+    currentDataSource () {
+      if (this.viewMode === 1) {
+        return this.dataSource.map(d => {
+          const {year, men, women} = d
+          return {year, men, women}
+        })
+      }
+      if (this.viewMode === 2) {
+        return this.dataSource.map(d => {
+          const {year, hsh, hetero, drug, other} = d
+          return {year, hsh, hetero, drug, other}
+        })
+      }
+      return this.dataSource.map(d => {
+        const { year, total } = d
+        return { year, total }
+      })
+    },
     total: function () {
       return this.number
     }

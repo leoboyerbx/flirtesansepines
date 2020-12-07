@@ -16,7 +16,7 @@
 import * as d3 from 'd3'
 
 export default {
-  name: "SeropositivityDataviz",
+  name: "SeropositivityDatavizOld",
   props: {
     // taille en pixel du composant
     width: { type: Number },
@@ -66,7 +66,6 @@ export default {
   },
   watch: {
     dataSource: {
-      immediate: true,
       deep: true,
       handler() {
         this.updateSvg()
