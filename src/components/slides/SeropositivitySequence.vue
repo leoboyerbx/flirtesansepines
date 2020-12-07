@@ -1,15 +1,11 @@
 <template>
   <article class="seropositivity-data" :class="currentState" @click="tmpClick">
-    <SeropositivityDataviz
-      :width="800"
-      :height="400"
-      :data-source="dataSource"
-    />
+   
   </article>
 </template>
 
 <script>
-import SeropositivityDataviz from "@/components/dataviz/SeropositivityDataviz";
+//import SeropositivityDataviz from "@/components/dataviz/SeropositivityDataviz";
 import * as d3 from 'd3'
 import {csv} from 'd3'
 
@@ -21,7 +17,7 @@ function randomLetters() {
 
 export default {
   name: 'SeropositivitySequence',
-  components: {SeropositivityDataviz},
+  components: {},
   data: () => ({
     msg: "A votre avis, combien de cas de séropositivité ont été découverts en 2019 en France ?",
     number:1000,

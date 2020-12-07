@@ -5,8 +5,9 @@
     <SeropositivitySequence :current-state="stateOfSlide(2)" @next-slide="nextSlide" @prev-slide="prevSlide"/>
     <ScreeningBehaviorsSequence :current-state="stateOfSlide(3)" @next-slide="nextSlide" @prev-slide="prevSlide" />
     <ReasonsOfScreeningLowSequence :current-state="stateOfSlide(4)" @next-slide="nextSlide" @prev-slide="prevSlide" />
-    <DeathTreatmentSequence :current-state="stateOfSlide(4)" @next-slide="nextSlide" @prev-slide="prevSlide" />
-    <ConclusionSequence :current-state="stateOfSlide(5)" @next-slide="nextSlide" @prev-slide="prevSlide" />
+    <DeathTreatmentSequence :current-state="stateOfSlide(5)" @next-slide="nextSlide" @prev-slide="prevSlide" />
+    <CondomUsageSequence :current-state="stateOfSlide(6)" @next-slide="nextSlide" @prev-slide="prevSlide" />
+    <ConclusionSequence :current-state="stateOfSlide(7)" @next-slide="nextSlide" @prev-slide="prevSlide" />
   </section>
 </template>
 
@@ -18,6 +19,7 @@ import SeropositivyEstimationSequence from "@/components/slides/SeropositivyEsti
 import ReasonsOfScreeningLowSequence from "@/components/slides/ReasonsOfScreeningLowSequence";
 import SeropositivitySequence from "@/components/slides/SeropositivitySequence";
 import ConclusionSequence from "@/components/slides/ConclusionSequence";
+import CondomUsageSequence from "@/components/slides/CondomUsageSequence";
 export default {
   name: 'MainLayout',
   components: {
@@ -27,6 +29,7 @@ export default {
     ScreeningBehaviorsSequence,
     ReasonsOfScreeningLowSequence,
     DeathTreatmentSequence,
+    CondomUsageSequence,
     ConclusionSequence
   },
   data: () => ({
