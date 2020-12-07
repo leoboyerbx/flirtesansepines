@@ -1,14 +1,14 @@
 <template>
   <div class="seropositivityDataviz">
     <svg :width="width" :height="height" ref="svg"></svg>
-<!--    <div-->
-<!--        class="tooltip"-->
-<!--        ref="tooltip"-->
-<!--        :class="{ visible: tooltipVisible }"-->
-<!--        :style="`transform: translate(${tooltipValues.x}px, ${tooltipValues.y}px)`"-->
-<!--    >-->
-<!--      {{ tooltipKey }}: {{ tooltipValues.percentage }}%-->
-<!--    </div>-->
+    <!--    <div-->
+    <!--        class="tooltip"-->
+    <!--        ref="tooltip"-->
+    <!--        :class="{ visible: tooltipVisible }"-->
+    <!--        :style="`transform: translate(${tooltipValues.x}px, ${tooltipValues.y}px)`"-->
+    <!--    >-->
+    <!--      {{ tooltipKey }}: {{ tooltipValues.percentage }}%-->
+    <!--    </div>-->
   </div>
 </template>
 
@@ -26,7 +26,7 @@ export default {
   },
   data: () => ({
     svg: null,
-    margin: {top: 20, right: 200, bottom: 60, left: 100},
+    margin: {top: 20, right: 20, bottom: 60, left: 40},
     bandSpacing: 30,
     tooltipVisible: false
   }),
@@ -38,33 +38,43 @@ export default {
       return this.height - this.margin.top - this.margin.bottom
     },
     series () {
-      const stack = d3.stack()
-          .keys(this.keys)
-          .order(d3.stackOrderNone)
-          .offset(d3.stackOffsetNone)
-
-      return stack(this.dataSource)
+      return d3.stack()
+          .keys(this.dataSource.columns.slice(1))(this.dataSource)
+    },
+    area () {
+      return d3.area()
+          .x(d => this.xScale(d.data.year))
+          .y0(d => this.yScale(d[0]))
+          .y1(d => this.yScale(d[1]))
     },
     colors () { return this.$globals.dataColors },
+    color () {
+      return d3.scaleOrdinal()
+          .domain(this.dataSource.columns.slice(1))
+          .range(this.colors)
+    },
     xScale () {
-      return  d3.scaleLinear()
-          .domain(d3.extent(this.dataSource, function(d) { return d.year; }))
+      return d3.scaleLinear()
+          .domain(d3.extent(this.dataSource, d => d.year.toString()))
           .range([ 0, this.dataWidth ])
     },
     yScale () {
       return d3.scaleLinear()
+          .domain([0, d3.max(this.series, d => d3.max(d, d => d[1]))]).nice()
           .range([this.dataHeight, 0])
-          .domain([0, d3.max(this.dataSource, d => d.value)])
     },
     xAxis() {
-      return d3.axisBottom(this.xScale)
+      return d3.axisBottom(this.xScale).ticks(this.dataWidth / 80).tickSizeOuter(0)
     },
     yAxis() {
       return d3.axisLeft(this.yScale)
+    },
+    transition () {
+      return d3.transition().duration(1000)
     }
   },
   mounted() {
-      this.initSvg();
+    this.initSvg();
   },
   watch: {
     dataSource: {
@@ -79,6 +89,7 @@ export default {
       this.svg = d3.select(this.$refs.svg).attr("id", "svg")
           .append("g")
           .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")")
+      this.svg.append("g").attr('class', 'areas')
       this.initAxis()
       this.updateSvg()
     },
@@ -107,48 +118,35 @@ export default {
       //     .style("fill", "#f00")
     },
     updateSvg () {
-      const sumStat = d3.group(this.dataSource, d => d.year)
-      const groups = Object.keys(this.dataSource[0] || [])
-      const index = groups.indexOf('year');
-      if (index > -1) {
-        groups.splice(index, 1);
-      }
+      // console.log(this.area([
+      //     [0, 0]
+      // ]))
+        this.svg.select("g.areas")
+          .selectAll("path")
+          .data(this.series)
+          .join(enter => enter.append('path')
+          // .transition().duration(1000)
+          .attr("fill", ({key}) => this.color(key))
+          .attr("d", this.area),
+          update => update.call(update => update.transition().duration(1000).attr('d', this.area))
+        )
 
-      const stackedData = d3.stack()
-          .keys(groups)
-          .value(function(d, key){
-            return d[1][0][key]
-          })(sumStat)
+          // .attr('transform', 'scale(1, 0)')
+          // .transition().duration(1000)
+          // .attr('transform', 'scale(1, 1)')
+          // .attrTween('d', () => {
+          //   const interpolator = d3.interpolateArray(startData, this.dataSource);3
+          //   return t => {
+          //     return this.area(interpolator(t));
+          //   }
+          // })
+            // .append("title")
+            // .text(({key}) => key)
 
-      const color = d3.scaleOrdinal()
-          .domain(groups)
-          .range(this.$globals.dataColors)
-
-      this.svg.selectAll("path")
-          .data(stackedData)
-          .join("path")
-          .style("fill", d => { const name = groups[d.key-1] ;  console.log(name); return color(name); })
-          .attr("d", d3.area()
-              .x((d, i) => {
-                console.log(d.data[0])
-                return this.xScale(d.data.key)
-    })
-              .y0(d => this.yScale(d[0]))
-              .y1(d => this.yScale(d[1]))
-          )
-      // this.svg.selectAll('rect')
-      //   .data(this.dataSource)
-      //   .join('rect')
-      //   .style('fill', this.$globals.dataColors[1])
-      //   .attr('x', d => this.xScale(d.year))
-      //   .attr('width', this.xScale.bandwidth())
-      //   .attr("y", d =>  this.yScale(d.value))
-      //   .attr("height", d => this.dataHeight - this.yScale(d.value))
-
-      this.updateAxis()
-    },
+            this.updateAxis()
+          },
+    }
   }
-}
 </script>
 
 <style lang="scss">

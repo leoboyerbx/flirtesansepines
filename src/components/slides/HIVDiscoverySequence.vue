@@ -50,22 +50,23 @@ export default {
   },
   computed: {
     currentDataSource () {
-      if (this.viewMode === 1) {
-        return this.dataSource.map(d => {
-          const {year, men, women} = d
-          return {year, men, women}
-        })
+      let cols = ['year', 'total']
+      switch (this.viewMode) {
+        case 1:
+          cols = ['year', 'men', 'women']
+          break;
+        case 2:
+          cols = ['year', 'hsh', 'hetero', 'drug', 'other']
       }
-      if (this.viewMode === 2) {
-        return this.dataSource.map(d => {
-          const {year, hsh, hetero, drug, other} = d
-          return {year, hsh, hetero, drug, other}
-        })
-      }
-      return this.dataSource.map(d => {
-        const { year, total } = d
-        return { year, total }
+      const result = this.dataSource.map(d => {
+        const res = {}
+        cols.forEach(col => [
+            res[col] = d[col]
+        ])
+        return res
       })
+      result.columns = cols
+      return result
     },
     total: function () {
       return this.number
