@@ -1,12 +1,18 @@
 <template>
   <article class="condom-usage" :class="currentState">
         <CondomUsageDataviz  />
+        <DetailsCondomUsageDataviz
+          :dataSource="dataSource"
+          :width="800"
+          :height="400"
+        />
   </article>
 </template>
 
 <script>
-import * as d3 from 'd3';
+import { csv } from 'd3';
 import CondomUsageDataviz from "@/components/dataviz/CondomUsageDataviz";
+import DetailsCondomUsageDataviz from "@/components/dataviz/DetailsCondomUsageDataviz";
 export default {
   name: 'CondomUsageSequence',
   props: {
@@ -15,9 +21,24 @@ export default {
       default: 'future'
     }
   },
-  
   components: {
-    CondomUsageDataviz
+    CondomUsageDataviz,
+    DetailsCondomUsageDataviz
+  },
+  data: () => ({
+    dataSource: [],
+  }),
+  async created() {
+    this.getDataSource()
+  },
+  methods: {
+    async getDataSource () {
+      const dataSource = await csv('datas/detailsCondomUsage.csv', data => {
+        return data
+      })
+      this.dataSource = dataSource
+      console.log(dataSource)
+    }
   }
 }
 </script>

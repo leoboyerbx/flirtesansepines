@@ -117,7 +117,7 @@ export default {
 <style lang="scss">
 .DetailsCondomUsageDataviz {
   position: relative;
-  display:flex;
+  display:none;
   .axis-text {
     //fill: #f00;
     font-family: $titleFont;

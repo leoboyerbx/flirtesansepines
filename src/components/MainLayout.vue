@@ -7,7 +7,6 @@
     <ReasonsOfScreeningLowSequence :current-state="stateOfSlide(4)" @next-slide="nextSlide" @prev-slide="prevSlide" />
     <DeathTreatmentSequence :current-state="stateOfSlide(5)" @next-slide="nextSlide" @prev-slide="prevSlide" />
     <CondomUsageSequence :current-state="stateOfSlide(6)" @next-slide="nextSlide" @prev-slide="prevSlide" />
-    <DetailsCondomUsageSequence :current-state="stateOfSlide(7)" @next-slide="nextSlide" @prev-slide="prevSlide" />
     <ConclusionSequence :current-state="stateOfSlide(8)" @next-slide="nextSlide" @prev-slide="prevSlide" />
   </section>
 </template>
@@ -21,7 +20,6 @@ import ReasonsOfScreeningLowSequence from "@/components/slides/ReasonsOfScreenin
 import ConclusionSequence from "@/components/slides/ConclusionSequence";
 import HIVDiscoverySequence from "@/components/slides/HIVDiscoverySequence";
 import CondomUsageSequence from "@/components/slides/CondomUsageSequence";
-import DetailsCondomUsageSequence from "@/components/slides/DetailsCondomUsageSequence";
 
 export default {
   name: 'MainLayout',
@@ -33,7 +31,6 @@ export default {
     ReasonsOfScreeningLowSequence,
     DeathTreatmentSequence,
     CondomUsageSequence,
-    DetailsCondomUsageSequence,
     ConclusionSequence
   },
   data: () => ({
