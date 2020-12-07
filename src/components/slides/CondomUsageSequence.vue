@@ -15,6 +15,7 @@ export default {
       default: 'future'
     }
   },
+  
   components: {
     CondomUsageDataviz
   }
@@ -26,20 +27,20 @@ export default {
 
 .condom-usage {
   display:none;
-  position: fixed;
   top: 0;
   left: 0;
   width:100%;
   height: 100%;
   background-color: $backgroundColor;
-  display: flex;
-  justify-content: center;
-  width: 100vw;
-  height: 100vh;
-  align-items: center;
+  
 
   &.current {
-    display: block;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    align-items: center;  
   }
 
 

@@ -1,14 +1,6 @@
 <template>
-  <div class="seropositivityDataviz">
-    <svg :width="width" :height="height" ref="svg"></svg>
-<!--    <div-->
-<!--        class="tooltip"-->
-<!--        ref="tooltip"-->
-<!--        :class="{ visible: tooltipVisible }"-->
-<!--        :style="`transform: translate(${tooltipValues.x}px, ${tooltipValues.y}px)`"-->
-<!--    >-->
-<!--      {{ tooltipKey }}: {{ tooltipValues.percentage }}%-->
-<!--    </div>-->
+  <div class="DetailsCondomUsageDataviz">
+    <svg id="detail-condom-usage-dataviz"  :width="width" :height="height" ref="svg"></svg>
   </div>
 </template>
 
@@ -16,13 +8,12 @@
 import * as d3 from 'd3'
 
 export default {
-  name: "SeropositivityDatavizOld",
+  name: "DetailsCondomUsageDataviz",
   props: {
     // taille en pixel du composant
     width: { type: Number },
     height: { type: Number },
-
-    dataSource: { type: Array },
+    dataSource: { type: Array }
   },
   data: () => ({
     svg: null,
@@ -39,18 +30,21 @@ export default {
     },
     colors () { return this.$globals.dataColors },
     xScale () {
-      return d3.scaleBand()
-          .domain(this.dataSource.map(d => d.year))
+      return d3.scaleLinear()
           .range([0, this.dataWidth])
-          .padding(0.2)
+          .domain([0, d3.max(this.dataSource, d => d.value)])
     },
     yScale () {
-      return d3.scaleLinear()
-          .range([this.dataHeight, 0])
-          .domain([0, d3.max(this.dataSource, d => d.value)])
+      return d3.scaleBand()
+          .range([0, this.dataHeight])
+          .domain(this.dataSource.map(d => d.reason))
+          .padding(0.2)
     },
     xAxis() {
       return d3.axisBottom(this.xScale)
+    },
+    yAxis() {
+      return d3.axisLeft(this.yScale)
     }
   },
   mounted() {
@@ -73,17 +67,27 @@ export default {
       this.updateSvg()
     },
     initAxis () {
-      const axis = this.svg.append("g")
+      const xAxis = this.svg.append("g")
           .attr("class", "x axis")
           .attr("transform", "translate(0," + this.dataHeight + ")")
           .call(this.xAxis)
-      this.styleXAxis(axis)
+      this.styleXAxis(xAxis)
+      const yAxis = this.svg.append("g")
+          .attr("class", "y axis")
+          .call(this.yAxis)
+      this.styleYAxis(yAxis)
     },
     updateAxis () {
-      const axis = this.svg.selectAll('g.x.axis').call(this.xAxis)
-      this.styleXAxis(axis)
+      const xAxis = this.svg.selectAll('g.x.axis').call(this.xAxis)
+      this.styleXAxis(xAxis)
+      const yAxis = this.svg.selectAll('g.y.axis').call(this.yAxis)
+      this.styleYAxis(yAxis)
     },
     styleXAxis (axis) {
+      // axis.selectAll("text")
+      //     .style("fill", "#f00")
+    },
+    styleYAxis (axis) {
       // axis.selectAll("text")
       //     .style("fill", "#f00")
     },
@@ -92,12 +96,22 @@ export default {
         .data(this.dataSource)
         .join('rect')
         .style('fill', this.$globals.dataColors[1])
-        .attr('x', d => this.xScale(d.year))
-        .attr('width', this.xScale.bandwidth())
-        .attr("y", d =>  this.yScale(d.value))
-        .attr("height", d => this.dataHeight - this.yScale(d.value))
+        .attr('x', 0 )
+        .attr('width', d => this.xScale(d.value))
+        .attr("y", d =>  this.yScale(d.reason))
+        .attr("height", this.yScale.bandwidth())
 
       this.updateAxis()
+      // this.svg.selectAll('rect')
+      //   .data(this.dataSource)
+      //   .join('rect')
+      //   .style('fill', this.$globals.dataColors[1])
+      //   .attr('x', d => this.xScale(d.reason))
+      //   .attr('width', this.xScale.bandwidth())
+      //   .attr("y", d =>  this.yScale(d.value))
+      //   .attr("height", d => this.dataHeight - this.yScale(d.value))
+
+      // this.updateAxis()
       // this.svg.selectAll("text")
       //     .data(this.dataSource)
       //     .join("text")
@@ -109,27 +123,17 @@ export default {
 </script>
 
 <style lang="scss">
-.seropositivityDataviz {
+.DetailsCondomUsageDataviz {
   position: relative;
-  .tooltip {
-    pointer-events: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: #00000088;
-    color: #fff;
-    padding: 10px;
-    border-radius: 3px;
-    opacity: 0;
-    transition: all .05s;
-    &.visible {
-      opacity: 1;
-    }
-  }
+  display:flex;
   .axis-text {
     //fill: #f00;
     font-family: $titleFont;
     font-size: 1.1em;
+  }
+
+  svg{
+    margin:auto;
   }
 }
 </style>

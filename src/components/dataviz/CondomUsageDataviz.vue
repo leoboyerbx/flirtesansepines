@@ -44,8 +44,10 @@ export default {
                 .attr("transform",  "translate(" + width / 2 + "," + height / 2 + ") rotate(" + rotate + ")")
                 .duration(1000);
               svg.transition()
-                  .attr("transform",  "translate(" + -width*1.4 + "," + height / 2 + ")")
+                  .attr("transform",  "translate(" + -width*1.4 + "," +  height / 2 + ")")
                   .duration(1000);
+
+              console.log(window.clientHeight)
 
           });
 
@@ -62,6 +64,7 @@ export default {
 <style scoped lang="scss">
 
 #condom-usage-dataviz {
+  
   .arc{
     text{
       text-anchor: middle;
