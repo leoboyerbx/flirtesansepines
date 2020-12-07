@@ -1,7 +1,7 @@
 <template>
   <svg id="condom-usage-dataviz" width="500" height="500">
-    
   </svg>
+  
 </template>
 
 <script>
@@ -9,9 +9,15 @@ import * as d3 from "d3";
 
 export default {
   name: 'CondomUsageDataviz',
-  
   data: () => ({
-    
+    svg: null,
+    tooltipVisible: false,
+    tooltipValues: {
+      percentage: 0,
+      key: '',
+      x: 0,
+      y: 0
+    }
   }),
   mounted() {
     this.generatePieChart();
@@ -30,12 +36,18 @@ export default {
 
         const color = d3.scaleOrdinal(['red','blue','green']);
 
+        const csv = d3.scaleOrdinal(['datas/detailsCondomUsage.csv','datas/detailsNoCondomUsage.csv','']);
+        const tooltip = d3.select("#condom-usage-dataviz").append("div")	
+                .attr("class", "tooltip")				
+                .style("opacity", 0);
+
         const pie = d3.pie().value(d => d.value);
+      
 
         const path = d3.arc().outerRadius(radius).innerRadius(0);
         const label =d3.arc().outerRadius(radius).innerRadius(radius - 150);
 
-        const pies = g.selectAll('.arc').data(pie(data)).enter().append('g').attr('class','arc')
+        const pies = g.selectAll('.arc').data(pie(data)).enter().append('g').attr('class', 'arc').attr('csv', d => csv(d.data.value))
           .on("click",function(d) { 
               // The amount we need to rotate:
               var rotate = 45-(d.explicitOriginalTarget.__data__.startAngle + d.explicitOriginalTarget.__data__.endAngle)/2 / Math.PI * 180;
@@ -44,15 +56,18 @@ export default {
                 .attr("transform",  "translate(" + width / 2 + "," + height / 2 + ") rotate(" + rotate + ")")
                 .duration(1000);
               svg.transition()
-                  .attr("transform",  "translate(" + -width*1.4 + "," + height / 2 + ")")
+                  .attr("transform",  "translate(" + -width*1.4 + "," +  height / 2 + ")")
                   .duration(1000);
-
-          });
+          })
+          .on('mouseover', () => {
+            this.tooltipVisible = true
+          })
 
         pies.append('path').attr('d', path).attr('fill', d => color(d.data.value));
         pies.append('text')
             .text(d => d.data.name)
             .attr('transform', d => `translate(${label.centroid(d)})`)
+
   }
 }
 }
@@ -62,12 +77,16 @@ export default {
 <style scoped lang="scss">
 
 #condom-usage-dataviz {
+  position:relative;
   .arc{
     text{
       text-anchor: middle;
     }
   }
 }
+
+
+
 
 </style>
  
