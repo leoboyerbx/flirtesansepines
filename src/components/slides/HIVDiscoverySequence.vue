@@ -2,8 +2,9 @@
   <article class="seropositivity-data" :class="currentState" @click="tmpClick">
     <HIVDiscoveryDataviz
       :width="800"
-      :height="400"
+      :height="600"
       :data-source="currentDataSource"
+      :user-estimation="userEstimation"
     />
   </article>
 </template>
@@ -20,7 +21,8 @@ export default {
     msg: "A votre avis, combien de cas de séropositivité ont été découverts en 2019 en France ?",
     number:1000,
     dataSource: [],
-    viewMode: 1
+    viewMode: 1,
+    userEstimation: 4000
   }),
   props: {
     currentState: {
@@ -51,21 +53,27 @@ export default {
   computed: {
     currentDataSource () {
       let cols = ['year', 'total']
+      let excludedCols = ['men', 'women', 'hsh', 'hetero', 'drug', 'other']
       switch (this.viewMode) {
         case 1:
           cols = ['year', 'men', 'women']
+          excludedCols = ['total', 'hsh', 'hetero', 'drug', 'other']
           break;
         case 2:
           cols = ['year', 'hsh', 'hetero', 'drug', 'other']
+          excludedCols = ['total', 'men', 'women']
       }
       const result = this.dataSource.map(d => {
         const res = {}
-        cols.forEach(col => [
-            res[col] = d[col]
-        ])
+        cols.forEach(col => {
+          res[col] = d[col]
+        })
+        excludedCols.forEach(col => {
+          res[col] = 0
+        })
         return res
       })
-      result.columns = cols
+      result.columns = this.dataSource.columns || []
       return result
     },
     total: function () {
