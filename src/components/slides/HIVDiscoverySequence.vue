@@ -22,7 +22,7 @@ export default {
     number:1000,
     dataSource: [],
     viewMode: 1,
-    userEstimation: 100
+    userEstimation: 4000
   }),
   props: {
     currentState: {
