@@ -77,13 +77,15 @@ export default {
           .data(this.pie(this.dataSource))
           .enter().append('g')
           .attr('class', 'arc')
-          .on("click", d => { 
+          .on("click", (e, d) => {
               // The amount we need to rotate:
-              const rotate = 45-(d.explicitOriginalTarget.__data__.startAngle + d.explicitOriginalTarget.__data__.endAngle)/2 / Math.PI * 180;              // Transition the pie chart
+              const rotate = 45-(e.explicitOriginalTarget.__data__.startAngle + e.explicitOriginalTarget.__data__.endAngle)/2 / Math.PI * 180;              // Transition the pie chart
               this.g.transition()
                 .attr("transform",  "translate(" + this.width / 2 + "," + this.height / 2 + ") rotate(" + rotate + ")")
                 .duration(1000);
               this.details = true
+
+              this.$emit('detail-index-change', d.index)
           })
           .on('mouseover', (e, d) => {
             this.tooltipVisible = true;
@@ -175,7 +177,7 @@ export default {
     cursor: pointer;
     transition: all 1s;
     &.details {
-      transform: translate(-50%, 50%);
+      transform: translate(-60%, 50%) scale(2);
     }
     g {
       width: 100%;

@@ -1,12 +1,13 @@
 <template>
   <article class="condom-usage" :class="currentState">
         <CondomUsageDataviz 
-          :dataSource="condomUsageDataSource"
+          :dataSource="globalCondomUsageDataSource"
           :width="500"
           :height="500"
+          @detail-index-change="updateDetailsIndex"
          />
         <DetailsCondomUsageDataviz
-          :dataSource="condomUsageDetailsDataSource"
+          :dataSource="currentDetailsDataSource"
           :width="800"
           :height="400"
         />
@@ -17,6 +18,12 @@
 import { csv, json } from 'd3';
 import CondomUsageDataviz from "@/components/dataviz/CondomUsageDataviz";
 import DetailsCondomUsageDataviz from "@/components/dataviz/DetailsCondomUsageDataviz";
+
+function dataParseInt (d) {
+  d.value = +d.value
+  return d
+}
+
 export default {
   name: 'CondomUsageSequence',
   props: {
@@ -30,16 +37,39 @@ export default {
     DetailsCondomUsageDataviz
   },
   data: () => ({
-    condomUsageDetailsDataSource: [],
+    globalCondomUsageDataSource: [],
     condomUsageDataSource: [],
+    noCondomUsageDataSource: [],
+    sometimesNoCondomUsageDataSource: [],
+    currentDetailsIndex: 0 
   }),
   async created() {
     this.getDataSource()
   },
+  computed: {
+    currentDetailsDataSource () {
+      let data = this.sometimesNoCondomUsageDataSource
+      switch (this.currentDetailsIndex) {
+        case 1:
+          data = this.condomUsageDataSource
+          break;
+        case 2:
+          data = this.noCondomUsageDataSource
+          break
+      }
+      return data
+    }
+  },
   methods: {
     async getDataSource () {
-      this.condomUsageDetailsDataSource = await csv('datas/detailsCondomUsage.csv')
-      this.condomUsageDataSource = await json('datas/condomUsage.json')
+      this.condomUsageDataSource = await csv('datas/detailsCondomUsage.csv', dataParseInt)
+      this.noCondomUsageDataSource = await csv('datas/detailsNoCondomUsage.csv', dataParseInt)
+      this.sometimesNoCondomUsageDataSource = await csv('datas/detailsSometimesNoCondomUsage.csv', dataParseInt)
+      this.globalCondomUsageDataSource = await json('datas/condomUsage.json')
+    },
+    updateDetailsIndex (index) {
+      console.log(index)
+      this.currentDetailsIndex = index
     }
   }
 }

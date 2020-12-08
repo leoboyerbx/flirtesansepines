@@ -1,5 +1,5 @@
 <template>
-  <div class="DetailsCondomUsageDataviz">
+  <div class="detailsCondomUsageDataviz">
     <svg id="detail-condom-usage-dataviz"  :width="width" :height="height" ref="svg"></svg>
   </div>
 </template>
@@ -115,9 +115,9 @@ export default {
 </script>
 
 <style lang="scss">
-.DetailsCondomUsageDataviz {
+.detailsCondomUsageDataviz {
   position: relative;
-  display:none;
+  // display:none;
   .axis-text {
     //fill: #f00;
     font-family: $titleFont;
