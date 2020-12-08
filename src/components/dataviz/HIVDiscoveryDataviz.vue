@@ -11,7 +11,7 @@
     <!--    </div>-->
     <div class="filters">
       <label for="all">Tout<br>
-        <input v-on:click="updateViewMode(0)" type="radio" id="all" name="detail" value="0">
+        <input v-on:click="updateViewMode(0)"  type="radio" id="all" name="detail" value="0">
         <span class="checkmark"></span>
       </label>
       <label for="man/woman">Classement par sexe<br>
@@ -136,6 +136,15 @@ export default {
 
       var legendItem =	[ ["Hommes", "#031941"],
                 ["Femmes", "#5C90B6"] ];
+      /*var legendItem = legend.selectAll('g').data(legendItem);
+      legendItem.enter()
+        .append('g')
+        .attr('class','legend-item')
+        .append('rect')
+        .style("fill", function(d) {
+              return d[1];
+        })*/
+        
       var legendRect = legend.selectAll('rect').data(legendItem);
 
       console.log(this.width)
