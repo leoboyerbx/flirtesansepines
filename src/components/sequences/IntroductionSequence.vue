@@ -120,15 +120,6 @@ export default {
       // window.setInterval(() => {
       //   console.log(this.anim.currentFrame)
       // }, 10)
-    },
-    getMarkerByKey (key) {
-      if (this.anim.animationData.markers) {
-        for (const marker of this.anim.animationData.markers) {
-          if (marker.cm === key) return marker
-        }
-        return null
-      }
-      return null
     }
   }
 }

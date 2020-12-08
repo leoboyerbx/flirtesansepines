@@ -90,6 +90,16 @@ export default {
         rendererSettings: this.rendererSettings
       });
 
+      this.anim.getMarkerByKey = (key) => {
+          if (this.anim.animationData.markers) {
+            for (const marker of this.anim.animationData.markers) {
+              if (marker.cm === key) return marker
+            }
+            return null
+          }
+          return null
+        }
+
       this.$emit("AnimControl", this.anim);
 
       this.anim.setSpeed(this.speed);

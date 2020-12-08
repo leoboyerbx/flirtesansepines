@@ -2,24 +2,57 @@
   <section class="hiv-estimation">
     <p class="question">À votre avis, combien de cas de séropositivité ont été découverts en 2019 en France ?</p>
     <div class="number">{{ displayNumber }}</div>
+    <FlowerSlider class="flower-slider" v-model="number" />
   </section>
 </template>
 
 <script>
+import FlowerSlider from "@/components/sequences/partials/FlowerSlider";
+import TWEEN from '@tweenjs/tween.js'
 
 export default {
   name: "HIVEstimation",
+  components: {FlowerSlider},
   data: () => ({
-    number: 0
+    number: 0,
+    tweenedNumber: 0,
+    tweenDuration: 300
   }),
   computed: {
     displayNumber () {
-      let res = '' + this.number;
+      let res = '' + Math.round(this.number * 10000);
       while (res.length < 5) {
         res = '0' + res;
       }
       return res;
     }
+  },
+  methods: {
+    // onChange () {
+    //   this.tween((this.number * 10000).toFixed, 0)
+    // },
+    // tween(start, end) {
+    //   let frameHandler
+    //   // Handles updating the tween on each frame.
+    //   const animate = function (currentTime) {
+    //     TWEEN.update(currentTime)
+    //     frameHandler = requestAnimationFrame(animate)
+    //   }
+    //   const number = { val: start }
+    //   const tween = new TWEEN.Tween(number)
+    //       .to({ val: end }, this.tweenDuration)
+    //       // Be careful to not to do too much here! It will slow down the app.
+    //       .onUpdate(() => {
+    //         this.number = number.val.toFixed(0) * 10000
+    //       })
+    //       .onComplete(() => {
+    //         // Make sure to clean up after ourselves.
+    //         cancelAnimationFrame(frameHandler)
+    //       })
+    //       // This actually starts the tween.
+    //       .start()
+    //   frameHandler = requestAnimationFrame(animate)
+    // }
   }
 }
 </script>
@@ -45,6 +78,12 @@ export default {
     font-size: 20rem;
     text-align: right;
     //line-height: 23rem;
+  }
+  .flower-slider {
+    position: absolute;
+    width: 40%;
+    bottom: 0;
+    left: 0;
   }
 }
 </style>
