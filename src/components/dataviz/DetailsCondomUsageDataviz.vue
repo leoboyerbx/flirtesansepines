@@ -82,7 +82,7 @@ export default {
       this.styleYAxis(yAxis)
     },
     updateAxis () {
-      const xAxis = this.svg.selectAll('g.x.axis').transition(this.transition).call(this.xAxis)
+      const xAxis = this.svg.selectAll('g.x.axis').transition().duration(750).call(this.xAxis)
       this.styleXAxis(xAxis)
       const yAxis = this.svg.selectAll('g.y.axis').call(this.yAxis)
       this.styleYAxis(yAxis)
@@ -105,7 +105,7 @@ export default {
             .attr("y", d =>  this.yScale(d.reason))
             .attr("height", this.yScale.bandwidth()),
           update => update
-            .call(update => update.transition(this.transition)
+            .call(update => update.transition().duration(750)
               .attr('width', d => this.xScale(d.value)))
         )
       this.updateAxis()
@@ -122,6 +122,7 @@ export default {
             dy = parseFloat(text.attr("dy")),
             tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
             console.log(text)
+        // eslint-disable-next-line no-cond-assign
         while (word = words.pop()) {
           line.push(word);
           tspan.text(line.join(" "));
