@@ -120,6 +120,7 @@ export default {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+
  
   .tooltip {
     background-color: white;
@@ -135,6 +136,7 @@ export default {
     opacity: 0;
     transition: all ease-in-out 0.3s;
     pointer-events: none;
+
     .value {
       color: $themeRed;
       font-size: 1.9rem;
@@ -173,9 +175,11 @@ export default {
   }
   .condom-usage-dataviz {
     cursor: pointer;
+
     transition: all 1s;
+
     &.details {
-      transform: translate(-60%, 50%) scale(2);
+      transform: translate(-80%, 55%) scale(2);
     }
     g {
       width: 100%;

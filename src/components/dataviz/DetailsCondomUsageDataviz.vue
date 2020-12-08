@@ -1,5 +1,5 @@
 <template>
-  <div class="detailsCondomUsageDataviz" :class="{ detailsDisplay: detailsDisplay }">
+  <div class="detailsCondomUsageDataviz" :class="{ detailsDisplay }">
     <svg id="detail-condom-usage-dataviz"  :width="width" :height="height" ref="svg"></svg>
   </div>
 </template>
@@ -18,7 +18,7 @@ export default {
   },
   data: () => ({
     svg: null,
-    margin: {top: 20, right: 200, bottom: 60, left: 100},
+    margin: {top: 20, right: 20, bottom: 60, left: 350},
     bandSpacing: 30,
     tooltipVisible: false
   }),
@@ -88,18 +88,18 @@ export default {
       this.styleYAxis(yAxis)
     },
     styleXAxis (axis) {
-      // axis.selectAll("text")
-      //     .style("fill", "#f00")
     },
     styleYAxis (axis) {
-      // axis.selectAll("text")
-      //     .style("fill", "#f00")
+      console.log(axis.selectAll('.tick'));
+      const yNodeAxis = axis.selectAll('g.tick text');
+      this.wrap(yNodeAxis, 250)
+      //axis.selectAll('.tick')._groups[0].call(this.wrap, 40)
     },
     updateSvg () {
       this.svg.selectAll('rect')
         .data(this.dataSource)
         .join(
-          enter => enter.append('rect').style('fill', this.$globals.dataColors[1])
+          enter => enter.append('rect').style('fill', this.$globals.dataColors[0])
             .attr('x', 0 )
             .attr('width', d => this.xScale(d.value))
             .attr("y", d =>  this.yScale(d.reason))
@@ -108,18 +108,53 @@ export default {
             .call(update => update.transition(this.transition)
               .attr('width', d => this.xScale(d.value)))
         )
-
       this.updateAxis()
     },
-  }
-}
+    wrap(text, width) {
+      text.each(function() {
+        var text = d3.select(this),
+            words = text.text().split(/\s+/).reverse(),
+            word,
+            line = [],
+            lineNumber = 0,
+            lineHeight = 1.1, // ems
+            y = text.attr("y"),
+            dy = parseFloat(text.attr("dy")),
+            tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
+            console.log(text)
+        while (word = words.pop()) {
+          line.push(word);
+          tspan.text(line.join(" "));
+          if (tspan.node().getComputedTextLength() > width) {
+            line.pop();
+            tspan.text(line.join(" "));
+            line = [word];
+            tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+          }
+        }
+      });
+    }
+}}
 </script>
 
 <style lang="scss">
 .detailsCondomUsageDataviz {
-  position: relative;
+  position: absolute;
+  left: 30%;
   opacity: 0;
-  display: none;
+  width: 0;
+  visibility: hidden;
+  transition: all ease-in-out 0.3s;
+  transition-delay: 1.4s;
+  &.detailsDisplay {
+    opacity:1;
+    width: auto;
+    visibility: visible;
+
+    svg {
+      width: auto;
+    }
+  }
   .axis-text {
     //fill: #f00;
     font-family: $titleFont;
@@ -128,6 +163,29 @@ export default {
 
   svg{
     margin:auto;
+    width: 0;
+
+    .axis {
+        line {
+          display:none;
+        }
+        text{
+          color: white;
+          font-size: 1rem;
+        }
+        &.y {
+          .domain {
+            display:none;
+          }
+        }
+
+        &.x {
+          .domain {
+            color: white;
+            height: 2px;
+          }
+        }
+      }
   }
 }
 </style>
