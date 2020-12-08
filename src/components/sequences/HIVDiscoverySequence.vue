@@ -1,6 +1,6 @@
 <template>
   <article :style="{transform: transformProprety }" v-on:wheel="onWheel" class="seropositivity-data" :class="currentState" @click="tmpClick">
-    <h1>Nombre de séropositifs, </br> en France</h1>
+    <h1>Nombre de séropositifs, <br> en France</h1>
     <HIVDiscoveryDataviz
       :width="1000"
       :height="400"
@@ -54,7 +54,7 @@ export default {
       } else if (e.deltaY > 0 && this.translateY <= -scrollLimit && !this.displayNextSlide) {
         this.$emit('next-slide')
         this.displayNextSlide = true;
-      } 
+      }
     },
     async getDataSource () {
       this.dataSource = await csv('datas/hivDiscovery.csv', data => {

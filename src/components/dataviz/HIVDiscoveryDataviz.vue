@@ -1,7 +1,6 @@
 <template>
   <div class="seropositivityDataviz">
-    <svg :width="width" :height="height" ref="svg">
-    </svg>
+    <svg :width="width" :height="height" ref="svg"></svg>
     <!--    <div-->
     <!--        class="tooltip"-->
     <!--        ref="tooltip"-->
@@ -124,7 +123,7 @@ export default {
       this.initLegend()
     },
     initLegend () {
-      // add legend   
+      // add legend
       var legend = this.svg.append("g")
       .attr("class", "legend")
       //.attr("x", 500)
@@ -302,7 +301,7 @@ export default {
               background: $themeBlue2;
               border:2px solid white;
           }
-        
+
             position: absolute;
             top: -1px;
             left: -29px;
@@ -310,10 +309,10 @@ export default {
             width: 20px;
             background-color: #eee;
             border-radius: 50%;
-        
+
       }
     }
-    
+
 
   }
   .axis-text {
