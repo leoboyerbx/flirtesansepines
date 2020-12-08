@@ -2,7 +2,7 @@
   <article class="condom-usage" :class="currentState">
         <CondomUsageDataviz  />
         <DetailsCondomUsageDataviz
-          :dataSource="dataSource"
+          :dataSource="condomUsageDetailsDataSource"
           :width="800"
           :height="400"
         />
@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { csv } from 'd3';
+import { csv, json } from 'd3';
 import CondomUsageDataviz from "@/components/dataviz/CondomUsageDataviz";
 import DetailsCondomUsageDataviz from "@/components/dataviz/DetailsCondomUsageDataviz";
 export default {
@@ -26,17 +26,16 @@ export default {
     DetailsCondomUsageDataviz
   },
   data: () => ({
-    dataSource: [],
+    condomUsageDetailsDataSource: [],
+    condomUsageDataSource: [],
   }),
   async created() {
     this.getDataSource()
   },
   methods: {
     async getDataSource () {
-      const dataSource = await csv('datas/detailsCondomUsage.csv', data => {
-        return data
-      })
-      this.dataSource = dataSource
+      this.condomUsageDetailsDataSource = await csv('datas/detailsCondomUsage.csv')
+      const dataSource = await json('datas/condomUsage.json')
       console.log(dataSource)
     }
   }

@@ -1,13 +1,16 @@
 <template>
   <div class="condom-usage-dataviz-container">
-    
+    <h1>Utilisation du préservatif</h1>
     <svg id="condom-usage-dataviz" width="500" height="500">
     </svg>
-    <div id="tooltip">
+    <div id="tooltip" :class="{ visible: tooltipVisible }">
       <span class="arrow"></span>
       <span class="value">{{ tooltipValues.percentage }} %</span>
       <span class="desc">{{ tooltipValues.tooltip }}</span>
       <button class="read-more"> En savoir +</button>
+    </div>
+    <div class="legend">
+      <span></span>
     </div>
   </div>
 </template>
@@ -44,8 +47,7 @@ export default {
         const radius = 200;
 
         const g = svg.append('g').attr('transform', `translate(${width/2}, ${height/2})`);
-      console.log(this.$globals.dataColors[0])
-        const color = d3.scaleOrdinal(this.$globals.dataColors[0],this.$globals.dataColors[1],this.$globals.dataColors[2]);
+        const color = d3.scaleOrdinal(this.$globals.dataColors);
 
         const csv = d3.scaleOrdinal(['datas/detailsCondomUsage.csv','datas/detailsNoCondomUsage.csv','']);
         const tooltip = d3.select("#condom-usage-dataviz").append("div")	
@@ -69,7 +71,7 @@ export default {
                   .duration(1000);
           })
           .on('mouseover', (e, d) => {
-
+            this.tooltipVisible = true;
             d3.select("#tooltip")
               .style("opacity", 1)
             this.tooltipValues = {
@@ -80,11 +82,8 @@ export default {
           })
 
         pies.append('path').attr('d', path).attr('fill', d => color(d.data.value));
-
-        
-
+    }
   }
-}
 }
 </script>
 
@@ -93,12 +92,25 @@ export default {
 
 
 .condom-usage-dataviz-container {
+  h1 {
+      font-family: $titleFont;
+      font-size: 3.5em;
+      margin: 1rem 0;
+      color: #ffff;
+      text-align: center;
+      width: 100%;
+  }
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
+  background-color:$themeRed;
+  width: 100vw;
+  height: 100vh;
+  padding: 3% 0;
   #tooltip {
     background-color: white;
-    max-width: 200px;
+    width: 300px;
     display: flex;
     flex-direction:column;
     text-align: center;
@@ -106,6 +118,13 @@ export default {
     height: fit-content;
     position: relative;
     padding: 1.2rem;
+    margin-left: 6%;
+    opacity: 0;
+    transition: all ease-in-out 0.3s;
+
+    &.visible {
+      opacity: 1;
+    }
     .value {
       color: $themeRed;
       font-size: 1.9rem;
@@ -126,6 +145,7 @@ export default {
       font-family: $paragraphFont;
       font-size: 1.2rem;
       border:none;
+      cursor: pointer;
     }
 
     .arrow {
@@ -142,6 +162,12 @@ export default {
       
   }
   #condom-usage-dataviz {
+    cursor: pointer;
+
+    g {
+      width: 100%;
+      height: 100%;
+    }
     .arc{
       text{
         text-anchor: middle;
