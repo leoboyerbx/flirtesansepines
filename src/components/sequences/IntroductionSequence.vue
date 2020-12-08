@@ -1,45 +1,26 @@
 <template>
   <article :style="{transform: transformProprety }" v-on:wheel="onWheel" class="experience-introduction" :class="currentState">
-    <img class="intro-img" src="@/assets/tmpIntro.svg" alt="">
-    <h1>Coucou</h1>
-    <h1>Coucou</h1>
-    <h1>Coucou</h1>
-    <h1>Coucou</h1>
-    <h1>Coucou</h1>
-    <h1>Coucou</h1>
-    <h1>Coucou</h1>
-    <h1>Coucou</h1>
-    <h1>Coucou</h1>
-    <h1>Coucou</h1>
-    <h1>Coucou</h1>
-    <h1>Coucou</h1>
-    <h1>Coucou</h1>
-    <h1>Coucou</h1>
-    <h1>Coucou</h1>
-    <h1>Coucou</h1>
-    <h1>Coucou</h1>
-    <h1>Coucou</h1>
-    <h1>Coucou</h1>
-    <h1>Coucou</h1>
-    <h1>Coucou</h1>
-    <h1>Coucou</h1>
-    <h1>Coucou</h1>
-    <h1>Coucou</h1>
-    <h1>Coucou</h1>
-    <h1>Coucou</h1>
-    <h1>Coucou</h1>
-    <h1>Coucou</h1>
+    <div class="lottie-wrapper">
+      <lottieAnimation
+          class="intro-lottie"
+          path="lottie/introAnim.json"
+          :auto-play="true"
+          @AnimControl="setAnimController"
+      />
+    </div>
   </article>
 </template>
 
 <script>
-import _throttle from 'lodash.throttle'
+import LottieAnimation from "@/components/lib/LottieAnimation";
 
 export default {
   name: 'IntroductionSequence',
+  components: {
+    LottieAnimation
+  },
   data: () => ({
     translateY: 0,
-    displayNextSlide: false,
     scrollFactor: 10
   }),
   props: {
@@ -65,10 +46,15 @@ export default {
       if (canGoUp || canGoDown) {
         this.translateY -= e.deltaY * this.scrollFactor
       } else if (e.deltaY > 0 && this.translateY <= -scrollLimit && !this.displayNextSlide) {
-        this.$emit('next-slide')
-        this.displayNextSlide = true;
+        if (this.currentState !== 'past') {
+          this.$emit('next-slide')
+        }
 
       }
+      if (this.translateY > 0) this.translateY = 0
+    },
+    setAnimController (anim) {
+      this.anim = anim
     }
   }
 }
@@ -83,8 +69,24 @@ export default {
   width: 100%;
   min-height: 100%;
   transition: all .5s;
-  .intro-img {
+
+  .lottie-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
+    height: 100vh;
+    background-color: $themeRed;
+    .intro-lottie {
+      position: absolute;
+      left: 0;
+      bottom: -200px;
+      width: 100%;
+      max-height: 100vh;
+      svg {
+        height: auto;
+      }
+    }
   }
 }
 </style>

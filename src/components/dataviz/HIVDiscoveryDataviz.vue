@@ -143,7 +143,6 @@ export default {
                   .on('mousemove', (e) => {
                     const x0 = this.xScale.invert(d3.pointer(e)[0]);
                     var i = this.bisect(this.dataSource, x0, 1);
-                    console.log(this.dataSource[i])
                   }),
               update => update.call(update => update.transition().duration(1000).attr('d', this.area))
           )
