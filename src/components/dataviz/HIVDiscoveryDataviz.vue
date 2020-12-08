@@ -1,6 +1,7 @@
 <template>
   <div class="seropositivityDataviz">
-    <svg :width="width" :height="height" ref="svg"></svg>
+    <svg :width="width" :height="height" ref="svg">
+    </svg>
     <!--    <div-->
     <!--        class="tooltip"-->
     <!--        ref="tooltip"-->
@@ -9,6 +10,21 @@
     <!--    >-->
     <!--      {{ tooltipKey }}: {{ tooltipValues.percentage }}%-->
     <!--    </div>-->
+    <div class="filters">
+      <label for="all">Tout<br>
+        <input v-on:click="updateViewMode(0)" type="radio" id="all" name="detail" value="0">
+        <span class="checkmark"></span>
+      </label>
+      <label for="man/woman">Classement par sexe<br>
+        <input v-on:click="updateViewMode(1)" type="radio" id="man/woman" name="detail" value="1">
+        <span class="checkmark"></span>
+
+      </label>
+      <label for="transmissionMode">Classement par mode de transmission
+        <input v-on:click="updateViewMode(2)" type="radio" id="transmissionMode" name="detail" value="2">
+        <span class="checkmark"></span>
+      </label>
+    </div>
   </div>
 </template>
 
@@ -21,7 +37,7 @@ export default {
     // taille en pixel du composant
     height: { type: Number },
     width: { type: Number },
-
+    viewMode: { type: Number},
     dataSource: { type: Array },
     userEstimation: Number
   },
@@ -105,6 +121,48 @@ export default {
           .attr('width', this.dataWidth)
       this.initAxis()
       this.updateSvg()
+      this.initLegend()
+    },
+    initLegend () {
+      // add legend   
+      var legend = this.svg.append("g")
+      .attr("class", "legend")
+      //.attr("x", 500)
+      //.attr("y", 50)
+      .attr("height", 100)
+      .attr("width", 100)
+      .attr('transform', 'translate(-70,80)');
+
+      console.log(this.viewMode)
+
+      var legendItem =	[ ["Hommes", "#031941"],
+                ["Femmes", "#5C90B6"] ];
+      var legendRect = legend.selectAll('rect').data(legendItem);
+
+      console.log(this.width)
+      legendRect.enter()
+          .append("rect")
+          .attr("y", this.height - 105)
+          .attr("width", 30)
+          .attr("height", 30)
+          .attr("x", (d, i) => {
+            return this.width - 70 - (i * 80);
+          })
+          .style("fill", function(d) {
+              return d[1];
+          });
+
+      var legendText = legend.selectAll('text').data(legendItem);
+
+      legendText.enter()
+            .append("text")
+            .attr("y", this.height - 88)
+            .attr("x", (d, i) => {
+              return this.width - 20 - (i *100);
+            })
+            .text(function(d){
+              return d[0];
+            })
     },
     initAxis () {
       const xAxis = this.svg.append("g")
@@ -143,7 +201,6 @@ export default {
                   .on('mousemove', (e) => {
                     const x0 = this.xScale.invert(d3.pointer(e)[0]);
                     var i = this.bisect(this.dataSource, x0, 1);
-                    console.log(this.dataSource[i])
                   }),
               update => update.call(update => update.transition().duration(1000).attr('d', this.area))
           )
@@ -163,6 +220,9 @@ export default {
 
       this.updateAxis()
     },
+    updateViewMode(viewMode) {
+      this.$emit('update-view-mode', viewMode)
+    }
   }
 }
 </script>
@@ -184,6 +244,77 @@ export default {
     &.visible {
       opacity: 1;
     }
+  }
+
+  svg {
+    overflow: visible;
+    .tick{
+      font-family: $paragraphFont;
+      font-size: $paragraphSize;
+      line{
+        display:none;
+      }
+    }
+  }
+
+  .filters {
+    display: flex;
+    justify-content: space-around;
+    max-width: 72%;
+    margin: 60px 0;
+
+    label {
+      position: relative;
+      color: $themeBlue2;
+      font-size: 1.3em;
+      font-weight: 500;
+
+      &:hover input ~ .checkmark {
+        background-color: #ccc;
+      }
+
+      input {
+
+        &:checked ~ .checkmark {
+          background-color: $themeBlue2;
+
+          &:after {
+            display:block;
+          }
+        }
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+      }
+
+      .checkmark {
+        border: 1px solid $themeBlue2;
+
+        &:after {
+              content: "";
+              position: absolute;
+              display: none;
+              top: 2px;
+              left: 2px;
+              width: 14px;
+              height: 14px;
+              border-radius: 50%;
+              background: $themeBlue2;
+              border:2px solid white;
+          }
+        
+            position: absolute;
+            top: -1px;
+            left: -29px;
+            height: 20px;
+            width: 20px;
+            background-color: #eee;
+            border-radius: 50%;
+        
+      }
+    }
+    
+
   }
   .axis-text {
     //fill: #f00;
