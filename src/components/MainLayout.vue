@@ -2,19 +2,22 @@
   <section ref="slides" class="slides">
     <IntroductionSequence :current-state="stateOfSlide(0)" @next-slide="nextSlide" @prev-slide="prevSlide"/>
     <HIVDiscoverySequence :current-state="stateOfSlide(1)" @next-slide="nextSlide" @prev-slide="prevSlide"/>
+    <CSSAnimationSequence :current-state="stateOfSlide(2)" @next-slide="nextSlide" @prev-slide="prevSlide"/>
   </section>
 </template>
 
 <script>
 import IntroductionSequence from "@/components/sequences/IntroductionSequence";
 import HIVDiscoverySequence from "@/components/sequences/HIVDiscoverySequence";
+import CSSAnimationSequence from "@/components/sequences/CSSAnimationSequence";
 
 
 export default {
   name: 'MainLayout',
   components: {
     IntroductionSequence,
-    HIVDiscoverySequence
+    HIVDiscoverySequence,
+    CSSAnimationSequence
   },
   data: () => ({
     currentSlide: 0,

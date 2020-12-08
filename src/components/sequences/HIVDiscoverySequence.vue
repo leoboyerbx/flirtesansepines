@@ -1,7 +1,7 @@
 <template>
   <article :style="{transform: transformProprety }" v-on:wheel="onWheel" class="seropositivity-data" :class="currentState" @click="tmpClick">
     <h1>Nombre de séropositifs, <br> en France</h1>
-    <HIVDiscoveryDataviz
+    <HIVDiscoveryDataviz class="zoomable"
       :width="1000"
       :height="400"
       :data-source="currentDataSource"
@@ -52,7 +52,8 @@ export default {
       if (canGoUp || canGoDown) {
         this.translateY -= e.deltaY * this.scrollFactor
       } else if (e.deltaY > 0 && this.translateY <= -scrollLimit && !this.displayNextSlide) {
-        this.$emit('next-slide')
+        this.$emit('next-slide');
+        //document.getElementById('zoomable').getElementsByClassName('.checkmark');
         this.displayNextSlide = true;
       }
     },
