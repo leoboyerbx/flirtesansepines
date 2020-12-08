@@ -1,6 +1,10 @@
 <template>
   <article class="condom-usage" :class="currentState">
-        <CondomUsageDataviz  />
+        <CondomUsageDataviz 
+          :dataSource="condomUsageDataSource"
+          :width="500"
+          :height="500"
+         />
         <DetailsCondomUsageDataviz
           :dataSource="condomUsageDetailsDataSource"
           :width="800"
@@ -35,8 +39,7 @@ export default {
   methods: {
     async getDataSource () {
       this.condomUsageDetailsDataSource = await csv('datas/detailsCondomUsage.csv')
-      const dataSource = await json('datas/condomUsage.json')
-      console.log(dataSource)
+      this.condomUsageDataSource = await json('datas/condomUsage.json')
     }
   }
 }

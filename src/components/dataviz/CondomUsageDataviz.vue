@@ -1,9 +1,9 @@
 <template>
   <div class="condom-usage-dataviz-container">
     <h1>Utilisation du préservatif</h1>
-    <svg id="condom-usage-dataviz" width="500" height="500">
+    <svg class="condom-usage-dataviz" :width="width" :height="height" :class="{ details }">
     </svg>
-    <div id="tooltip" :class="{ visible: tooltipVisible }">
+    <div class="tooltip" :class="{ visible: tooltipVisible }">
       <span class="arrow"></span>
       <span class="value">{{ tooltipValues.percentage }} %</span>
       <span class="desc">{{ tooltipValues.tooltip }}</span>
@@ -20,9 +20,21 @@ import * as d3 from "d3";
 
 export default {
   name: 'CondomUsageDataviz',
+  props: {
+    dataSource: { 
+      type: Array,
+      required: true,
+    },
+    width: Number,
+    height: Number
+
+  },
   data: () => ({
     svg: null,
+    g: null,
+    radius: 200,
     tooltipVisible: false,
+    details: false,
     tooltipValues: {
       percentage: 0,
       tooltip: '',
@@ -34,46 +46,47 @@ export default {
     this.generatePieChart();
   },
   computed: {
-    colors () { return this.$globals.dataColors },
+    color () {
+      return d3.scaleOrdinal(this.$globals.dataColors)
+    },
+    pie () {
+      return d3.pie().value(d => d.value)
+    },
+    path () {
+      return d3.arc().outerRadius(this.radius).innerRadius(0)
+    }
+  },
+  watch: {
+    dataSource: {
+      deep: true,
+      handler () {
+        this.updatePieChart()
+      }
+    }
   },
   methods: {
      generatePieChart() {
-       const data = [{name: 'Oui', value: 41.2, tooltip:"Des personnes interogées assurent utiliser le préservatif à chaque rapport sexuel"},{name: 'Non', value: 17.1, tooltip:"Des personnes interogées n'utilisent pas le préservatif pour leur rapport sexuel"}, {name: 'Ayant déjà eu des rapports non protégés', value: 41.7, tooltip:"Des personnes interogée n'utilisent pas sytèmatiquement le préservatif"}];
 
-       const svg = d3.select('#condom-usage-dataviz'),
-             width = svg.attr('width'),
-             height = svg.attr('height');
-        
-        const radius = 200;
+       this.svg = d3.select('.condom-usage-dataviz'),
 
-        const g = svg.append('g').attr('transform', `translate(${width/2}, ${height/2})`);
-        const color = d3.scaleOrdinal(this.$globals.dataColors);
-
-        const csv = d3.scaleOrdinal(['datas/detailsCondomUsage.csv','datas/detailsNoCondomUsage.csv','']);
-        const tooltip = d3.select("#condom-usage-dataviz").append("div")	
-                .attr("class", "tooltip")				
-                .style("opacity", 0);
-
-        const pie = d3.pie().value(d => d.value);
-      
-
-        const path = d3.arc().outerRadius(radius).innerRadius(0);
-
-        const pies = g.selectAll('.arc').data(pie(data)).enter().append('g').attr('class', 'arc').attr('csv', d => csv(d.data.value))
-          .on("click",function(d) { 
+        this.g = this.svg.append('g').attr('transform', `translate(${this.width/2}, ${this.height/2})`);
+        this.updatePieChart()
+    },
+    updatePieChart () {
+        const pies = this.g.selectAll('.arc')
+          .data(this.pie(this.dataSource))
+          .enter().append('g')
+          .attr('class', 'arc')
+          .on("click", d => { 
               // The amount we need to rotate:
-              var rotate = 45-(d.explicitOriginalTarget.__data__.startAngle + d.explicitOriginalTarget.__data__.endAngle)/2 / Math.PI * 180;              // Transition the pie chart
-              g.transition()
-                .attr("transform",  "translate(" + width / 2 + "," + height / 2 + ") rotate(" + rotate + ")")
+              const rotate = 45-(d.explicitOriginalTarget.__data__.startAngle + d.explicitOriginalTarget.__data__.endAngle)/2 / Math.PI * 180;              // Transition the pie chart
+              this.g.transition()
+                .attr("transform",  "translate(" + this.width / 2 + "," + this.height / 2 + ") rotate(" + rotate + ")")
                 .duration(1000);
-              svg.transition()
-                  .attr("transform",  "translate(" + -width*1.4 + "," +  height / 2 + ")")
-                  .duration(1000);
+              this.details = true
           })
           .on('mouseover', (e, d) => {
             this.tooltipVisible = true;
-            d3.select("#tooltip")
-              .style("opacity", 1)
             this.tooltipValues = {
               percentage: (d.data.value),
               tooltip: (d.data.tooltip)
@@ -81,7 +94,7 @@ export default {
 
           })
 
-        pies.append('path').attr('d', path).attr('fill', d => color(d.data.value));
+        pies.append('path').attr('d', this.path).attr('fill', d => this.color(d.data.value));
     }
   }
 }
@@ -108,7 +121,7 @@ export default {
   width: 100vw;
   height: 100vh;
   padding: 3% 0;
-  #tooltip {
+  .tooltip {
     background-color: white;
     width: 300px;
     display: flex;
@@ -121,10 +134,7 @@ export default {
     margin-left: 6%;
     opacity: 0;
     transition: all ease-in-out 0.3s;
-
-    &.visible {
-      opacity: 1;
-    }
+    pointer-events: none;
     .value {
       color: $themeRed;
       font-size: 1.9rem;
@@ -161,9 +171,12 @@ export default {
     }
       
   }
-  #condom-usage-dataviz {
+  .condom-usage-dataviz {
     cursor: pointer;
-
+    transition: all 1s;
+    &.details {
+      transform: translate(-50%, 50%);
+    }
     g {
       width: 100%;
       height: 100%;
@@ -172,6 +185,10 @@ export default {
       text{
         text-anchor: middle;
       }
+    }
+    &:not(.details) + .tooltip.visible {
+      opacity: 1;
+      pointer-events: all;
     }
   }
 }
