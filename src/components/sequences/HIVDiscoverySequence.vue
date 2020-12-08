@@ -1,10 +1,14 @@
 <template>
-  <article class="seropositivity-data" :class="currentState" @click="tmpClick">
+  <article :style="{transform: transformProprety }" v-on:wheel="onWheel" class="seropositivity-data" :class="currentState" @click="tmpClick">
+    <h1>Nombre de séropositifs, </br> en France</h1>
     <HIVDiscoveryDataviz
-      :width="800"
-      :height="600"
+      :width="1000"
+      :height="400"
       :data-source="currentDataSource"
       :user-estimation="userEstimation"
+      :viewMode="viewMode"
+      @update-view-mode="updateViewMode"
+
     />
   </article>
 </template>
@@ -22,7 +26,10 @@ export default {
     number:1000,
     dataSource: [],
     viewMode: 1,
-    userEstimation: 4000
+    userEstimation: 4000,
+    displayNextSlide: false,
+    scrollFactor: 10,
+    translateY: 0
   }),
   props: {
     currentState: {
@@ -34,6 +41,21 @@ export default {
     this.getDataSource()
   },
   methods: {
+    onWheel (e) {
+      const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
+      const scrollLimit = this.$el.offsetHeight - vh
+
+      const canGoUp = e.deltaY < 0 && this.translateY < 0
+      const canGoDown = e.deltaY > 0 && this.translateY > -scrollLimit
+      console.log(e.deltaY)
+      console.log(this.translateY)
+      if (canGoUp || canGoDown) {
+        this.translateY -= e.deltaY * this.scrollFactor
+      } else if (e.deltaY > 0 && this.translateY <= -scrollLimit && !this.displayNextSlide) {
+        this.$emit('next-slide')
+        this.displayNextSlide = true;
+      } 
+    },
     async getDataSource () {
       this.dataSource = await csv('datas/hivDiscovery.csv', data => {
         data.total = +data.total
@@ -48,9 +70,17 @@ export default {
     },
     tmpClick () {
       this.dataSource[0].value = 10000
+    },
+    updateViewMode(viewMode) {
+      this.viewMode = viewMode;
     }
   },
   computed: {
+    transformProprety () {
+      return this.currentState ===  'past'
+          ? 'translate3d(0, -100%, 0)'
+          : 'translate3d(0, ' + this.translateY + 'px ,0)'
+    },
     currentDataSource () {
       let cols = ['year', 'total']
       let excludedCols = ['men', 'women', 'hsh', 'hetero', 'drug', 'other']
@@ -95,9 +125,17 @@ export default {
   opacity:0;
   visibility: hidden;
   transition-delay: .5s;
+  margin: auto;
+  padding: 4% 10%;
+
+  h1 {
+    color: $themeRed;
+    font-size: $titleSize;
+    text-align: left;
+    font-family: $titleFont;
+  }
 
   &.current {
-    display: flex;
     position: fixed;
     opacity:1;
     visibility: visible;
