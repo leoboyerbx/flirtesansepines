@@ -39,6 +39,7 @@ export default {
   name: 'IntroductionSequence',
   data: () => ({
     translateY: 0,
+    displayNextSlide: false,
     scrollFactor: 10
   }),
   props: {
@@ -63,8 +64,10 @@ export default {
       const canGoDown = e.deltaY > 0 && this.translateY > -scrollLimit
       if (canGoUp || canGoDown) {
         this.translateY -= e.deltaY * this.scrollFactor
-      } else if (e.deltaY > 0 && this.translateY <= -scrollLimit) {
+      } else if (e.deltaY > 0 && this.translateY <= -scrollLimit && !this.displayNextSlide) {
         this.$emit('next-slide')
+        this.displayNextSlide = true;
+
       }
     }
   }

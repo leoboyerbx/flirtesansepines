@@ -87,18 +87,20 @@ export default {
 <style scoped lang="scss">
 
 .seropositivity-data {
-  display:none;
-  position: fixed;
   top: 0;
   left: 0;
-  width:100%;
-  height: 100%;
-  background-color: $backgroundColor;
-  justify-content: center;
-  align-items: center;
+  width: 100%;
+  min-height: 100%;
+  transition: all .5s;
+  opacity:0;
+  visibility: hidden;
+  transition-delay: .5s;
 
   &.current {
     display: flex;
+    position: fixed;
+    opacity:1;
+    visibility: visible;
   }
 }
 

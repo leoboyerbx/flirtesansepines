@@ -1,16 +1,21 @@
 <template>
   <section ref="slides" class="slides">
     <IntroductionSequence :current-state="stateOfSlide(0)" @next-slide="nextSlide" @prev-slide="prevSlide"/>
+    <HIVDiscoverySequence :current-state="stateOfSlide(1)" @next-slide="nextSlide" @prev-slide="prevSlide"/>
+
   </section>
 </template>
 
 <script>
 import IntroductionSequence from "@/components/sequences/IntroductionSequence";
+import HIVDiscoverySequence from "@/components/sequences/HIVDiscoverySequence";
+
 
 export default {
   name: 'MainLayout',
   components: {
-    IntroductionSequence
+    IntroductionSequence,
+    HIVDiscoverySequence
   },
   data: () => ({
     currentSlide: 0,
@@ -47,6 +52,8 @@ export default {
     nextSlide () {
       if (this.currentSlide + 1 < this.numberOfSlides) {
         this.currentSlide++
+        console.log(this.currentSlide)
+
       }
     },
     keyUp (e) {
