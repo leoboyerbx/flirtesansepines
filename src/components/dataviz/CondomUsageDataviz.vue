@@ -1,5 +1,5 @@
 <template>
-  <div class="condom-usage-dataviz-container">
+  <div class="condom-usage-dataviz-container" >
     <h1>Utilisation du préservatif</h1>
     <svg class="condom-usage-dataviz" :width="width" :height="height" :class="{ details }">
     </svg>
@@ -84,8 +84,9 @@ export default {
                 .attr("transform",  "translate(" + this.width / 2 + "," + this.height / 2 + ") rotate(" + rotate + ")")
                 .duration(1000);
               this.details = true
-
               this.$emit('detail-index-change', d.index)
+              this.$emit('detail-display')
+              
           })
           .on('mouseover', (e, d) => {
             this.tooltipVisible = true;
@@ -119,10 +120,7 @@ export default {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  background-color:$themeRed;
-  width: 100vw;
-  height: 100vh;
-  padding: 3% 0;
+ 
   .tooltip {
     background-color: white;
     width: 300px;

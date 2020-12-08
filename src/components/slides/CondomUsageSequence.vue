@@ -4,7 +4,9 @@
           :dataSource="globalCondomUsageDataSource"
           :width="500"
           :height="500"
+          :detailsDisplay="detailsDisplay"
           @detail-index-change="updateDetailsIndex"
+          @detail-display="displayDetails"
          />
         <DetailsCondomUsageDataviz
           :dataSource="currentDetailsDataSource"
@@ -41,7 +43,8 @@ export default {
     condomUsageDataSource: [],
     noCondomUsageDataSource: [],
     sometimesNoCondomUsageDataSource: [],
-    currentDetailsIndex: 0 
+    currentDetailsIndex: 0,
+    detailsDisplay: false
   }),
   async created() {
     this.getDataSource()
@@ -68,8 +71,10 @@ export default {
       this.globalCondomUsageDataSource = await json('datas/condomUsage.json')
     },
     updateDetailsIndex (index) {
-      console.log(index)
       this.currentDetailsIndex = index
+    },
+    displayDetails() {
+      this.detailsDisplay = true
     }
   }
 }
@@ -79,13 +84,13 @@ export default {
 <style scoped lang="scss">
 
 .condom-usage {
+  background-color:$themeRed;
+  width: 100vw;
+  height: 100vh;
+  padding: 3% 0;
   display:none;
   top: 0;
   left: 0;
-  width:100%;
-  height: 100%;
-  background-color: $backgroundColor;
-
   &.current {
     position: fixed;
     display: flex;

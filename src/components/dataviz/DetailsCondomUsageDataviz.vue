@@ -1,5 +1,5 @@
 <template>
-  <div class="detailsCondomUsageDataviz">
+  <div class="detailsCondomUsageDataviz" :class="{ detailsDisplay: detailsDisplay }">
     <svg id="detail-condom-usage-dataviz"  :width="width" :height="height" ref="svg"></svg>
   </div>
 </template>
@@ -13,7 +13,8 @@ export default {
     // taille en pixel du composant
     width: { type: Number },
     height: { type: Number },
-    dataSource: { type: Array }
+    dataSource: { type: Array },
+    detailsDisplay: { type: Boolean }
   },
   data: () => ({
     svg: null,
@@ -117,7 +118,8 @@ export default {
 <style lang="scss">
 .detailsCondomUsageDataviz {
   position: relative;
-  // display:none;
+  opacity: 0;
+  display: none;
   .axis-text {
     //fill: #f00;
     font-family: $titleFont;
