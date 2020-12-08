@@ -8,7 +8,6 @@
 
 <script>
 import FlowerSlider from "@/components/sequences/partials/FlowerSlider";
-import TWEEN from '@tweenjs/tween.js'
 
 export default {
   name: "HIVEstimation",
