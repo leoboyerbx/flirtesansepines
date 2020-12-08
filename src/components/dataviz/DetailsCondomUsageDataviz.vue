@@ -47,7 +47,7 @@ export default {
       return d3.axisLeft(this.yScale)
     },
     transition () {
-      this.svg.transition().duration(750)
+      return this.svg.transition().duration(750)
     }
   },
   mounted() {
@@ -107,7 +107,7 @@ export default {
             .call(update => update.transition(this.transition)
               .attr('width', d => this.xScale(d.value)))
         )
-        
+
       this.updateAxis()
     },
   }

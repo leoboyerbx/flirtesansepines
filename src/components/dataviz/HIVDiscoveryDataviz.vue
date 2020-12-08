@@ -23,6 +23,7 @@ export default {
     height: { type: Number },
 
     dataSource: { type: Array },
+    userEstimation: Number
   },
   data: () => ({
     svg: null,
@@ -121,6 +122,7 @@ export default {
       // console.log(this.area([
       //     [0, 0]
       // ]))
+      console.log(this.dataSource)
         this.svg.select("g.areas")
           .selectAll("path")
           .data(this.series)
