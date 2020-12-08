@@ -72,6 +72,9 @@ export default {
     },
     transition () {
       return d3.transition().duration(1000)
+    },
+    bisect () {
+      return d3.bisector(d =>  d.year).left
     }
   },
   mounted() {
@@ -136,7 +139,12 @@ export default {
           .join(enter => enter.append('path')
                   // .transition().duration(1000)
                   .attr("fill", ({key}) => this.color(key))
-                  .attr("d", this.area),
+                  .attr("d", this.area)
+                  .on('mousemove', (e) => {
+                    const x0 = this.xScale.invert(d3.pointer(e)[0]);
+                    var i = this.bisect(this.dataSource, x0, 1);
+                    console.log(this.dataSource[i])
+                  }),
               update => update.call(update => update.transition().duration(1000).attr('d', this.area))
           )
       this.svg.select('rect.userEstimation').attr('y', this.yScale(this.userEstimation))

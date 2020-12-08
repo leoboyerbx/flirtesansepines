@@ -2,7 +2,7 @@
   <article class="seropositivity-data" :class="currentState" @click="tmpClick">
     <HIVDiscoveryDataviz
       :width="800"
-      :height="400"
+      :height="600"
       :data-source="currentDataSource"
       :user-estimation="userEstimation"
     />
