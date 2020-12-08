@@ -4,13 +4,14 @@
           :dataSource="globalCondomUsageDataSource"
           :width="500"
           :height="500"
-          :detailsDisplay="detailsDisplay"
           @detail-index-change="updateDetailsIndex"
           @detail-display="displayDetails"
+
          />
         <DetailsCondomUsageDataviz
           :dataSource="currentDetailsDataSource"
-          :width="800"
+          :detailsDisplay="detailsDisplay"
+          :width="700"
           :height="400"
         />
   </article>
@@ -51,6 +52,7 @@ export default {
   },
   computed: {
     currentDetailsDataSource () {
+      if (!this.detailsDisplay) return []
       let data = this.sometimesNoCondomUsageDataSource
       switch (this.currentDetailsIndex) {
         case 1:
@@ -94,10 +96,13 @@ export default {
   &.current {
     position: fixed;
     display: flex;
+    position: relative;
     justify-content: center;
     width: 100vw;
+    overflow:hidden;
     height: 100vh;
     align-items: center;
+
   }
 
 
