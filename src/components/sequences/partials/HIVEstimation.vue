@@ -39,12 +39,12 @@ export default {
     margin: 0;
   }
   .number {
-    padding: 0 10px;
+    padding: 0 10%;
     font-weight: bold;
     color: $themeRed;
     font-size: 20rem;
     text-align: right;
-    line-height: 20rem;
+    //line-height: 23rem;
   }
 }
 </style>

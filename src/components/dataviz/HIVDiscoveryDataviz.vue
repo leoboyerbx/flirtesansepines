@@ -71,8 +71,8 @@ export default {
     },
     xScale () {
       return d3.scaleLinear()
-          .domain(d3.extent(this.dataSource, d => d.year.toString()))
           .range([ 0, this.dataWidth ])
+          .domain(d3.extent(this.dataSource, d => d.year))
     },
     yScale () {
       return d3.scaleLinear()

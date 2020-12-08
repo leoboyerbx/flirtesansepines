@@ -34,7 +34,7 @@ export default {
   },
   data: () => ({
     translateY: 0,
-    scrollFactor: 10,
+    scrollFactor: 12,
     lottieFactor: 1,
     lottiePlaying: false,
     isScrollAnimating: false,
@@ -142,7 +142,7 @@ export default {
   left: 0;
   width: 100%;
   min-height: 100%;
-  transition: all .8s ease;
+  transition: all .6s ease;
 
   .lottie-wrapper {
     width: 100%;

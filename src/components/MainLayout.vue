@@ -2,7 +2,6 @@
   <section ref="slides" class="slides">
     <IntroductionSequence :current-state="stateOfSlide(0)" @next-slide="nextSlide" @prev-slide="prevSlide"/>
     <HIVDiscoverySequence :current-state="stateOfSlide(1)" @next-slide="nextSlide" @prev-slide="prevSlide"/>
-
   </section>
 </template>
 
