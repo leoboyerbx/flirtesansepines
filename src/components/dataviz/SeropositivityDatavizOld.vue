@@ -16,7 +16,7 @@
 import * as d3 from 'd3'
 
 export default {
-  name: "SeropositivityDataviz",
+  name: "SeropositivityDatavizOld",
   props: {
     // taille en pixel du composant
     width: { type: Number },
@@ -36,14 +36,6 @@ export default {
     },
     dataHeight() {
       return this.height - this.margin.top - this.margin.bottom
-    },
-    series () {
-      const stack = d3.stack()
-          .keys(this.keys)
-          .order(d3.stackOrderNone)
-          .offset(d3.stackOffsetNone)
-
-      return stack(this.dataSource)
     },
     colors () { return this.$globals.dataColors },
     xScale () {
@@ -65,8 +57,11 @@ export default {
       this.initSvg();
   },
   watch: {
-    dataSource () {
-      this.updateSvg()
+    dataSource: {
+      deep: true,
+      handler() {
+        this.updateSvg()
+      }
     }
   },
   methods: {
@@ -85,7 +80,8 @@ export default {
       this.styleXAxis(axis)
     },
     updateAxis () {
-      this.styleXAxis(this.svg.selectAll('g.x.axis').call(this.xAxis))
+      const axis = this.svg.selectAll('g.x.axis').call(this.xAxis)
+      this.styleXAxis(axis)
     },
     styleXAxis (axis) {
       // axis.selectAll("text")
@@ -102,11 +98,6 @@ export default {
         .attr("height", d => this.dataHeight - this.yScale(d.value))
 
       this.updateAxis()
-      // this.svg.selectAll("text")
-      //     .data(this.dataSource)
-      //     .join("text")
-      //     .attr("x", (d, i) => i * 16)
-      //     .text(d => d);
     },
   }
 }

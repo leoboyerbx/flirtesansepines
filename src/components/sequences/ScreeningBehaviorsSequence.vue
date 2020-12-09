@@ -25,7 +25,7 @@ export default {
   data: () => ({
     dataSource: []
   }),
-  async created() {
+  created() {
     this.getDataSource()
   },
   methods: {

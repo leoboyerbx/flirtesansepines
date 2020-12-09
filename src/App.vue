@@ -28,6 +28,8 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
+  font-size: 10px;
+  overflow: hidden;
 }
 #app {
   margin: 0;

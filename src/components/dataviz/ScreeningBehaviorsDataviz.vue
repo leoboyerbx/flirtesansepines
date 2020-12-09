@@ -108,7 +108,6 @@ export default {
     },
 
     renderSvg () {
-      console.log('rendering svg')
       const {x, y} = this.scaleBands
       const series= this.series
       const groups = this.svg.selectAll("g.groupe")

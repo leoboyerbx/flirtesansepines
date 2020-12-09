@@ -1,0 +1,13 @@
+[{
+    "name": "Oui",
+    "value": 41.2,
+    "tooltip": "Des personnes interogées assurent utiliser le préservatif à chaque rapport sexuel"
+}, {
+    "name": "Non",
+    "value": 17.1,
+    "tooltip": "Des personnes interogées n'utilisent pas le préservatif pour leur rapport sexuel"
+}, {
+    "name": "Ayant déjà eu des rapports non protégés",
+    "value": 41.7,
+    "tooltip": "Des personnes interogée n'utilisent pas sytèmatiquement le préservatif"
+}]
