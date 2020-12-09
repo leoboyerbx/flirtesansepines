@@ -67,7 +67,10 @@ export default {
           .range([this.dataHeight, 0])
     },
     xAxis() {
-      return d3.axisBottom(this.xScale).ticks(this.dataWidth / 80).tickSizeOuter(0)
+      return d3.axisBottom(this.xScale)
+          .tickFormat(x => x.toString())
+          // .ticks(this.dataWidth / 80)
+          // .tickSizeOuter(0)
     },
     yAxis() {
       return d3.axisLeft(this.yScale).tickSize(-this.dataWidth)

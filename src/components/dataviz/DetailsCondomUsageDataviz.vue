@@ -143,8 +143,8 @@ export default {
 <style lang="scss">
 .detailsCondomUsageDataviz {
   position: absolute;
-  left: 32%;
-  top: 28%;
+  left: 35%;
+  top: 20%;
   opacity: 0;
   visibility: hidden;
   transition: all ease-in-out 0.2s;

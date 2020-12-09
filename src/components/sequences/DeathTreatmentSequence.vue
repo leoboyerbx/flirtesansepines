@@ -1,15 +1,15 @@
 <template>
   <article class="death-treatment" :class="currentState">
-    <h1>Mise en regard du traitement et de la mortalité du VIH</h1>
     <DeathTreatmentDataviz
-      :width="800"
+      :width="900"
       :height="400"
+      :treatment-data-source="treatmentDataSource"
     />
   </article>
 </template>
 
 <script>
-import { csv } from 'd3'
+import { json } from 'd3'
 import DeathTreatmentDataviz from "@/components/dataviz/DeathTreatmentDataviz";
 
 export default {
@@ -20,15 +20,47 @@ export default {
       type: String,
       default: 'future'
     }
+  },
+  data: () => ({
+    treatmentDataSource: [],
+    deathsDataSource: [],
+  }),
+  created () {
+    this.getTreatmentDataSource()
+    this.getDeathDataSource()
+  },
+  methods: {
+    async getTreatmentDataSource () {
+      const treatmentApiData = await json("https://cors-anywhere.herokuapp.com/https://ghoapi.azureedge.net/api/HIV_0000000009?$filter=SpatialDim eq 'FRA'")
+      // console.log('data source: ')
+      this.treatmentDataSource = treatmentApiData.value.map(data => {
+        const year = data.TimeDim
+        const value = data.NumericValue
+        return { year, value }
+      })
+      console.log('trat data received')
+    },
+    async getDeathDataSource () {
+      const deathsApiData = await json("https://cors-anywhere.herokuapp.com/https://ghoapi.azureedge.net/api/HIV_0000000006?$filter=SpatialDim eq 'FRA'")
+      // console.log('data source: ')
+      this.deathsDataSource = deathsApiData.value.map(data => {
+        const parsedData = data.Value.replace(/</g, '').split(/\[|\]| |–/)
+        const year = data.TimeDim
+        return {
+          year,
+          value: +parsedData[0],
+          minValue: +parsedData[2],
+          maxValue: +parsedData[3]
+        }
+      })
+      console.log('death data received')
+    }
   }
 }
 </script>
 
 <style scoped lang="scss">
-//@import '@/assets/scss/globals.scss';
-
 .death-treatment {
-  display: none;
   position: fixed;
   top: 0;
   left: 0;
@@ -36,9 +68,6 @@ export default {
   height: 100%;
   background-color: $backgroundColor;
   margin: auto;
-  &.current {
-    display: block;
-  }
 
   h1 {
       font-family: $titleFont;

@@ -1,26 +1,107 @@
 <template>
-  <article id="death-treatment-dataviz" :class="currentState">
-    <div id="chart"></div>
-  </article>
+  <div class="death-treatment-dataviz">
+    <svg :width="width" :height="height" ref="svg"></svg>
+  </div>
 </template>
 
 <script>
 import * as d3 from 'd3';
+
 export default {
-  watch: {
-  },
   name: 'DeathTreatmentDataviz',
   props: {
-    currentState: {
-      type: String,
-      default: 'future'
+    width: { type: Number },
+    height: { type: Number },
+
+    treatmentDataSource: { type: Array },
+  },
+  data: () => ({
+    svg: null,
+    margin: {top: 20, right: 200, bottom: 60, left: 100},
+    bandSpacing: 30,
+    tooltipVisible: false
+  }),
+  watch: {
+    treatmentDataSource: {
+      // deep: true,
+      handler() {
+        this.updateSvg()
+      }
+    }
+  },
+  computed: {
+    dataWidth () {
+      return this.width - this.margin.left - this.margin.right
+    },
+    dataHeight() {
+      return this.height - this.margin.top - this.margin.bottom
+    },
+    colors () { return this.$globals.dataColors },
+    xScale () {
+      return d3.scaleLinear()
+          .domain(d3.extent(this.treatmentDataSource, d => d.year))
+          .range([0, this.dataWidth])
+    },
+    treatmentYScale () {
+      return d3.scaleLinear()
+          .range([this.dataHeight, 0])
+          .domain([0, d3.max(this.treatmentDataSource, d => d.value)])
+    },
+    xAxis() {
+      return d3.axisBottom(this.xScale)
+          .tickFormat(x => x.toString())
     }
   },
   mounted() {
-    this.generateLineChart();
+    this.initSvg();
   },
   methods: {
-    generateLineChart(){
+    initSvg() {
+      this.svg = d3.select(this.$refs.svg).attr("id", "svg")
+          .append("g")
+          .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")")
+      this.initAxis()
+      this.updateSvg()
+    },
+    initAxis () {
+      const axis = this.svg.append("g")
+          .attr("class", "x axis")
+          .attr("transform", "translate(0," + this.dataHeight + ")")
+          .call(this.xAxis)
+      this.styleXAxis(axis)
+    },
+    updateAxis () {
+      const axis = this.svg.selectAll('g.x.axis').call(this.xAxis)
+      this.styleXAxis(axis)
+    },
+    styleXAxis (axis) {
+      // axis.selectAll("text")
+      //     .style("fill", "#f00")
+    },
+    updateSvg () {
+      console.log(this.treatmentDataSource)
+      // this.svg.selectAll('rect')
+      //     .data(this.treatmentDataSource)
+      //     .join('rect')
+      //     .style('fill', this.$globals.dataColors[1])
+      //     .attr('x', d => this.xScale(d.year))
+      //     .attr('width', 10)
+      //     .attr("y", d =>  this.treatmentYScale(d.value))
+      //     .attr("height", d => this.dataHeight - this.treatmentYScale(d.value))
+
+      this.svg.append("path")
+          .datum(this.treatmentDataSource)
+          .attr("fill", "none")
+          .attr("stroke", "steelblue")
+          .attr("stroke-width", 1.5)
+          .attr("d", d3.line()
+              .x((d) => this.xScale(d.year))
+              .y((d) => this.treatmentYScale(d.value))
+          )
+
+      this.updateAxis()
+    },
+    generateLineChart (){
 
       const margin = {top: 20, right: 30, bottom: 30, left: 60},
             width = 500,
@@ -114,14 +195,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+.death-treatment-dataviz {
 
-#death-treatment-dataviz{
-  
-
-  #chart {
-    display:flex;
-    justify-content: center;
-  }
 }
 
 </style>

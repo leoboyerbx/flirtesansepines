@@ -112,13 +112,11 @@ export default {
 
 
 .condom-usage-dataviz-container {
-  
+
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-
-<<<<<<< HEAD
   .legend {
     display: flex;
     flex-direction:column;
@@ -136,9 +134,6 @@ export default {
       }
     }
   }
-=======
-
->>>>>>> 14ee7a8f3ea352477aa5de204dc28b161ea1fd67
   .tooltip {
     background-color: white;
     width: 300px;

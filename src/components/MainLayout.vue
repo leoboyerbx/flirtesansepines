@@ -18,22 +18,35 @@
         @prev-slide="prevSlide"
         @finished-enter="endedTransition"
     />
-
-    <DeathNoticeSequence
+    <ScreeningBehaviorsSequence
         :current-state="stateOfSlide(3)"
         @next-slide="nextSlide"
-        @prev-slide="prevSlide"/>
+        @prev-slide="prevSlide"
+        @finished-enter="endedTransition"
+    />
 
+    <DeathNoticeSequence
+        :current-state="stateOfSlide(4)"
+        @next-slide="nextSlide"
+        @prev-slide="prevSlide"
+    />
+
+    <DeathTreatmentSequence
+        :current-state="stateOfSlide(5)"
+        @next-slide="nextSlide"
+        @prev-slide="prevSlide"
+        @finished-transition="endedTransition"
+    />
 
     <ScreeningLateSequence
-        :current-state="stateOfSlide(4)"
+        :current-state="stateOfSlide(6)"
         @next-slide="nextSlide"
         @prev-slide="prevSlide"
         @finished-transition="endedTransition"
     />
 
     <CondomUsageSequence
-        :current-state="stateOfSlide(5)"
+        :current-state="stateOfSlide(7)"
         :transition-direction="transitionDirection"
         @next-slide="nextSlide"
         @prev-slide="prevSlide"
@@ -41,14 +54,14 @@
     />
 
     <FrequenceCondonUsageSequence
-        :current-state="stateOfSlide(6)"
+        :current-state="stateOfSlide(8)"
         @next-slide="nextSlide"
         @prev-slide="prevSlide"
         @finished-transition="endedTransition"
     />
 
     <ConclusionSequence
-        :current-state="stateOfSlide(7)"
+        :current-state="stateOfSlide(9)"
         @next-slide="nextSlide"
         @prev-slide="prevSlide"/>
 
@@ -61,15 +74,18 @@ import HIVDiscoverySequence from "@/components/sequences/HIVDiscoverySequence";
 import TransitionSentenceSequence from "@/components/sequences/TransitionSentenceSequence";
 import DeathNoticeSequence from "@/components/sequences/DeathNoticeSequence";
 import ScreeningLateSequence from "@/components/sequences/ScreeningLateSequence";
-import ScreeningBehaviour from "@/components/sequences/ScreeningBehaviour";
 import CondomUsageSequence from "@/components/sequences/CondomUsageSequence";
 import FrequenceCondonUsageSequence from "@/components/sequences/FrequenceCondonUsageSequence";
 import ConclusionSequence from "@/components/sequences/ConclusionSequence";
+import ScreeningBehaviorsSequence from "@/components/sequences/ScreeningBehaviorsSequence";
+import DeathTreatmentSequence from "@/components/sequences/DeathTreatmentSequence";
 
 
 export default {
   name: 'MainLayout',
   components: {
+    DeathTreatmentSequence,
+    ScreeningBehaviorsSequence,
     IntroductionSequence,
     HIVDiscoverySequence,
     TransitionSentenceSequence,
@@ -124,10 +140,10 @@ export default {
     },
     keyUp (e) {
       if (e.key === 'ArrowRight') {
-        this.nextSlide()
+        this.nextSlide(true)
       }
       if (e.key === 'ArrowLeft') {
-        this.prevSlide()
+        this.prevSlide(true)
       }
     },
     endedTransition () {
