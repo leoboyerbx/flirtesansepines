@@ -68,8 +68,11 @@ export default {
 <style scoped lang="scss">
 .hiv-estimation {
   position: relative;
-  height: 80vh;
+  height: 95vh;
   width: 100%;
+  margin-top: -50px;
+  overflow: hidden;
+
   .question {
     color: $themeBlue3;
     font-family: $titleFont;
@@ -107,7 +110,7 @@ export default {
   .flower-slider {
     position: absolute;
     width: 40%;
-    bottom: 0;
+    bottom: -50px;
     left: 0;
   }
 }

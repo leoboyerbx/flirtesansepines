@@ -39,6 +39,7 @@ export default {
       this.anim = anim
       this.anim.goToAndStop(this.anim.getMarkerByKey('start').tm, true)
       this.flower = this.$el.querySelector('[transform="matrix(0.15000000596046448,0,0,0.15000000596046448,51.99999237060547,443.20001220703125)"]')
+      this.flower.classList.add('flower-slider-handle')
       this.flower.addEventListener('mousedown', this.mouseDown)
     },
     updateValue: function (value) {
@@ -72,8 +73,11 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
-  .flower-slider {
-    transform: translateY(50%);
+<style lang="scss">
+  //.flower-slider {
+  //  transform: translateY(50%);
+  //}
+  .flower-slider-handle {
+    cursor: pointer;
   }
 </style>
