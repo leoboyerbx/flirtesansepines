@@ -8,9 +8,10 @@
 const sequence = {
     data: () => ({
         arrivingClass: '',
-        displayStyle: 'block'
+        displayStyle: 'none'
     }),
     mounted () {
+        if (this.currentState === 'current') this.displayStyle = 'block'
         this.$el.addEventListener('transitionend', this.onTransitionEnd)
         this.$el.addEventListener('animationend', this.onAnimationEnd)
     },
@@ -29,13 +30,13 @@ const sequence = {
 
     methods: {
         onTransitionEnd() {
-            if (this.currentState === 'past' || this.currentState === 'past') {
+            if (this.currentState === 'past' || this.currentState === 'future') {
                 this.displayStyle = 'none'
             }
         },
         onAnimationEnd() {
             if (this.currentState === 'current') {
-                this.arriving = false
+                this.arrivingClass = ''
             }
         }
     }

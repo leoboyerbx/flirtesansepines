@@ -131,7 +131,7 @@ export default {
   left: 0;
   width: 100%;
   height: 100vh;
-  transition: all .6s;
+  transition: all $slideDurationEasing;
   overflow-y: scroll;
   scrollbar-width: none;
   &.past {
@@ -139,12 +139,7 @@ export default {
   }
 
   &.arriving-backward {
-    animation: arriving .6s;
-    @keyframes arriving {
-      from {
-        transform: translate3d(0, -100vh, 0);
-      }
-    }
+    animation: arriving-from-top $slideDurationEasing;
   }
   .lottie-wrapper {
     width: 100%;

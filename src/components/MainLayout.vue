@@ -8,19 +8,16 @@
 
     <HIVDiscoverySequence
         :current-state="stateOfSlide(1)"
-        :transition-direction="transitionDirection"
         @next-slide="nextSlide"
         @prev-slide="prevSlide"/>
 
     <TransitionSentenceSequence
         :current-state="stateOfSlide(2)"
-        :transition-direction="transitionDirection"
         @next-slide="nextSlide"
         @prev-slide="prevSlide"/>
 
     <ScreeningLateSequence
         :current-state="stateOfSlide(3)"
-        :transition-direction="transitionDirection"
         @next-slide="nextSlide"
         @prev-slide="prevSlide"/>
 
@@ -32,7 +29,6 @@
 
     <FrequenceCondonUsageSequence
         :current-state="stateOfSlide(5)"
-        :transition-direction="transitionDirection"
         @next-slide="nextSlide"
         @prev-slide="prevSlide"/>
 
