@@ -1,7 +1,7 @@
 <template>
   <div class="condom-usage-dataviz-container" >
     <h1>Utilisation du préservatif</h1>
-    <svg class="condom-usage-dataviz" :width="width" :height="height" :class="{ details }">
+    <svg class="condom-usage-dataviz" :width="width" :height="height" :class="{ details: detailsDisplay }">
     </svg>
     <div class="tooltip" :class="{ visible: tooltipVisible }">
       <span class="arrow"></span>
@@ -10,7 +10,10 @@
       <button class="read-more"> En savoir +</button>
     </div>
     <div class="legend">
-      <span></span>
+      <span v-for="(data, index) in dataSource" :key="index">
+        <div class="legend-square" :style="{ backgroundColor: $globals.dataColors.getColorCode(index) }"></div>
+        <p>{{data.value}}</p>
+      </span>
     </div>
   </div>
 </template>
@@ -26,8 +29,8 @@ export default {
       required: true,
     },
     width: Number,
-    height: Number
-
+    height: Number,
+    detailsDisplay : Boolean,
   },
   data: () => ({
     svg: null,
@@ -44,6 +47,7 @@ export default {
   }),
   mounted() {
     this.generatePieChart();
+    this.getDataSource();
   },
   computed: {
     color () {
@@ -83,10 +87,8 @@ export default {
               this.g.transition()
                 .attr("transform",  "translate(" + this.width / 2 + "," + this.height / 2 + ") rotate(" + rotate + ")")
                 .duration(1000);
-              this.details = true
               this.$emit('detail-index-change', d.index)
               this.$emit('detail-display')
-              
           })
           .on('mouseover', (e, d) => {
             this.tooltipVisible = true;
@@ -94,10 +96,14 @@ export default {
               percentage: (d.data.value),
               tooltip: (d.data.tooltip)
             }
-
           })
-
         pies.append('path').attr('d', this.path).attr('fill', d => this.color(d.data.value));
+    },
+    getColor (key) {
+      const index = this.dataSource.columns ? this.dataSource.columns.indexOf(key) - 1 : -1
+      if (index > -1) {
+        return this.getColorCode(index)
+      }
     }
   }
 }
@@ -113,7 +119,7 @@ export default {
       font-size: 3.5em;
       margin: 1rem 0;
       color: #ffff;
-      text-align: center;
+      text-align: left;
       width: 100%;
   }
   display: flex;

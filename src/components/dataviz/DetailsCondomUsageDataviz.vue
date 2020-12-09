@@ -142,6 +142,7 @@ export default {
 .detailsCondomUsageDataviz {
   position: absolute;
   left: 30%;
+  top: 30%;
   opacity: 0;
   width: 0;
   visibility: hidden;
