@@ -1,6 +1,6 @@
 <template>
   <article
-      v-on:wheel="onWheel"
+      v-on:wheel="onWheelChangeSlide"
       class="seropositivity-data"
       :class="[ currentState, arrivingClass ]"
       :style="{ display: displayStyle }"
@@ -76,9 +76,6 @@ export default {
     this.getDataSource()
   },
   methods: {
-    onWheel (e) {
-
-    },
     async getDataSource () {
       this.dataSource = await csv('datas/hivDiscovery.csv', data => {
         data.total = +data.total
@@ -156,10 +153,10 @@ export default {
     animation: arriving-from-bottom $slideDurationEasing;
   }
   &.past {
-    transform: translate3d(0, -100vh, 0);
+    opacity: 0;
   }
   &.arriving-backward {
-    animation: arriving-from-top $slideDurationEasing;
+    animation: fade-in $slideDurationEasing;
   }
 
   h1 {

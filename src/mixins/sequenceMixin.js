@@ -32,11 +32,22 @@ const sequence = {
         onTransitionEnd() {
             if (this.currentState === 'past' || this.currentState === 'future') {
                 this.displayStyle = 'none'
+                this.$emit('finished-exit')
+                this.$emit('finished-transition')
             }
         },
         onAnimationEnd() {
             if (this.currentState === 'current') {
                 this.arrivingClass = ''
+                this.$emit('finished-enter')
+                this.$emit('finished-transition')
+            }
+        },
+        onWheelChangeSlide (e) {
+            if (e.deltaY > 0) {
+                this.$emit('next-slide')
+            } else if (e.deltaY < 0) {
+                this.$emit('prev-slide')
             }
         }
     }
