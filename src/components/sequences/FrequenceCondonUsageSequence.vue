@@ -1,6 +1,5 @@
 <template>
   <article
-      :style="{transform: transformProprety }"
       v-on:wheel="onWheel"
       class="condom-usage-frequence"
       :class="currentState"
@@ -49,7 +48,7 @@ export default {
     }
   },
   computed: {
-    
+
   }
 }
 </script>

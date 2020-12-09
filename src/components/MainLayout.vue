@@ -1,6 +1,11 @@
 <template>
   <section ref="slides" class="slides">
-    <IntroductionSequence :current-state="stateOfSlide(0)" @next-slide="nextSlide" @prev-slide="prevSlide"/>
+    <transition name="intro">
+      <IntroductionSequence
+          v-if="currentSlide === 0"
+          @next-slide="nextSlide"
+          @prev-slide="prevSlide"/>
+    </transition>
     <HIVDiscoverySequence :current-state="stateOfSlide(1)" @next-slide="nextSlide" @prev-slide="prevSlide"/>
     <TransitionSentenceSequence :current-state="stateOfSlide(2)" @next-slide="nextSlide" @prev-slide="prevSlide"/>
     <ScreeningLateSequence :current-state="stateOfSlide(3)" @next-slide="nextSlide" @prev-slide="prevSlide"/>
@@ -81,5 +86,6 @@ export default {
 
 
 <style scoped lang="scss">
+// ====== Transitions ======
 
 </style>
