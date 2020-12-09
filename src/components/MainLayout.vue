@@ -19,21 +19,21 @@
         @finished-enter="endedTransition"
     />
 
-    <DeathNoticeSequence 
-        :current-state="stateOfSlide(3)" 
-        @next-slide="nextSlide" 
+    <DeathNoticeSequence
+        :current-state="stateOfSlide(3)"
+        @next-slide="nextSlide"
         @prev-slide="prevSlide"/>
-    
+
 
     <ScreeningLateSequence
-        :current-state="stateOfSlide(3)"
+        :current-state="stateOfSlide(4)"
         @next-slide="nextSlide"
         @prev-slide="prevSlide"
         @finished-transition="endedTransition"
     />
 
     <CondomUsageSequence
-        :current-state="stateOfSlide(4)"
+        :current-state="stateOfSlide(5)"
         :transition-direction="transitionDirection"
         @next-slide="nextSlide"
         @prev-slide="prevSlide"
@@ -41,15 +41,15 @@
     />
 
     <FrequenceCondonUsageSequence
-        :current-state="stateOfSlide(5)"
+        :current-state="stateOfSlide(6)"
         @next-slide="nextSlide"
         @prev-slide="prevSlide"
         @finished-transition="endedTransition"
     />
 
-    <ConclusionSequence 
-        :current-state="stateOfSlide(7)" 
-        @next-slide="nextSlide" 
+    <ConclusionSequence
+        :current-state="stateOfSlide(7)"
+        @next-slide="nextSlide"
         @prev-slide="prevSlide"/>
 
   </section>
