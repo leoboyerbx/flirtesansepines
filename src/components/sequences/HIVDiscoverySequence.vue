@@ -18,7 +18,7 @@
       <div class="legend">
         <div class="legend-item" v-for="(col, index) in currentDataSource.legendColumns" :key="index">
           <div class="legend-square" :style="{ backgroundColor: getColor(col) }"></div>
-          {{ col }}
+          {{ currentDataSource.legendItem[index] }}
         </div>
 
         <div class="legend-item">
@@ -104,15 +104,18 @@ export default {
     },
     currentDataSource () {
       let cols = ['year', 'total']
+      let colsLegend = ['Année', 'Total']
       let excludedCols = ['men', 'women', 'hsh', 'hetero', 'drug', 'other']
       switch (this.viewMode) {
         case 1:
           cols = ['year', 'men', 'women']
           excludedCols = ['total', 'hsh', 'hetero', 'drug', 'other']
+          colsLegend = ['Année', 'Hommes', 'Femmes']
           break;
         case 2:
           cols = ['year', 'hsh', 'hetero', 'drug', 'other']
           excludedCols = ['total', 'men', 'women']
+          colsLegend = ['Année', 'HSH', 'Hétérosexuels', 'Drogues', 'Autre']
       }
       const result = this.dataSource.map(d => {
         const res = {}
@@ -126,6 +129,7 @@ export default {
       })
       result.columns = this.dataSource.columns || []
       result.legendColumns = cols.slice(1)
+      result.legendItem = colsLegend.slice(1)
       return result
     },
     total: function () {

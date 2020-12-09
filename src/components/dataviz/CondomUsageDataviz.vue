@@ -122,11 +122,16 @@ export default {
     flex-direction:column;
     width: 100%;
     color: #fff;
-    font-family: $titleFont;
+    font-family: $paragraphFont;
     font-size: 0.8rem;
     .legend-item {
       display: flex;
       align-items: center;
+      font-size: $paragraphSize;
+      margin: 5px 0;
+      p {
+        margin:0;
+      }
       .legend-square {
         width: 30px;
         height: 30px;

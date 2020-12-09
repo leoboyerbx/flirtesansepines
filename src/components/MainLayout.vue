@@ -25,6 +25,7 @@
         @finished-enter="endedTransition"
     />
 
+
     <DeathNoticeSequence
         :current-state="stateOfSlide(4)"
         @next-slide="nextSlide"
@@ -37,16 +38,21 @@
         @prev-slide="prevSlide"
         @finished-transition="endedTransition"
     />
+    <DeathNoticeSequence
+        :current-state="stateOfSlide(4)"
+        @next-slide="nextSlide"
+        @prev-slide="prevSlide"/>
+
 
     <ScreeningLateSequence
-        :current-state="stateOfSlide(6)"
+        :current-state="stateOfSlide(5)"
         @next-slide="nextSlide"
         @prev-slide="prevSlide"
         @finished-transition="endedTransition"
     />
 
     <CondomUsageSequence
-        :current-state="stateOfSlide(7)"
+        :current-state="stateOfSlide(6)"
         :transition-direction="transitionDirection"
         @next-slide="nextSlide"
         @prev-slide="prevSlide"
@@ -54,17 +60,18 @@
     />
 
     <FrequenceCondonUsageSequence
-        :current-state="stateOfSlide(8)"
+        :current-state="stateOfSlide(7)"
         @next-slide="nextSlide"
         @prev-slide="prevSlide"
         @finished-transition="endedTransition"
     />
-
     <ConclusionSequence
         :current-state="stateOfSlide(9)"
+
+    <ConclusionSequence
+        :current-state="stateOfSlide(8)"
         @next-slide="nextSlide"
         @prev-slide="prevSlide"/>
-
   </section>
 </template>
 
@@ -74,12 +81,11 @@ import HIVDiscoverySequence from "@/components/sequences/HIVDiscoverySequence";
 import TransitionSentenceSequence from "@/components/sequences/TransitionSentenceSequence";
 import DeathNoticeSequence from "@/components/sequences/DeathNoticeSequence";
 import ScreeningLateSequence from "@/components/sequences/ScreeningLateSequence";
+import DeathTreatmentSequence from "@/components/sequences/DeathTreatmentSequence";
+import ScreeningBehaviorsSequence from "@/components/sequences/ScreeningBehaviorsSequence";
 import CondomUsageSequence from "@/components/sequences/CondomUsageSequence";
 import FrequenceCondonUsageSequence from "@/components/sequences/FrequenceCondonUsageSequence";
 import ConclusionSequence from "@/components/sequences/ConclusionSequence";
-import ScreeningBehaviorsSequence from "@/components/sequences/ScreeningBehaviorsSequence";
-import DeathTreatmentSequence from "@/components/sequences/DeathTreatmentSequence";
-
 
 export default {
   name: 'MainLayout',
