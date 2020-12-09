@@ -2,7 +2,8 @@
   <article
       v-on:wheel="onWheel"
       class="screening-late"
-      :class="currentState"
+      :class="[ currentState, arrivingClass ]"
+      :style="{ display: displayStyle }"
   >
     <h1>Sur 100 personnes séropositives...</h1>
     <ScreeningLateDataviz
@@ -12,11 +13,7 @@
 </template>
 
 <script>
-import * as d3 from 'd3'
-import {csv} from 'd3'
-
 import ScreeningLateDataviz from "@/components/dataviz/ScreeningLateDataviz";
-
 
 export default {
   name: 'ScreeningLateSequence',
