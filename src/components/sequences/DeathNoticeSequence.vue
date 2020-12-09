@@ -1,25 +1,21 @@
 <template>
   <article class="conclusion" :class="currentState">
-      <h1>Vos réponses</h1>
-      <div class="user-response">
-        <div>
-          <p>Selon toi, {{userEstimationFirst}} personnes ont été détectées séropositives en 2019.</p>
+      <h1>Penses-tu que l'on meurt encore du VIH?</h1>
+        <div @click="booleanUser = true">
+            <p> Oui</p>
         </div>
-        <div>
-          <p>
-
-          </p>
+        <div @click="booleanUser = false">
+            <p>Non</p>
         </div>
-        <div></div>
-      </div>      
+      
   </article>
 </template>
 
 <script>
 export default {
-  name: 'ConclusionSequence',
+  name: 'DeathNoticeSequence',
   data: () => ({
-    msg: "Malgré les idées reçues, le VIH est toujours très présent en France et on en guérit pas ! Le seul moyen de bloquer sa progression est d’utiliser le préservatif et de se faire dépister.",
+    booleanUser:true
   }),
   props: {
     currentState: {
@@ -27,20 +23,16 @@ export default {
       default: 'future'
     },
   },
+  watch: {
+    booleanUser (newVal) {
+      this.$store.commit('updateEstimatonFirst', this.booleanUser)
+    }
+  },
   computed: {
-    userEstimationFirst () {
-      return this.$store.state.hivEstimation
-    },
-    /*userEstimationSecond () {
-      return this.$store.state.hivEstimation
-    },
-    userEstimationThird () {
-      return this.$store.state.hivEstimation
-    }*/
+
 
   },
   methods: {
-    
   }
   
   
@@ -82,17 +74,7 @@ export default {
       max-width: 60%;
     }
 
-    img {
-      width: 30%;
-      margin: 0 auto;
-    }
-
-    p {
-      margin: auto;
-      text-align: center;
-      font-size: 2rem;
-
-    }
+  
 
 
   

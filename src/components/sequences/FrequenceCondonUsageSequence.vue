@@ -1,10 +1,21 @@
 <template>
   <article
-      :style="{transform: transformProprety }"
       v-on:wheel="onWheel"
       class="condom-usage-frequence"
       :class="currentState"
   >
+  <div class="steps">
+    <div>Oui<span></span></div>
+    <div>Parfois<span></span></div>
+    <div>Non<span></span></div>
+  </div>
+  <Condom />
+  <div>
+    <h1>Fais glisser le préservatif ! </h1>
+    <p>Utilisez vous le préservatif à chaque rapport sexuel? Jamais? Ca dépend des fois?</p>
+  </div>
+  
+
   </article>
 </template>
 
@@ -12,12 +23,12 @@
 import * as d3 from 'd3'
 import {csv} from 'd3'
 
-import ScreeningLateDataviz from "@/components/dataviz/ScreeningLateDataviz";
+import Condom from "@/components/sequences/partials/Condom";
 
 
 export default {
-  name: 'ScreeningLateSequence',
-  components: {ScreeningLateDataviz},
+  name: 'FrequenceCondonUsageSequence',
+  components: {Condom},
   data: () => ({
     viewMode: 0,
     displayNextSlide: false,
@@ -73,7 +84,7 @@ export default {
     position: fixed;
     opacity:1;
     visibility: visible;
-    background: red;
+    background: $themeBlue3;
   }
 
   h1 {
