@@ -2,8 +2,9 @@
   <article class="death-treatment" :class="currentState">
     <DeathTreatmentDataviz
       :width="900"
-      :height="400"
+      :height="500"
       :treatment-data-source="treatmentDataSource"
+      :death-data-source="deathDataSource"
     />
   </article>
 </template>
@@ -23,7 +24,7 @@ export default {
   },
   data: () => ({
     treatmentDataSource: [],
-    deathsDataSource: [],
+    deathDataSource: [],
   }),
   created () {
     this.getTreatmentDataSource()
@@ -35,7 +36,7 @@ export default {
       // console.log('data source: ')
       this.treatmentDataSource = treatmentApiData.value.map(data => {
         const year = data.TimeDim
-        const value = data.NumericValue
+        const value = +data.NumericValue
         return { year, value }
       })
       console.log('trat data received')
@@ -43,14 +44,20 @@ export default {
     async getDeathDataSource () {
       const deathsApiData = await json("https://cors-anywhere.herokuapp.com/https://ghoapi.azureedge.net/api/HIV_0000000006?$filter=SpatialDim eq 'FRA'")
       // console.log('data source: ')
-      this.deathsDataSource = deathsApiData.value.map(data => {
+      this.deathDataSource = deathsApiData.value.map(data => {
         const parsedData = data.Value.replace(/</g, '').split(/\[|\]| |–/)
+
+        const minValue = +parsedData[2]
+        const maxValue = +parsedData[3]
+        const value = data.NumericValue || (minValue + maxValue) / 2
+        console.log(value)
+
         const year = data.TimeDim
         return {
           year,
-          value: +parsedData[0],
-          minValue: +parsedData[2],
-          maxValue: +parsedData[3]
+          value,
+          minValue,
+          maxValue
         }
       })
       console.log('death data received')
