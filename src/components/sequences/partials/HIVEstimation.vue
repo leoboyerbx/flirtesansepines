@@ -85,6 +85,7 @@ export default {
     color: $themeRed;
     font-size: 20rem;
     text-align: right;
+    line-height: 20rem;
     //line-height: 23rem;
   }
   .confirm {

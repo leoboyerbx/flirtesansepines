@@ -9,7 +9,7 @@
     <section class="diag">
       <HIVDiscoveryDataviz
         :width="900"
-        :height="500"
+        :height="380"
         :data-source="currentDataSource"
         :user-estimation="userEstimation"
         :viewMode="viewMode"
