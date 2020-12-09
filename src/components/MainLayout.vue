@@ -17,6 +17,7 @@ import HIVDiscoverySequence from "@/components/sequences/HIVDiscoverySequence";
 import TransitionSentenceSequence from "@/components/sequences/TransitionSentenceSequence";
 import DeathNoticeSequence from "@/components/sequences/DeathNoticeSequence";
 import ScreeningLateSequence from "@/components/sequences/ScreeningLateSequence";
+import ScreeningBehaviour from "@/components/sequences/ScreeningBehaviour";
 import CondomUsageSequence from "@/components/sequences/CondomUsageSequence";
 import FrequenceCondonUsageSequence from "@/components/sequences/FrequenceCondonUsageSequence";
 import ConclusionSequence from "@/components/sequences/ConclusionSequence";

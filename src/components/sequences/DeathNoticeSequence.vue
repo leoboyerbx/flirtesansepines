@@ -25,7 +25,7 @@ export default {
   },
   watch: {
     booleanUser (newVal) {
-      this.$store.commit('updateEstimatonFirst', this.booleanUser)
+      this.$store.commit('updateDeathUserData', newVal)
     }
   },
   computed: {

@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     onConfirm () {
-      
+      this.$emit('confirm')
     }
     // onChange () {
     //   this.tween((this.number * 10000).toFixed, 0)
