@@ -9,21 +9,6 @@
     <!--    >-->
     <!--      {{ tooltipKey }}: {{ tooltipValues.percentage }}%-->
     <!--    </div>-->
-    <div class="filters">
-      <label for="all">Tout<br>
-        <input v-on:click="updateViewMode(0)"  type="radio" id="all" name="detail" value="0">
-        <span class="checkmark"></span>
-      </label>
-      <label for="man/woman">Classement par sexe<br>
-        <input v-on:click="updateViewMode(1)" type="radio" id="man/woman" name="detail" value="1">
-        <span class="checkmark"></span>
-
-      </label>
-      <label for="transmissionMode">Classement par mode de transmission
-        <input v-on:click="updateViewMode(2)" type="radio" id="transmissionMode" name="detail" value="2">
-        <span class="checkmark"></span>
-      </label>
-    </div>
   </div>
 </template>
 
@@ -42,7 +27,7 @@ export default {
   },
   data: () => ({
     svg: null,
-    margin: { top: 20, right: 20, bottom: 60, left: 40 },
+    margin: { top: 20, right: 0, bottom: 0, left: 40 },
     bandSpacing: 30,
     tooltipVisible: false
   }),
@@ -120,58 +105,58 @@ export default {
           .attr('width', this.dataWidth)
       this.initAxis()
       this.updateSvg()
-      this.initLegend()
+      // this.initLegend()
     },
-    initLegend () {
-      // add legend
-      var legend = this.svg.append("g")
-      .attr("class", "legend")
-      //.attr("x", 500)
-      //.attr("y", 50)
-      .attr("height", 100)
-      .attr("width", 100)
-      .attr('transform', 'translate(-70,80)');
-
-      console.log(this.viewMode)
-
-      var legendItem =	[ ["Hommes", "#031941"],
-                ["Femmes", "#5C90B6"] ];
-      /*var legendItem = legend.selectAll('g').data(legendItem);
-      legendItem.enter()
-        .append('g')
-        .attr('class','legend-item')
-        .append('rect')
-        .style("fill", function(d) {
-              return d[1];
-        })*/
-        
-      var legendRect = legend.selectAll('rect').data(legendItem);
-
-      console.log(this.width)
-      legendRect.enter()
-          .append("rect")
-          .attr("y", this.height - 105)
-          .attr("width", 30)
-          .attr("height", 30)
-          .attr("x", (d, i) => {
-            return this.width - 70 - (i * 80);
-          })
-          .style("fill", function(d) {
-              return d[1];
-          });
-
-      var legendText = legend.selectAll('text').data(legendItem);
-
-      legendText.enter()
-            .append("text")
-            .attr("y", this.height - 88)
-            .attr("x", (d, i) => {
-              return this.width - 20 - (i *100);
-            })
-            .text(function(d){
-              return d[0];
-            })
-    },
+    // initLegend () {
+    //   // add legend
+    //   var legend = this.svg.append("g")
+    //   .attr("class", "legend")
+    //   //.attr("x", 500)
+    //   //.attr("y", 50)
+    //   .attr("height", 100)
+    //   .attr("width", 100)
+    //   .attr('transform', 'translate(-70,80)');
+    //
+    //   console.log(this.viewMode)
+    //
+    //   var legendItem =	[ ["Hommes", "#031941"],
+    //             ["Femmes", "#5C90B6"] ];
+    //   /*var legendItem = legend.selectAll('g').data(legendItem);
+    //   legendItem.enter()
+    //     .append('g')
+    //     .attr('class','legend-item')
+    //     .append('rect')
+    //     .style("fill", function(d) {
+    //           return d[1];
+    //     })*/
+    //
+    //   var legendRect = legend.selectAll('rect').data(legendItem);
+    //
+    //   console.log(this.width)
+    //   legendRect.enter()
+    //       .append("rect")
+    //       .attr("y", this.height - 105)
+    //       .attr("width", 30)
+    //       .attr("height", 30)
+    //       .attr("x", (d, i) => {
+    //         return this.width - 70 - (i * 80);
+    //       })
+    //       .style("fill", function(d) {
+    //           return d[1];
+    //       });
+    //
+    //   var legendText = legend.selectAll('text').data(legendItem);
+    //
+    //   legendText.enter()
+    //         .append("text")
+    //         .attr("y", this.height - 88)
+    //         .attr("x", (d, i) => {
+    //           return this.width - 20 - (i *100);
+    //         })
+    //         .text(function(d){
+    //           return d[0];
+    //         })
+    // },
     initAxis () {
       const xAxis = this.svg.append("g")
           .attr("class", "x axis")
@@ -265,65 +250,6 @@ export default {
     }
   }
 
-  .filters {
-    display: flex;
-    justify-content: space-around;
-    max-width: 72%;
-    margin: 60px 0;
-
-    label {
-      position: relative;
-      color: $themeBlue2;
-      font-size: 1.3em;
-      font-weight: 500;
-
-      &:hover input ~ .checkmark {
-        background-color: #ccc;
-      }
-
-      input {
-
-        &:checked ~ .checkmark {
-          background-color: $themeBlue2;
-
-          &:after {
-            display:block;
-          }
-        }
-        position: absolute;
-        opacity: 0;
-        cursor: pointer;
-      }
-
-      .checkmark {
-        border: 1px solid $themeBlue2;
-
-        &:after {
-              content: "";
-              position: absolute;
-              display: none;
-              top: 2px;
-              left: 2px;
-              width: 14px;
-              height: 14px;
-              border-radius: 50%;
-              background: $themeBlue2;
-              border:2px solid white;
-          }
-
-            position: absolute;
-            top: -1px;
-            left: -29px;
-            height: 20px;
-            width: 20px;
-            background-color: #eee;
-            border-radius: 50%;
-
-      }
-    }
-
-
-  }
   .axis-text {
     //fill: #f00;
     font-family: $titleFont;
