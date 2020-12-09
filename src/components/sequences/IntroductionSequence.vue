@@ -134,6 +134,10 @@ export default {
   transition: all $slideDurationEasing;
   overflow-y: scroll;
   scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
   &.past {
     transform: translate3d(0, -100vh, 0);
   }

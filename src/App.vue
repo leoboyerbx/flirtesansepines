@@ -62,7 +62,6 @@ body {
   margin: 0;
 }
 
-
 @keyframes arriving-from-top {
   from {
     transform: translate3d(0, -100vh, 0);
@@ -71,6 +70,11 @@ body {
 @keyframes arriving-from-bottom {
   from {
     transform: translate3d(0, 100vh, 0);
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
   }
 }
 </style>

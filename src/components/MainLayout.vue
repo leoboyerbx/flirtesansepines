@@ -4,17 +4,20 @@
         :current-state="stateOfSlide(0)"
         @next-slide="nextSlide"
         @prev-slide="prevSlide"
+        @finished-transition="endedTransition"
     />
-
     <HIVDiscoverySequence
         :current-state="stateOfSlide(1)"
         @next-slide="nextSlide"
-        @prev-slide="prevSlide"/>
-
+        @prev-slide="prevSlide"
+        @finished-enter="endedTransition"
+    />
     <TransitionSentenceSequence
         :current-state="stateOfSlide(2)"
         @next-slide="nextSlide"
-        @prev-slide="prevSlide"/>
+        @prev-slide="prevSlide"
+        @finished-enter="endedTransition"
+    />
 
       <ScreeningBehaviorsSequence
         :current-state="stateOfSlide(3)"
@@ -25,27 +28,34 @@
         :current-state="stateOfSlide(4)" 
         @next-slide="nextSlide" 
         @prev-slide="prevSlide"/>
-    
+
 
     <ScreeningLateSequence
         :current-state="stateOfSlide(5)"
         @next-slide="nextSlide"
-        @prev-slide="prevSlide"/>
+        @prev-slide="prevSlide"
+        @finished-transition="endedTransition"
+    />
 
     <CondomUsageSequence
         :current-state="stateOfSlide(6)"
         :transition-direction="transitionDirection"
         @next-slide="nextSlide"
-        @prev-slide="prevSlide"/>
+        @prev-slide="prevSlide"
+        @finished-transition="endedTransition"
+    />
 
     <FrequenceCondonUsageSequence
         :current-state="stateOfSlide(7)"
         @next-slide="nextSlide"
-        @prev-slide="prevSlide"/>
+        @prev-slide="prevSlide"
+        @finished-transition="endedTransition"
+    />
+
 
     <ConclusionSequence 
         :current-state="stateOfSlide(8)" 
-        @next-slide="nextSlide" 
+        @next-slide="nextSlide"
         @prev-slide="prevSlide"/>
 
   </section>
@@ -79,7 +89,8 @@ export default {
   data: () => ({
     currentSlide: 0,
     numberOfSlides: 20,
-    transitionDirection: 1
+    transitionDirection: 1,
+    isTransitioning: false
   }),
   created () {
     window.addEventListener('keydown', this.keyUp)
@@ -104,16 +115,18 @@ export default {
         return 'future'
       }
     },
-    prevSlide () {
-      if (this.currentSlide > 0) {
+    prevSlide (force = false) {
+      if (force || !this.isTransitioning && this.currentSlide > 0) {
         this.currentSlide--
         this.transitionDirection = -1
+        this.isTransitioning = true
       }
     },
-    nextSlide () {
-      if (this.currentSlide + 1 < this.numberOfSlides) {
+    nextSlide (force = false) {
+      if (force || !this.isTransitioning && this.currentSlide + 1 < this.numberOfSlides) {
         this.currentSlide++
         this.transitionDirection = 1
+        this.isTransitioning = true
       }
     },
     keyUp (e) {
@@ -123,6 +136,9 @@ export default {
       if (e.key === 'ArrowLeft') {
         this.prevSlide()
       }
+    },
+    endedTransition () {
+      this.isTransitioning = false
     }
   }
 }

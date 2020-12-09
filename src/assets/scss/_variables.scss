@@ -15,4 +15,5 @@ $paragraphFont: 'League Spartan', sans-serif;
 $titleSize: 4em;
 $paragraphSize: 1.4em;
 
-$slideDurationEasing: .6s ease;
+$slideDuration: .6s;
+$slideDurationEasing: $slideDuration ease;
