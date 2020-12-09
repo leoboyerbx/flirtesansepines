@@ -1,5 +1,6 @@
 <template>
   <div class="detailsCondomUsageDataviz" :class="{ detailsDisplay }">
+    <h1>Raisons avancées</h1>
     <svg id="detail-condom-usage-dataviz"  :width="width" :height="height" ref="svg"></svg>
   </div>
 </template>
@@ -18,7 +19,7 @@ export default {
   },
   data: () => ({
     svg: null,
-    margin: {top: 20, right: 20, bottom: 60, left: 350},
+    margin: {top: 20, right: 20, bottom: 60, left: 250},
     bandSpacing: 30,
     tooltipVisible: false
   }),
@@ -92,7 +93,8 @@ export default {
     styleYAxis (axis) {
       console.log(axis.selectAll('.tick'));
       const yNodeAxis = axis.selectAll('g.tick text');
-      this.wrap(yNodeAxis, 250)
+      yNodeAxis.attr("transform", "translate(-20, -12)")
+      this.wrap(yNodeAxis, 200)
       //axis.selectAll('.tick')._groups[0].call(this.wrap, 40)
     },
     updateSvg () {
@@ -141,17 +143,27 @@ export default {
 <style lang="scss">
 .detailsCondomUsageDataviz {
   position: absolute;
-  left: 30%;
-  top: 30%;
+  left: 32%;
+  top: 28%;
   opacity: 0;
-  width: 0;
   visibility: hidden;
-  transition: all ease-in-out 0.3s;
-  transition-delay: 1.4s;
+  transition: all ease-in-out 0.2s;
+
+  h1 {
+      font-family: $paragraphFont;
+      font-size: 1rem;
+      text-transform: uppercase;
+      margin: 0.5rem 0;
+      color: #ffff;
+      text-align: left;
+      width: 100%;
+  }
+
   &.detailsDisplay {
     opacity:1;
     width: auto;
     visibility: visible;
+    transition-delay: 1.4s;
 
     svg {
       width: auto;
@@ -168,6 +180,11 @@ export default {
     width: 0;
 
     .axis {
+
+        tspan {
+          font-family: $paragraphFont;
+          font-size: 0.8rem;
+        }
         line {
           display:none;
         }
@@ -185,6 +202,7 @@ export default {
           .domain {
             color: white;
             height: 2px;
+            display: none;
           }
         }
       }

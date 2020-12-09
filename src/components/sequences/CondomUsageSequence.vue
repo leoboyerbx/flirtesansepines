@@ -2,6 +2,10 @@
   <article v-on:wheel="onWheel" 
            class="condom-usage" 
            :class="currentState">
+        <h1>Utilisation du préservatif</h1>
+
+        <p class="return-to-global-sequence" :class="{visible: detailsDisplay}" v-on:click="detailsDisplay = false">RETOUR</p>
+
         <CondomUsageDataviz 
           :dataSource="globalCondomUsageDataSource"
           :width="500"
@@ -17,7 +21,6 @@
           :width="700"
           :height="400"
         />
-        <p class="return-to-global-sequence" :class="{visible: detailsDisplay}" v-on:click="detailsDisplay = false">RETOUR</p>
 
   </article>
 </template>
@@ -106,6 +109,15 @@ export default {
 <style scoped lang="scss">
 
 .condom-usage {
+
+  h1 {
+      font-family: $titleFont;
+      font-size: 3.5em;
+      margin: 1rem 0;
+      color: #ffff;
+      text-align: left;
+      width: 100%;
+  }
   top: 0;
   left: 0;
   width: 100%;
@@ -115,7 +127,7 @@ export default {
   visibility: hidden;
   transition-delay: .5s;
   margin: auto;
-  padding: 4% 10%;
+  padding: 2% 10%;
   background: $themeRed;
   position: relative;
 
@@ -126,8 +138,17 @@ export default {
   }
 
   .return-to-global-sequence {
-    position: absolute;
-    top:0;
+    opacity: 0;
+    transition: all .3s;
+    cursor: pointer;
+    color: #fff;
+    font-size: .8rem;
+    
+    &.visible {
+      opacity:1;
+    }
+
+
   }
 
 

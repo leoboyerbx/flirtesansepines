@@ -1,6 +1,5 @@
 <template>
   <div class="condom-usage-dataviz-container" >
-    <h1>Utilisation du préservatif</h1>
     <svg class="condom-usage-dataviz" :width="width" :height="height" :class="{ details: detailsDisplay }">
     </svg>
     <div class="tooltip" :class="{ visible: tooltipVisible }">
@@ -10,10 +9,10 @@
       <button class="read-more"> En savoir +</button>
     </div>
     <div class="legend">
-      <span v-for="(data, index) in dataSource" :key="index">
+      <div class="legend-item" v-for="(data, index) in dataSource" :key="index">
         <div class="legend-square" :style="{ backgroundColor: $globals.dataColors.getColorCode(index) }"></div>
-        <p>{{data.value}}</p>
-      </span>
+        <p>{{data.name}}</p>
+      </div>
     </div>
   </div>
 </template>
@@ -113,20 +112,33 @@ export default {
 
 
 .condom-usage-dataviz-container {
-  h1 {
-      font-family: $titleFont;
-      font-size: 3.5em;
-      margin: 1rem 0;
-      color: #ffff;
-      text-align: left;
-      width: 100%;
-  }
+  
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
 
+<<<<<<< HEAD
+  .legend {
+    display: flex;
+    flex-direction:column;
+    width: 100%;
+    color: #fff;
+    font-family: $titleFont;
+    font-size: 0.8rem;
+    .legend-item {
+      display: flex;
+      align-items: center;
+      .legend-square {
+        width: 30px;
+        height: 30px;
+        margin-right:10px;
+      }
+    }
+  }
+=======
 
+>>>>>>> 14ee7a8f3ea352477aa5de204dc28b161ea1fd67
   .tooltip {
     background-color: white;
     width: 300px;
@@ -184,7 +196,7 @@ export default {
     transition: all 1s;
 
     &.details {
-      transform: translate(-80%, 55%) scale(2);
+      transform: translate(-80%, 55%) scale(1.7);
     }
     g {
       width: 100%;
