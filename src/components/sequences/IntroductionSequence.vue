@@ -1,10 +1,10 @@
 <template>
   <article
-      :style="{transform: transformProprety }"
       @scroll="onScroll"
       @wheel="onWheel"
       class="experience-introduction"
-      :class="currentState"
+      :class="[ currentState, { arriving } ]"
+      :style="{ display: displayStyle }"
   >
     <section class="lottie-wrapper" :style="{ height: lottieWrapperHeight + 'px' }">
       <div class="sitcky-wrapper">
@@ -46,10 +46,14 @@ export default {
     lottieScrollHeight: 3000,
     lottieHeight: 0,
     animationEndedScrollOffset: 100,
-    locked: true
+    locked: true,
+    displayStyle: 'block',
+    arriving: false
   }),
   mounted () {
     window.addEventListener('resize', this.onResize.bind(this))
+    this.$el.addEventListener('transitionend', this.onTransitionEnd)
+    this.$el.addEventListener('animationend', this.onAnimationEnd)
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.onResize.bind(this))
@@ -60,12 +64,15 @@ export default {
       default: 'future'
     }
   },
+  watch: {
+    currentState (newVal) {
+      if (newVal === 'current') {
+        this.displayStyle = 'block'
+        this.arriving = true
+      }
+    }
+  },
   computed: {
-    transformProprety () {
-      return this.currentState ===  'past'
-          ? 'translate3d(0, -100%, 0)'
-          : 'translate3d(0, ' + this.translateY + 'px ,0)'
-    },
     totalFrames () {
       return this.anim.totalFrames || 0
     },
@@ -77,6 +84,16 @@ export default {
     },
   },
   methods: {
+    onTransitionEnd (e) {
+      if (e.currentTarget === this.$el && this.currentState === 'past') {
+        this.displayStyle = 'none'
+      }
+    },
+    onAnimationEnd (e) {
+      if (e.currentTarget === this.$el && this.currentState === 'current') {
+        this.arriving = false
+      }
+    },
     onScroll () {
       const progress = this.$el.scrollTop / (this.lottieScrollHeight - this.animationEndedScrollOffset)
 
@@ -96,27 +113,15 @@ export default {
       }
     },
     onResize () {
+      if (this.$refs.lottie) {
+        this.lottieHeight = this.$refs.lottie.$el.offsetHeight
+      }
       // this.vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
-      this.lottieHeight = this.$refs.lottie.$el.offsetHeight
     },
     handleScrollLottie (progress) {
-      this.anim.goToAndStop(progress * this.totalFrames, true)
-      // if (this.anim.currentFrame > 90) {
-      //   this.anim.play()
-      // }
-      // if (!this.lottiePlaying && e.deltaY > 0) {
-      //   this.anim.play()
-      //   this.lottiePlaying = true
-      //
-      //   if (this.anim.currentFrame < 90) {
-      //     setTimeout(() => {
-      //       this.anim.pause()
-      //       this.lottiePlaying = false
-      //     }, 400)
-      //   } else {
-      //     this.anim.setSpeed(1)
-      //   }
-      // }
+      if (this.anim) {
+        this.anim.goToAndStop(progress * this.totalFrames, true)
+      }
 
     },
     confirmEstimation () {
@@ -146,10 +151,21 @@ export default {
   left: 0;
   width: 100%;
   height: 100vh;
-  transition: all .6s ease;
+  transition: all .6s;
   overflow-y: scroll;
   scrollbar-width: none;
+  &.past {
+    transform: translate3d(0, -100vh, 0);
+  }
 
+  &.arriving {
+    animation: arriving .6s;
+    @keyframes arriving {
+      from {
+        transform: translate3d(0, -100vh, 0);
+      }
+    }
+  }
   .lottie-wrapper {
     width: 100%;
     //background-color: $themeRed;
