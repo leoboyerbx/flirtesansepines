@@ -111,11 +111,8 @@ export default {
     getColor (key) {
       const index = this.dataSource.columns ? this.dataSource.columns.indexOf(key) - 1 : -1
       if (index > -1) {
-        return this.getColorCode(index)
+        return this.$globals.dataColors.getColorCode(index)
       }
-    },
-    getColorCode (index) {
-      return this.$globals.dataColors[index % this.$globals.dataColors.length]
     }
   },
   computed: {
