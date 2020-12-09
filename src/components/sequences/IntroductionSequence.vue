@@ -18,7 +18,7 @@
     <div class="title" :class="{ visible: titleVisible }">
       <h1>Flirt sans épines</h1>
     </div>
-    <HIVEstimation class="hiv-estimation" />
+    <HIVEstimation @confirm="confirmEstimation" class="hiv-estimation" />
   </article>
 </template>
 
@@ -65,9 +65,9 @@ export default {
       }
     },
     handleWheelScroll (e) {
+      const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
+      const scrollLimit = this.$el.offsetHeight - vh
       if (!this.isScrollAnimating) {
-        const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
-        const scrollLimit = this.$el.offsetHeight - vh
 
         const canGoUp = e.deltaY < 0 && this.translateY < 0
         const canGoDown = e.deltaY > 0 && this.translateY > -scrollLimit
@@ -77,13 +77,15 @@ export default {
           setTimeout(() => {
             this.isScrollAnimating = false
           }, 400)
-        } else if (e.deltaY > 0 && this.translateY <= -scrollLimit && !this.displayNextSlide) {
-          if (this.currentState !== 'past') {
-            this.$emit('next-slide')
-          }
         }
+        // else if (e.deltaY > 0 && this.translateY <= -scrollLimit && !this.displayNextSlide) {
+        //   if (this.currentState !== 'past') {
+        //     this.$emit('next-slide')
+        //   }
+        // }
       }
       if (this.translateY > 0) this.translateY = 0
+      if (this.translateY < -scrollLimit) this.translateY = -scrollLimit
     },
     handleWheelLottie (e) {
       if (!this.lottiePlaying && e.deltaY > 0) {
@@ -109,6 +111,9 @@ export default {
       //     [this.anim.currentSlide, this.anim.currentSlide + e.deltaY * this.lottieFactor]
       //   ], false)
       // }
+    },
+    confirmEstimation () {
+      this.$emit('next-slide')
     },
     setAnimController (anim) {
       this.anim = anim

@@ -60,8 +60,10 @@ export default {
           .domain(d3.extent(this.dataSource, d => d.year))
     },
     yScale () {
+      const vals = this.series.map(d => d3.max(d, d => d[1]))
+      vals.push(this.userEstimation)
       return d3.scaleLinear()
-          .domain([0, d3.max(this.series, d => d3.max(d, d => d[1]))]).nice()
+          .domain([ 0, d3.max(vals)]).nice()
           .range([this.dataHeight, 0])
     },
     xAxis() {

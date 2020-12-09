@@ -59,8 +59,7 @@ export default {
     msg: "A votre avis, combien de cas de séropositivité ont été découverts en 2019 en France ?",
     number:1000,
     dataSource: [],
-    viewMode: 1,
-    userEstimation: 4000,
+    viewMode: 0,
     displayNextSlide: false,
     scrollFactor: 10,
     translateY: 0
@@ -120,6 +119,9 @@ export default {
     }
   },
   computed: {
+    userEstimation () {
+      return this.$store.state.hivEstimation
+    },
     transformProprety () {
       return this.currentState ===  'past'
           ? 'translate3d(0, -100%, 0)'

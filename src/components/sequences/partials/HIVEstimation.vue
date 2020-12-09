@@ -2,6 +2,7 @@
   <section class="hiv-estimation">
     <p class="question">À votre avis, combien de cas de séropositivité ont été découverts en 2019 en France ?</p>
     <div class="number">{{ displayNumber }}</div>
+    <div class="confirm"><button @click="onConfirm">Valider</button></div>
     <FlowerSlider class="flower-slider" v-model="number" />
   </section>
 </template>
@@ -26,7 +27,15 @@ export default {
       return res;
     }
   },
+  watch: {
+    number (newVal) {
+      this.$store.commit('updateEstimaton', newVal * 10000)
+    }
+  },
   methods: {
+    onConfirm () {
+      this.$emit('confirm')
+    }
     // onChange () {
     //   this.tween((this.number * 10000).toFixed, 0)
     // },
@@ -77,6 +86,22 @@ export default {
     font-size: 20rem;
     text-align: right;
     //line-height: 23rem;
+  }
+  .confirm {
+    display: flex;
+    padding: 0 10%;
+    justify-content: flex-end;
+    button {
+      background-color: $themeBlue2;
+      border: none;
+      padding: .5em 1.5em;
+      border-radius: 100px;
+      color: #fff;
+      font-size: 1.8rem;
+      cursor: pointer;
+      font-family: $paragraphFont;
+      font-weight: bold;
+    }
   }
   .flower-slider {
     position: absolute;
