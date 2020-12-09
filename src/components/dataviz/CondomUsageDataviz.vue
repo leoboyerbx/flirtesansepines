@@ -118,17 +118,21 @@ export default {
   justify-content: center;
   align-items: center;
 
-<<<<<<< HEAD
   .legend {
     display: flex;
     flex-direction:column;
     width: 100%;
     color: #fff;
-    font-family: $titleFont;
+    font-family: $paragraphFont;
     font-size: 0.8rem;
     .legend-item {
       display: flex;
       align-items: center;
+      font-size: $paragraphSize;
+      margin: 5px 0;
+      p {
+        margin:0;
+      }
       .legend-square {
         width: 30px;
         height: 30px;
@@ -136,9 +140,7 @@ export default {
       }
     }
   }
-=======
 
->>>>>>> 14ee7a8f3ea352477aa5de204dc28b161ea1fd67
   .tooltip {
     background-color: white;
     width: 300px;

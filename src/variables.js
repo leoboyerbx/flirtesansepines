@@ -1,5 +1,5 @@
 const variables = {
-    dataColors: [ '#C8DEFB', '#5C90B6', '#031941', '#B62220']
+    dataColors: [ '#C8DEFB', '#5C90B6', '#031941', '#FFFF']
 }
 
 variables.dataColors.getColorCode = function (index) {

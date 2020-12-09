@@ -2,6 +2,7 @@
   <div class="detailsCondomUsageDataviz" :class="{ detailsDisplay }">
     <h1>Raisons avancées</h1>
     <svg id="detail-condom-usage-dataviz"  :width="width" :height="height" ref="svg"></svg>
+    <img src="../../assets/whiteflower.svg" alt="">
   </div>
 </template>
 
@@ -94,7 +95,7 @@ export default {
       console.log(axis.selectAll('.tick'));
       const yNodeAxis = axis.selectAll('g.tick text');
       yNodeAxis.attr("transform", "translate(-20, -12)")
-      this.wrap(yNodeAxis, 200)
+      this.wrap(yNodeAxis, 230)
       //axis.selectAll('.tick')._groups[0].call(this.wrap, 40)
     },
     updateSvg () {
@@ -183,14 +184,14 @@ export default {
 
         tspan {
           font-family: $paragraphFont;
-          font-size: 0.8rem;
+          font-size: 1.2rem;
         }
         line {
           display:none;
         }
         text{
           color: white;
-          font-size: 1rem;
+          font-size: 1.2rem;
         }
         &.y {
           .domain {
@@ -206,6 +207,11 @@ export default {
           }
         }
       }
+  }
+
+  img {
+    transform: translate(20%,60%);
+    width:100px;
   }
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <article class="screening-behaviors" :class="currentState">
-    <h1>Comportement face au dépistage</h1>
+    <h1>Fréquence de dépistage par tranche d'âge</h1>
     <ScreeningBehaviorsDataviz
       :dataSource="dataSource"
       :width="800"
@@ -52,8 +52,9 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: $backgroundColor;
+  background-color: $themeRed;
   margin: auto;
+  padding: 5% 20%;
   &.current {
     display: block;
   }
@@ -61,10 +62,10 @@ export default {
   h1 {
       font-family: $titleFont;
       font-size: 3.5em;
-      margin: 1.5em auto;
-      color: $themeBlue3;
-      text-align: center;
-      max-width: 60%;
+      margin: 1.5em 0;
+      color: white;
+      max-width: 50%;
+      text-align: left;
   }
 
 }

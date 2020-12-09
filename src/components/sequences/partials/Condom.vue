@@ -1,5 +1,20 @@
 <template>
   <article class="animated-condom">
+
+    <div class="steps">
+      <div :style="{top:step1Y}">
+        <p>Non</p>
+        <span></span>
+      </div>
+      <div :style="{top:step2Y}">
+        <p>Parfois</p>
+        <span></span>
+      </div>
+      <div :style="{top:step3Y}">
+        <p>Toujours</p>
+        <span></span>
+      </div>
+    </div>
     <svg
     @mousemove="mouseMove"
     ref="svg"
@@ -9,8 +24,14 @@
         <rect x="25" y="176" width="235" :height="y - 180" fill="#B62220"/>
         <rect @mousedown="mouseDown"
                :y="y - 15" width="286" height="30" rx="15" fill="#B62220"
-              />
+               />
     </svg>
+    
+    <div class="desc">
+      <h1>Fais glisser le préservatif</h1>
+      <p>Lors d'un rapport sexuel, utilises-tu systématiquement le préservatif? Ou es-tu radicalement contre?</p>
+    </div>
+
   </article>
 </template>
 
@@ -28,10 +49,11 @@ export default {
       return {
         dragging: false,
         initialY: initialY,
-        lastY: 600,
+        lastY: 700,
         y: initialY,
         progress: 0,
-        rectangleHeight: 0
+        rectangleHeight: 0,
+        legendOffset:0
     }
   },
   props: {
@@ -62,6 +84,15 @@ export default {
   computed: {
     slideHeight () {
         return this.lastY - this.initialY
+    },
+    step1Y () {
+      return (this.initialY + this.legendOffset)+'px';
+    },
+    step2Y () {
+      return (this.initialY + this.slideHeight)+'px';
+    },
+    step3Y () {
+      return (this.initialY + this.lastY)/2+'px';
     }
   }
 }
@@ -71,7 +102,53 @@ export default {
 <style scoped lang="scss">
 
 .animated-condom {
-    
+    display: flex;
+    flex-wrap: wrap;
+    width: fit-content;
+    justify-content: space-between;
+    width: 100%;
+    .steps {
+      position:relative;
+      width: auto;
+      align-items:flex-end;
+      display: flex;
+      flex-direction: column;
+      width: 25%;
+      div{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: absolute;
+        span{
+            width: 20px;
+            height: 3px;
+            background-color: white;
+            margin-left:70px;
+        }
+
+        p {
+          font-family: $titleFont;
+          color: white;
+          font-size: 3rem;
+        }
+      }
+    }
+    .desc {
+      width: 25%;
+      h1 {
+        color:white;
+        font-family: $titleFont;
+        font-size:1.6rem;
+      }
+      p {
+        color: white;
+        font-size: 1rem;
+      }
+    }
+
+    svg {
+      width: 18%;
+    }
 }
 
 </style>

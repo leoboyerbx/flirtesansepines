@@ -57,7 +57,7 @@
 import * as d3 from "d3";
 
 export default {
-  name: 'CondomUsageDataviz',
+  name: 'ScreeningLateDataviz',
   props: {
     width: Number,
     height: Number,
@@ -133,7 +133,7 @@ export default {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
-        width: 150px;
+        width: 300px;
         transition: all .3s;
         opacity: 0;
         &.visible {
@@ -149,12 +149,13 @@ export default {
 
             .percent {
                 font-family: $titleFont;
-                font-size: 1.1rem;
+                font-size: 1.5rem;
                 margin-bottom: 0.5rem;
             }
 
-            .comment {
+            .info {
                 font-family: $paragraphFont;
+                font-size: 1.2rem;
             }
       }
   }
@@ -165,6 +166,7 @@ export default {
           display: flex;
          margin-right: 30px;
          align-items: center;
+         font-size: 1.4rem;
           span {
               width: 25px;
               height: 25px;

@@ -4,16 +4,7 @@
       class="condom-usage-frequence"
       :class="currentState"
   >
-  <div class="steps">
-    <div>Oui<span></span></div>
-    <div>Parfois<span></span></div>
-    <div>Non<span></span></div>
-  </div>
   <Condom />
-  <div>
-    <h1>Fais glisser le préservatif ! </h1>
-    <p>Utilisez vous le préservatif à chaque rapport sexuel? Jamais? Ca dépend des fois?</p>
-  </div>
   
 
   </article>
@@ -78,7 +69,7 @@ export default {
   visibility: hidden;
   transition-delay: .5s;
   margin: auto;
-  padding: 4% 10%;
+  padding: 4% 10% 0 10%;
 
   &.current {
     position: fixed;

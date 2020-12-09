@@ -16,30 +16,35 @@
         @next-slide="nextSlide"
         @prev-slide="prevSlide"/>
 
+      <ScreeningBehaviorsSequence
+        :current-state="stateOfSlide(3)"
+        @next-slide="nextSlide"
+        @prev-slide="prevSlide"/>
+
     <DeathNoticeSequence 
-        :current-state="stateOfSlide(3)" 
+        :current-state="stateOfSlide(4)" 
         @next-slide="nextSlide" 
         @prev-slide="prevSlide"/>
     
 
     <ScreeningLateSequence
-        :current-state="stateOfSlide(3)"
+        :current-state="stateOfSlide(5)"
         @next-slide="nextSlide"
         @prev-slide="prevSlide"/>
 
     <CondomUsageSequence
-        :current-state="stateOfSlide(4)"
+        :current-state="stateOfSlide(6)"
         :transition-direction="transitionDirection"
         @next-slide="nextSlide"
         @prev-slide="prevSlide"/>
 
     <FrequenceCondonUsageSequence
-        :current-state="stateOfSlide(5)"
+        :current-state="stateOfSlide(7)"
         @next-slide="nextSlide"
         @prev-slide="prevSlide"/>
 
     <ConclusionSequence 
-        :current-state="stateOfSlide(7)" 
+        :current-state="stateOfSlide(8)" 
         @next-slide="nextSlide" 
         @prev-slide="prevSlide"/>
 
@@ -52,10 +57,10 @@ import HIVDiscoverySequence from "@/components/sequences/HIVDiscoverySequence";
 import TransitionSentenceSequence from "@/components/sequences/TransitionSentenceSequence";
 import DeathNoticeSequence from "@/components/sequences/DeathNoticeSequence";
 import ScreeningLateSequence from "@/components/sequences/ScreeningLateSequence";
-import ScreeningBehaviour from "@/components/sequences/ScreeningBehaviour";
+import ScreeningBehaviorsSequence from "@/components/sequences/ScreeningBehaviorsSequence";
 import CondomUsageSequence from "@/components/sequences/CondomUsageSequence";
 import FrequenceCondonUsageSequence from "@/components/sequences/FrequenceCondonUsageSequence";
-import ConclusionSequence from "@/components/sequences/ConclusionSequence";
+import ConclusionSequence from "@/components/sequences/ConclusionSequence"; 
 
 
 export default {
@@ -66,6 +71,7 @@ export default {
     TransitionSentenceSequence,
     DeathNoticeSequence,
     ScreeningLateSequence,
+    ScreeningBehaviorsSequence,
     CondomUsageSequence,
     FrequenceCondonUsageSequence,
     ConclusionSequence
