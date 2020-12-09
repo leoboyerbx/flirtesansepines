@@ -3,7 +3,7 @@
       @scroll="onScroll"
       @wheel="onWheel"
       class="experience-introduction"
-      :class="[ currentState, { arriving } ]"
+      :class="[ currentState, arrivingClass ]"
       :style="{ display: displayStyle }"
   >
     <section class="lottie-wrapper" :style="{ height: lottieWrapperHeight + 'px' }">
@@ -29,9 +29,11 @@
 <script>
 import LottieAnimation from "@/components/lib/LottieAnimation";
 import HIVEstimation from "@/components/sequences/partials/HIVEstimation";
+import sequence from "@/mixins/sequenceMixin";
 
 export default {
   name: 'IntroductionSequence',
+  mixins: [ sequence ],
   components: {
     HIVEstimation,
     LottieAnimation
@@ -46,14 +48,10 @@ export default {
     lottieScrollHeight: 3000,
     lottieHeight: 0,
     animationEndedScrollOffset: 100,
-    locked: true,
-    displayStyle: 'block',
-    arriving: false
+    locked: true
   }),
   mounted () {
     window.addEventListener('resize', this.onResize.bind(this))
-    this.$el.addEventListener('transitionend', this.onTransitionEnd)
-    this.$el.addEventListener('animationend', this.onAnimationEnd)
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.onResize.bind(this))
@@ -62,14 +60,6 @@ export default {
     currentState: {
       type: String,
       default: 'future'
-    }
-  },
-  watch: {
-    currentState (newVal) {
-      if (newVal === 'current') {
-        this.displayStyle = 'block'
-        this.arriving = true
-      }
     }
   },
   computed: {
@@ -84,16 +74,6 @@ export default {
     },
   },
   methods: {
-    onTransitionEnd (e) {
-      if (e.currentTarget === this.$el && this.currentState === 'past') {
-        this.displayStyle = 'none'
-      }
-    },
-    onAnimationEnd (e) {
-      if (e.currentTarget === this.$el && this.currentState === 'current') {
-        this.arriving = false
-      }
-    },
     onScroll () {
       const progress = this.$el.scrollTop / (this.lottieScrollHeight - this.animationEndedScrollOffset)
 
@@ -158,7 +138,7 @@ export default {
     transform: translate3d(0, -100vh, 0);
   }
 
-  &.arriving {
+  &.arriving-backward {
     animation: arriving .6s;
     @keyframes arriving {
       from {
