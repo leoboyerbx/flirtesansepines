@@ -60,7 +60,7 @@ export default {
     }
   },
   computed: {
-    
+
   }
 }
 </script>

@@ -1,10 +1,10 @@
 <template>
   <article
-      :style="{transform: transformProprety }"
       @scroll="onScroll"
       @wheel="onWheel"
       class="experience-introduction"
-      :class="currentState"
+      :class="[ currentState, arrivingClass ]"
+      :style="{ display: displayStyle }"
   >
     <section class="lottie-wrapper" :style="{ height: lottieWrapperHeight + 'px' }">
       <div class="sitcky-wrapper">
@@ -29,9 +29,11 @@
 <script>
 import LottieAnimation from "@/components/lib/LottieAnimation";
 import HIVEstimation from "@/components/sequences/partials/HIVEstimation";
+import sequence from "@/mixins/sequenceMixin";
 
 export default {
   name: 'IntroductionSequence',
+  mixins: [ sequence ],
   components: {
     HIVEstimation,
     LottieAnimation
@@ -61,11 +63,6 @@ export default {
     }
   },
   computed: {
-    transformProprety () {
-      return this.currentState ===  'past'
-          ? 'translate3d(0, -100%, 0)'
-          : 'translate3d(0, ' + this.translateY + 'px ,0)'
-    },
     totalFrames () {
       return this.anim.totalFrames || 0
     },
@@ -96,27 +93,15 @@ export default {
       }
     },
     onResize () {
+      if (this.$refs.lottie) {
+        this.lottieHeight = this.$refs.lottie.$el.offsetHeight
+      }
       // this.vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
-      this.lottieHeight = this.$refs.lottie.$el.offsetHeight
     },
     handleScrollLottie (progress) {
-      this.anim.goToAndStop(progress * this.totalFrames, true)
-      // if (this.anim.currentFrame > 90) {
-      //   this.anim.play()
-      // }
-      // if (!this.lottiePlaying && e.deltaY > 0) {
-      //   this.anim.play()
-      //   this.lottiePlaying = true
-      //
-      //   if (this.anim.currentFrame < 90) {
-      //     setTimeout(() => {
-      //       this.anim.pause()
-      //       this.lottiePlaying = false
-      //     }, 400)
-      //   } else {
-      //     this.anim.setSpeed(1)
-      //   }
-      // }
+      if (this.anim) {
+        this.anim.goToAndStop(progress * this.totalFrames, true)
+      }
 
     },
     confirmEstimation () {
@@ -146,10 +131,16 @@ export default {
   left: 0;
   width: 100%;
   height: 100vh;
-  transition: all .6s ease;
+  transition: all $slideDurationEasing;
   overflow-y: scroll;
   scrollbar-width: none;
+  &.past {
+    transform: translate3d(0, -100vh, 0);
+  }
 
+  &.arriving-backward {
+    animation: arriving-from-top $slideDurationEasing;
+  }
   .lottie-wrapper {
     width: 100%;
     //background-color: $themeRed;

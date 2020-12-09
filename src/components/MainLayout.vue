@@ -1,13 +1,48 @@
 <template>
   <section ref="slides" class="slides">
-    <IntroductionSequence :current-state="stateOfSlide(0)" @next-slide="nextSlide" @prev-slide="prevSlide"/>
-    <HIVDiscoverySequence :current-state="stateOfSlide(1)" @next-slide="nextSlide" @prev-slide="prevSlide"/>
-    <TransitionSentenceSequence :current-state="stateOfSlide(2)" @next-slide="nextSlide" @prev-slide="prevSlide"/>
-    <DeathNoticeSequence :current-state="stateOfSlide(3)" @next-slide="nextSlide" @prev-slide="prevSlide"/>
-    <ScreeningLateSequence :current-state="stateOfSlide(4)" @next-slide="nextSlide" @prev-slide="prevSlide"/>
-    <CondomUsageSequence :current-state="stateOfSlide(5)" @next-slide="nextSlide" @prev-slide="prevSlide"/>
-    <FrequenceCondonUsageSequence :current-state="stateOfSlide(6)" @next-slide="nextSlide" @prev-slide="prevSlide"/>
-    <ConclusionSequence :current-state="stateOfSlide(7)" @next-slide="nextSlide" @prev-slide="prevSlide"/>
+    <IntroductionSequence
+        :current-state="stateOfSlide(0)"
+        @next-slide="nextSlide"
+        @prev-slide="prevSlide"
+    />
+
+    <HIVDiscoverySequence
+        :current-state="stateOfSlide(1)"
+        @next-slide="nextSlide"
+        @prev-slide="prevSlide"/>
+
+    <TransitionSentenceSequence
+        :current-state="stateOfSlide(2)"
+        @next-slide="nextSlide"
+        @prev-slide="prevSlide"/>
+
+    <DeathNoticeSequence 
+        :current-state="stateOfSlide(3)" 
+        @next-slide="nextSlide" 
+        @prev-slide="prevSlide"/>
+    
+
+    <ScreeningLateSequence
+        :current-state="stateOfSlide(3)"
+        @next-slide="nextSlide"
+        @prev-slide="prevSlide"/>
+
+    <CondomUsageSequence
+        :current-state="stateOfSlide(4)"
+        :transition-direction="transitionDirection"
+        @next-slide="nextSlide"
+        @prev-slide="prevSlide"/>
+
+    <FrequenceCondonUsageSequence
+        :current-state="stateOfSlide(5)"
+        @next-slide="nextSlide"
+        @prev-slide="prevSlide"/>
+
+    <ConclusionSequence 
+        :current-state="stateOfSlide(7)" 
+        @next-slide="nextSlide" 
+        @prev-slide="prevSlide"/>
+
   </section>
 </template>
 
@@ -37,7 +72,8 @@ export default {
   },
   data: () => ({
     currentSlide: 0,
-    numberOfSlides: 20
+    numberOfSlides: 20,
+    transitionDirection: 1
   }),
   created () {
     window.addEventListener('keydown', this.keyUp)
@@ -65,13 +101,13 @@ export default {
     prevSlide () {
       if (this.currentSlide > 0) {
         this.currentSlide--
+        this.transitionDirection = -1
       }
     },
     nextSlide () {
       if (this.currentSlide + 1 < this.numberOfSlides) {
         this.currentSlide++
-        console.log(this.currentSlide)
-
+        this.transitionDirection = 1
       }
     },
     keyUp (e) {
@@ -88,5 +124,4 @@ export default {
 
 
 <style scoped lang="scss">
-
 </style>

@@ -1,9 +1,9 @@
 <template>
   <article
-      :style="{transform: transformProprety }"
       v-on:wheel="onWheel"
       class="seropositivity-data"
-      :class="currentState"
+      :class="[ currentState, arrivingClass ]"
+      :style="{ display: displayStyle }"
   >
     <h1>Nombre de séropositifs, <br> en France</h1>
     <section class="diag">
@@ -51,9 +51,11 @@
 import * as d3 from 'd3'
 import {csv} from 'd3'
 import HIVDiscoveryDataviz from "@/components/dataviz/HIVDiscoveryDataviz";
+import sequence from "@/mixins/sequenceMixin";
 
 export default {
   name: 'HIVDiscoverySequence',
+  mixins: [sequence],
   components: {HIVDiscoveryDataviz},
   data: () => ({
     msg: "A votre avis, combien de cas de séropositivité ont été découverts en 2019 en France ?",
@@ -75,20 +77,7 @@ export default {
   },
   methods: {
     onWheel (e) {
-      const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
-      const scrollLimit = this.$el.offsetHeight - vh
 
-      const canGoUp = e.deltaY < 0 && this.translateY < 0
-      const canGoDown = e.deltaY > 0 && this.translateY > -scrollLimit
-      console.log(e.deltaY)
-      console.log(this.translateY)
-      if (canGoUp || canGoDown) {
-        this.translateY -= e.deltaY * this.scrollFactor
-      } else if (e.deltaY > 0 && this.translateY <= -scrollLimit && !this.displayNextSlide) {
-        this.$emit('next-slide');
-        //document.getElementById('zoomable').getElementsByClassName('.checkmark');
-        this.displayNextSlide = true;
-      }
     },
     async getDataSource () {
       this.dataSource = await csv('datas/hivDiscovery.csv', data => {
@@ -101,9 +90,6 @@ export default {
         data.other = +data.other
         return data
       })
-    },
-    tmpClick () {
-      this.dataSource[0].value = 10000
     },
     updateViewMode(viewMode) {
       this.viewMode = viewMode;
@@ -118,11 +104,6 @@ export default {
   computed: {
     userEstimation () {
       return this.$store.state.hivEstimation
-    },
-    transformProprety () {
-      return this.currentState ===  'past'
-          ? 'translate3d(0, -100%, 0)'
-          : 'translate3d(0, ' + this.translateY + 'px ,0)'
     },
     currentDataSource () {
       let cols = ['year', 'total']
@@ -165,12 +146,21 @@ export default {
   left: 0;
   width: 100%;
   min-height: 100%;
-  transition: all .5s;
-  opacity:0;
-  visibility: hidden;
-  transition-delay: .5s;
+  transition: all $slideDurationEasing;
   margin: auto;
   padding: 4% 10%;
+  &.future {
+    transform: translate3d(0, 100vh, 0);
+  }
+  &.arriving-forward {
+    animation: arriving-from-bottom $slideDurationEasing;
+  }
+  &.past {
+    transform: translate3d(0, -100vh, 0);
+  }
+  &.arriving-backward {
+    animation: arriving-from-top $slideDurationEasing;
+  }
 
   h1 {
     color: $themeRed;
@@ -178,13 +168,6 @@ export default {
     text-align: left;
     font-family: $titleFont;
   }
-
-  &.current {
-    position: fixed;
-    opacity:1;
-    visibility: visible;
-  }
-
   .diag {
     display: flex;
     justify-content: center;

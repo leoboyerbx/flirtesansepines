@@ -1,6 +1,5 @@
 <template>
   <article
-      :style="{transform: transformProprety }"
       v-on:wheel="onWheel"
       class="screening-late"
       :class="currentState"
@@ -53,7 +52,7 @@ export default {
     }
   },
   computed: {
-    
+
   }
 }
 </script>

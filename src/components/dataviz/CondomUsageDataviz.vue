@@ -23,7 +23,7 @@ import * as d3 from "d3";
 export default {
   name: 'CondomUsageDataviz',
   props: {
-    dataSource: { 
+    dataSource: {
       type: Array,
       required: true,
     },
@@ -46,7 +46,6 @@ export default {
   }),
   mounted() {
     this.generatePieChart();
-    this.getDataSource();
   },
   computed: {
     color () {
@@ -119,6 +118,7 @@ export default {
   justify-content: center;
   align-items: center;
 
+<<<<<<< HEAD
   .legend {
     display: flex;
     flex-direction:column;
@@ -136,6 +136,9 @@ export default {
       }
     }
   }
+=======
+
+>>>>>>> 14ee7a8f3ea352477aa5de204dc28b161ea1fd67
   .tooltip {
     background-color: white;
     width: 300px;
@@ -185,7 +188,7 @@ export default {
       left: -30px;
       transform: rotate(90deg);
     }
-      
+
   }
   .condom-usage-dataviz {
     cursor: pointer;
@@ -215,4 +218,3 @@ export default {
 
 
 </style>
- 
