@@ -10,13 +10,13 @@
         :current-state="stateOfSlide(1)"
         @next-slide="nextSlide"
         @prev-slide="prevSlide"
-        @finished-transition="endedTransition"
+        @finished-enter="endedTransition"
     />
     <TransitionSentenceSequence
         :current-state="stateOfSlide(2)"
         @next-slide="nextSlide"
         @prev-slide="prevSlide"
-        @finished-transition="endedTransition"
+        @finished-enter="endedTransition"
     />
 
     <ScreeningLateSequence
@@ -92,15 +92,15 @@ export default {
         return 'future'
       }
     },
-    prevSlide () {
-      if (!this.isTransitioning && this.currentSlide > 0) {
+    prevSlide (force = false) {
+      if (force || !this.isTransitioning && this.currentSlide > 0) {
         this.currentSlide--
         this.transitionDirection = -1
         this.isTransitioning = true
       }
     },
-    nextSlide () {
-      if (!this.isTransitioning && this.currentSlide + 1 < this.numberOfSlides) {
+    nextSlide (force = false) {
+      if (force || !this.isTransitioning && this.currentSlide + 1 < this.numberOfSlides) {
         this.currentSlide++
         this.transitionDirection = 1
         this.isTransitioning = true

@@ -156,7 +156,7 @@ export default {
     opacity: 0;
   }
   &.arriving-backward {
-    animation: fade-in $slideDurationEasing;
+    animation: fade-in $slideDurationEasing $slideDuration both;
   }
 
   h1 {
