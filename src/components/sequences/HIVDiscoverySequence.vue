@@ -21,7 +21,7 @@
           {{ currentDataSource.legendItem[index] }}
         </div>
 
-        <div class="legend-item">
+        <div class="legend-item response">
           <div class="legend-line"></div>
           Votre réponse
         </div>
@@ -170,8 +170,9 @@ export default {
   }
   .diag {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: flex-start;
+
     .legend {
       display: flex;
       flex-direction: column;
@@ -180,9 +181,14 @@ export default {
 
       .legend-item {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         margin-bottom: 8px;
-        font-size: .9rem;
+        font-size: 1.4rem;
+
+        .legend-line {
+          margin-top: 10px;
+        }
+        
         .legend-square {
           width: 25px;
           height: 25px;

@@ -197,7 +197,7 @@ export default {
       align-items: center;
       margin-right: 16px;
       .legend-name {
-        font-size: 1.4rem;
+        font-size: 1.2rem;
         margin:0;
         color: white;
       }

@@ -25,7 +25,10 @@
         <h1>
           Détrompe-toi ! Il y a encore des personnes qui meurent du VIH en France.
         </h1>
-        <p>Malgré les avancées scientifiques sur les différents traitements et ainsi la nette diminution du nombre de mort, le VIH tue encore. Pour limiter l’avancée des symptômes liés au virus, il est important de se faire dépister au moindre doute.</p>
+        <p>Malgré les avancées scientifiques sur les différents traitements et ainsi la nette diminution du nombre de mort, le VIH tue encore. 
+            <br>
+            <br>
+            Pour limiter l’avancée des symptômes liés au virus, il est important de se faire dépister au moindre doute.</p>
       </div>
       <div class="legend">
         <div class="legend-item first">
@@ -34,7 +37,7 @@
         </div>
         <div class="legend-item second">
           <div class="legend-square" :style="{ backgroundColor: $globals.dataColors.getColorCode(3) }"></div>
-          <p>Nombre de morts du VIH</p>
+          <p>Nombre de morts du VIH (avec intervalle de confiance)</p>
         </div>
       </div>
       <img src="../../assets/flower.svg" alt="">
@@ -138,7 +141,6 @@ export default {
     .legend-item {
       display: flex;
       align-items: center;
-      font-size: $paragraphSize;
       margin: 5px 0;
       &.first {
         .legend-square{
@@ -152,6 +154,7 @@ export default {
       }
       p {
         margin:0;
+        font-size: 1.2rem;
       }
       .legend-square {
         width: 30px;
