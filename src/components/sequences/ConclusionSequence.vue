@@ -120,8 +120,7 @@ export default {
     margin-top: 100px;
 
     a {
-        border-bottom: 1px solid white;
-        background-color: transparent;
+        border-bottom: 1px solid $themeBlue3;
         padding: .1em 0em;
         cursor: pointer;
         text-decoration: none;
@@ -169,7 +168,6 @@ export default {
   a {
     color: #ffff;
     background-color: $themeBlue2;
-    border-radius: 50px;
     padding: 15px 40px;
     width: auto;
     margin: auto;
@@ -224,7 +222,7 @@ export default {
         margin-top: 60px;
         a {
           color: white;
-          border-bottom: 1px solid white;
+          border-bottom: 1px solid $themeBlue3;
           padding: .1em 0em;
           font-size: 1.8rem;
           cursor: pointer;
