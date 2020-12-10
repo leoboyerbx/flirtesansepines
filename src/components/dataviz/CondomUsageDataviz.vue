@@ -124,7 +124,9 @@ export default {
     color: #fff;
     font-family: $paragraphFont;
     font-size: 0.8rem;
+    transition: all .3s .6s;
     &.details {
+      transition: all .3s;
       opacity: 0;
     }
     .legend-item {

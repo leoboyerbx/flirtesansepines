@@ -57,16 +57,12 @@
         @prev-slide="prevSlide"
         @finished-transition="endedTransition"
     />
-
-
-
-
-
-<!--    <ConclusionSequence-->
-<!--        :current-state="stateOfSlide(9)"-->
-<!--        @next-slide="nextSlide"-->
-<!--        @prev-slide="prevSlide"-->
-<!--    />-->
+    <ConclusionSequence
+        :current-state="stateOfSlide(9)"
+        @next-slide="nextSlide"
+        @prev-slide="prevSlide"
+        @finished-transition="endedTransition"
+    />
   </section>
 </template>
 
@@ -98,7 +94,7 @@ export default {
   },
   data: () => ({
     currentSlide: 0,
-    numberOfSlides: 20,
+    numberOfSlides: 10,
     transitionDirection: 1,
     isTransitioning: false
   }),

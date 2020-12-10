@@ -1,8 +1,8 @@
 <template>
   <article
+      class="experience-introduction"
       @scroll="onScroll"
       @wheel="onWheel"
-      class="experience-introduction"
       :class="[ currentState, arrivingClass ]"
       :style="{ display: displayStyle }"
   >
