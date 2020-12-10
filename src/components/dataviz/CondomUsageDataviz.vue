@@ -110,7 +110,7 @@ export default {
             this.tooltipValues = {
               percentage: (d.data.value),
               tooltip: (d.data.tooltip),
-              rotateAngle: 45-(e.explicitOriginalTarget.__data__.startAngle + e.explicitOriginalTarget.__data__.endAngle)/2 / Math.PI * 180
+              rotateAngle: 45-(e.target.__data__.startAngle + e.target.__data__.endAngle)/2 / Math.PI * 180
             }
           })
         pies.append('path')
