@@ -14,7 +14,7 @@
         <p>{{data.name}}</p>
       </div>
       <div class="legend-item" >
-        <div class="legend-line" :style="{ backgroundColor: $globals.dataColors3.getColorCode(4) }"></div>
+        <div class="legend-line"></div>
         <p>Votre réponse</p>
       </div>
     </div>
@@ -78,7 +78,7 @@ export default {
         .attr('stroke', 'none')
       this.svg.select('.chart-' + newVal)
         .attr('stroke', this.$globals.dataColors3[3])
-        .attr('stroke-width', '3')
+        .attr('stroke-width', '2')
     }
   },
   methods: {
@@ -118,7 +118,7 @@ export default {
         .attr('d', this.path)
         .attr('fill', d => this.color(d.data.value))
         .attr('stroke', d => d.index === this.$store.state.condomUsage ? this.$globals.dataColors3[3] : 'none')
-        .attr('stroke-width', '3')
+        .attr('stroke-width', '2')
     },
     getColor (key) {
       const index = this.dataSource.columns ? this.dataSource.columns.indexOf(key) - 1 : -1
@@ -175,6 +175,7 @@ export default {
         width: 30px;
         height: 5px;
         margin-right:10px;
+        background-color: $themeBlue3;
       }
     }
   }
