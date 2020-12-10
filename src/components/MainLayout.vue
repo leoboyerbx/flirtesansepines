@@ -18,6 +18,8 @@
     />
     <TransitionSentenceSequence
         :current-state="stateOfSlide(2)"
+        :is-inertia="isInertia"
+        @start-inertia="isInertia = true"
         @next-slide="nextSlide"
         @prev-slide="prevSlide"
         @finished-enter="endedTransition"
@@ -82,10 +84,6 @@ import CondomUsageSequence from "@/components/sequences/CondomUsageSequence";
 import FrequenceCondonUsageSequence from "@/components/sequences/FrequenceCondonUsageSequence";
 import ConclusionSequence from "@/components/sequences/ConclusionSequence";
 import _debounce from "lodash.debounce";
-
-const debouncedInertia = _debounce(comp => {
-  comp.isInertia = false
-}, 500)
 
 export default {
   name: 'MainLayout',
@@ -159,8 +157,11 @@ export default {
       this.isTransitioning = false
     },
     wheelInertia () {
-      debouncedInertia(this)
-    }
+      this.debouncedInertia()
+    },
+    debouncedInertia: _debounce(function () {
+      this.isInertia = false
+    }, 500)
   }
 }
 </script>
