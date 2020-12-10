@@ -15,11 +15,15 @@
         <h1>
           Effectivement, il est encore possible de mourir du VIH en France
         </h1>
-        <p>Malgré les avancées scientifiques sur les différents traitements et ainsi la nette diminution du nombre de mort, le VIH tue encore. Pour limiter l’avancée des symptômes liés au virus, il est important de se faire dépister au moindre doute.</p>
+        <p>Malgré les avancées scientifiques sur les différents traitements, le VIH tue encore    même si le nombre de morts diminue. 
+            <br>
+            <br>
+          Pour limiter l’avancée des symptômes liés au virus, il est important de se faire dépister au moindre doute.
+        </p>
       </div>
       <div class="user-response" v-else>
         <h1>
-          Détrompe-toi ! Il est encore possible de mourir du VIH en France
+          Détrompe-toi ! Il y a encore des personnes qui meurent du VIH en France.
         </h1>
         <p>Malgré les avancées scientifiques sur les différents traitements et ainsi la nette diminution du nombre de mort, le VIH tue encore. Pour limiter l’avancée des symptômes liés au virus, il est important de se faire dépister au moindre doute.</p>
       </div>

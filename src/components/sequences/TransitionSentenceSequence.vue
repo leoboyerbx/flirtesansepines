@@ -17,7 +17,7 @@
         </div>
       </h1>
       <h1 class="second-title" :class="{ visible: currentStep === 1 }">
-        Il est cependant toujours possible de faire diminuer le nombre de contaminations.
+        Nous devons rester vigilant afin de limiter sa propagation.
         <div class="scroll-incite" :class="{ visible: !isTransitioning }">
           <ScrollIncitator /> 
         </div>

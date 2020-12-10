@@ -43,7 +43,7 @@
             :class="{ visible: legendDisplayed === index }"
         >
             <span class="identifier" :style="{ backgroundColor: data.color}"></span>
-            <p class="percent">{{ data.delay }}</p>
+            <p class="percent">{{ data.delay }} *</p>
           </div>
       </div>
   </div>
@@ -157,6 +157,7 @@ export default {
             .info {
                 font-family: $paragraphFont;
                 font-size: 1.2rem;
+                margin-top:0;
             }
       }
   }

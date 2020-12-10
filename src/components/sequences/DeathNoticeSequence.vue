@@ -5,7 +5,7 @@
            :style="{ display: displayStyle }"
   >
     <div class="wrapper">
-      <h1>Penses-tu que l'on meurt encore du VIH?</h1>
+      <h1>Selon toi, peut-on encore mourir du VIH en France ?</h1>
       <div class="estimation-animation-container">
         <div
             :class="{
@@ -130,8 +130,6 @@ export default {
       }
     }
   }
-
-
 }
 </script>
 
