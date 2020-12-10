@@ -1,38 +1,40 @@
 <template>
-  <article class="death-treatment"
+  <article class="death-treatment scrolling-slide"
            v-on:wheel="onWheelChangeSlide"
            :class="[ currentState, arrivingClass ]"
            :style="{ display: displayStyle }"
   >
-    <DeathTreatmentDataviz
-      :width="900"
-      :height="500"
-      :treatment-data-source="treatmentDataSource"
-      :death-data-source="deathDataSource"
-    />
-    <div class="user-response" v-if="userEstimationFirst">
-      <h1>
-        Effectivement, il est encore possible de mourir du VIH en France
-      </h1>
-      <p>Malgré les avancées scientifiques sur les différents traitements et ainsi la nette diminution du nombre de mort, le VIH tue encore. Pour limiter l’avancée des symptômes liés au virus, il est important de se faire dépister au moindre doute.</p>
-    </div>
-    <div class="user-response" v-else>
-      <h1>
-        Détrompe-toi ! Il est encore possible de mourir du VIH en France
-      </h1>
-      <p>Malgré les avancées scientifiques sur les différents traitements et ainsi la nette diminution du nombre de mort, le VIH tue encore. Pour limiter l’avancée des symptômes liés au virus, il est important de se faire dépister au moindre doute.</p>
-    </div>
-    <div class="legend" :class="{ details: detailsDisplay }">
-      <div class="legend-item first">
-        <div class="legend-square" :style="{ backgroundColor: $globals.dataColors.getColorCode(index) }"></div>
-        <p>Nombre de personnes sous-traitement</p>
+    <div class="wrapper">
+      <DeathTreatmentDataviz
+        :width="900"
+        :height="500"
+        :treatment-data-source="treatmentDataSource"
+        :death-data-source="deathDataSource"
+      />
+      <div class="user-response" v-if="userEstimationFirst">
+        <h1>
+          Effectivement, il est encore possible de mourir du VIH en France
+        </h1>
+        <p>Malgré les avancées scientifiques sur les différents traitements et ainsi la nette diminution du nombre de mort, le VIH tue encore. Pour limiter l’avancée des symptômes liés au virus, il est important de se faire dépister au moindre doute.</p>
       </div>
-      <div class="legend-item second">
-        <div class="legend-square" :style="{ backgroundColor: $globals.dataColors.getColorCode(index) }"></div>
-        <p>Nombre de mort</p>
+      <div class="user-response" v-else>
+        <h1>
+          Détrompe-toi ! Il est encore possible de mourir du VIH en France
+        </h1>
+        <p>Malgré les avancées scientifiques sur les différents traitements et ainsi la nette diminution du nombre de mort, le VIH tue encore. Pour limiter l’avancée des symptômes liés au virus, il est important de se faire dépister au moindre doute.</p>
       </div>
+      <div class="legend">
+        <div class="legend-item first">
+          <div class="legend-square" :style="{ backgroundColor: $globals.dataColors.getColorCode(1) }"></div>
+          <p>Nombre de personnes sous traitement</p>
+        </div>
+        <div class="legend-item second">
+          <div class="legend-square" :style="{ backgroundColor: $globals.dataColors.getColorCode(3) }"></div>
+          <p>Nombre de morts du VIH</p>
+        </div>
+      </div>
+      <img src="../../assets/flower.svg" alt="">
     </div>
-    <img src="../../assets/flower.svg" alt="">
   </article>
 </template>
 
@@ -107,11 +109,15 @@ export default {
   width: 100%;
   height: 100%;
   background-color: white;
-  margin: auto;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  padding: 5%;
+
+  .wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 5%;
+  }
 
   img {
     position: fixed;

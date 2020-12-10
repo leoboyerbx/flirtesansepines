@@ -30,7 +30,7 @@ const sequence = {
 
     methods: {
         onTransitionEnd(e) {
-            if (e.target === this.$el && this.currentState === 'past' || this.currentState === 'future') {
+            if (e.target === this.$el && (this.currentState === 'past' || this.currentState === 'future')) {
                 this.displayStyle = 'none'
                 this.$emit('finished-exit')
                 this.$emit('finished-transition')

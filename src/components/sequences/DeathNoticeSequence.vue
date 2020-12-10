@@ -1,5 +1,5 @@
 <template>
-  <article class="question"
+  <article class="question scrolling-slide"
            v-on:wheel="onWheelChangeSlide"
            :class="[ currentState, arrivingClass ]"
            :style="{ display: displayStyle }"
@@ -61,22 +61,10 @@ export default {
   width: 100%;
   height: 100%;
 
-  background-color: $backgroundColor;
+  background-color: #fff;
   font-family: $titleFont;
   transition: all $slideDurationEasing;
 
-  &.future {
-    transform: translate3d(0, 100vh, 0);
-  }
-  &.arriving-forward {
-    animation: arriving-from-bottom $slideDurationEasing;
-  }
-  &.past {
-    opacity: 0;
-  }
-  &.arriving-backward {
-    animation: fade-in $slideDurationEasing;
-  }
 
 .wrapper {
   display: flex;
@@ -113,7 +101,6 @@ export default {
       font-size: 50px;
       color: $themeBlue3;
       margin:auto;
-      color: $themeBlue3;
       text-align: center;
       max-width: 60%;
     }

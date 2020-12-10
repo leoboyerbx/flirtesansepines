@@ -39,29 +39,28 @@
         @prev-slide="prevSlide"
         @finished-transition="endedTransition"
     />
+    <ScreeningLateSequence
+        :current-state="stateOfSlide(6)"
+        @next-slide="nextSlide"
+        @prev-slide="prevSlide"
+        @finished-transition="endedTransition"
+    />
+    <FrequenceCondonUsageSequence
+        :current-state="stateOfSlide(7)"
+        @next-slide="nextSlide"
+        @prev-slide="prevSlide"
+        @finished-transition="endedTransition"
+    />
+    <CondomUsageSequence
+        :current-state="stateOfSlide(8)"
+        @next-slide="nextSlide"
+        @prev-slide="prevSlide"
+        @finished-transition="endedTransition"
+    />
 
 
-<!--    <ScreeningLateSequence-->
-<!--        :current-state="stateOfSlide(6)"-->
-<!--        @next-slide="nextSlide"-->
-<!--        @prev-slide="prevSlide"-->
-<!--        @finished-transition="endedTransition"-->
-<!--    />-->
 
-<!--    <CondomUsageSequence-->
-<!--        :current-state="stateOfSlide(7)"-->
-<!--        :transition-direction="transitionDirection"-->
-<!--        @next-slide="nextSlide"-->
-<!--        @prev-slide="prevSlide"-->
-<!--        @finished-transition="endedTransition"-->
-<!--    />-->
 
-<!--    <FrequenceCondonUsageSequence-->
-<!--        :current-state="stateOfSlide(8)"-->
-<!--        @next-slide="nextSlide"-->
-<!--        @prev-slide="prevSlide"-->
-<!--        @finished-transition="endedTransition"-->
-<!--    />-->
 
 <!--    <ConclusionSequence-->
 <!--        :current-state="stateOfSlide(9)"-->

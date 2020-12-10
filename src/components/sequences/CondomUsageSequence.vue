@@ -1,12 +1,12 @@
 <template>
-  <article v-on:wheel="onWheel" 
-           class="condom-usage" 
+  <article v-on:wheel="onWheelChangeSlide"
+           class="condom-usage scrolling-slide"
            :class="currentState">
         <h1>Utilisation du préservatif</h1>
 
         <p class="return-to-global-sequence" :class="{visible: detailsDisplay}" v-on:click="detailsDisplay = false">RETOUR</p>
 
-        <CondomUsageDataviz 
+        <CondomUsageDataviz
           :dataSource="globalCondomUsageDataSource"
           :width="500"
           :height="500"
@@ -29,6 +29,7 @@
 import { csv, json } from 'd3';
 import CondomUsageDataviz from "@/components/dataviz/CondomUsageDataviz";
 import DetailsCondomUsageDataviz from "@/components/dataviz/DetailsCondomUsageDataviz";
+import sequence from "@/mixins/sequenceMixin";
 
 function dataParseInt (d) {
   d.value = +d.value
@@ -37,6 +38,7 @@ function dataParseInt (d) {
 
 export default {
   name: 'CondomUsageSequence',
+  mixins: [ sequence ],
   props: {
     currentState: {
       type: String,
@@ -73,25 +75,9 @@ export default {
       }
       return data
     },
-    
+
   },
   methods: {
-    onWheel (e) {
-      const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
-      const scrollLimit = this.$el.offsetHeight - vh
-
-      const canGoUp = e.deltaY < 0 && this.translateY < 0
-      const canGoDown = e.deltaY > 0 && this.translateY > -scrollLimit
-      console.log(e.deltaY)
-      console.log(this.translateY)
-      if (canGoUp || canGoDown) {
-        this.translateY -= e.deltaY * this.scrollFactor
-      } else if (e.deltaY > 0 && this.translateY <= -scrollLimit && !this.displayNextSlide) {
-        this.$emit('next-slide');
-        //document.getElementById('zoomable').getElementsByClassName('.checkmark');
-        this.displayNextSlide = true;
-      }
-    },
     async getDataSource () {
       this.condomUsageDataSource = await csv('datas/detailsCondomUsage.csv', dataParseInt)
       this.noCondomUsageDataSource = await csv('datas/detailsNoCondomUsage.csv', dataParseInt)
@@ -122,20 +108,10 @@ export default {
   left: 0;
   width: 100%;
   min-height: 100%;
-  transition: all .5s;
-  opacity:0;
-  visibility: hidden;
-  transition-delay: .5s;
   margin: auto;
   padding: 2% 10%;
   background: $themeRed;
-  position: relative;
-
-  &.current {
-    position: fixed;
-    opacity:1;
-    visibility: visible;
-  }
+  position: fixed;
 
   .return-to-global-sequence {
     opacity: 0;
@@ -143,7 +119,7 @@ export default {
     cursor: pointer;
     color: #fff;
     font-size: .8rem;
-    
+
     &.visible {
       opacity:1;
     }

@@ -77,4 +77,19 @@ body {
     opacity: 0;
   }
 }
+.scrolling-slide {
+  transition: all $slideDurationEasing;
+  &.future {
+    transform: translate3d(0, 100vh, 0);
+  }
+  &.arriving-forward {
+    animation: arriving-from-bottom $slideDurationEasing;
+  }
+  &.past {
+    transform: translate3d(0, -100vh, 0);
+  }
+  &.arriving-backward {
+    animation: arriving-from-top $slideDurationEasing;
+  }
+}
 </style>

@@ -1,7 +1,7 @@
 <template>
   <article
       v-on:wheel="onWheelChangeSlide"
-      class="screening-late"
+      class="screening-late scrolling-slide"
       :class="[ currentState, arrivingClass ]"
       :style="{ display: displayStyle }"
   >
@@ -46,14 +46,6 @@ export default {
   transition: all $slideDurationEasing;
   margin: auto;
   padding: 4% 10%;
-
-  &.future {
-    opacity: 0;
-  }
-  &.arriving-forward {
-    animation: fade $slideDurationEasing;
-  }
-
 
   h1 {
     color: $themeBlue3;
