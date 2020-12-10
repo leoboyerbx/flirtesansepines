@@ -9,6 +9,15 @@
     >
       {{ tooltipKey }}: {{ tooltipValues.percentage }}%
     </div>
+    <div class="legend">
+          <div class="legend-item"
+          v-for="(data, key, index) in legendsData"
+            :key="key">
+            <span class="identifier"
+                :style="{ backgroundColor: $globals.dataColors.getColorCode(index) }"></span>
+            <p class="legend-name">{{ key }}</p>
+          </div>
+    </div>
   </div>
 </template>
 
@@ -26,7 +35,7 @@ export default {
   },
   data: () => ({
     svg: null,
-    margin: {top: 20, right: 200, bottom: 60, left: 100},
+    margin: {top: 20, right: 200, bottom: 60, left: 120},
     keys: ['age', "never", "over12Months", "in12Months"],
     bandSpacing: 30,
     tooltipVisible: false,
@@ -40,6 +49,14 @@ export default {
   computed: {
     dataWidth () {
       return this.width - this.margin.left - this.margin.right
+    },
+    legendsData () {
+      if (this.dataSource[0]) {
+        const result = Object.assign({}, this.dataSource[0])
+        delete result.age
+        return result
+      }
+      return {}
     },
     dataHeight() {
       return this.height - this.margin.top - this.margin.bottom
@@ -99,7 +116,9 @@ export default {
       const yAxisGenerator = d3.axisLeft(y)
       const yAxis = this.svg.append("g")
           .attr("class", "y axis")
+          .attr("transform", "translate(-30,0)")
           .call(yAxisGenerator)
+
 
       yAxis.selectAll("text")
           .style("text-anchor", "end")
@@ -157,7 +176,8 @@ export default {
 <style lang="scss">
 .screeningBehaviourDataviz {
   position: relative;
-  display:flex;
+  display: flex;
+  flex-direction: column;
   .tooltip {
     pointer-events: none;
     position: absolute;
@@ -166,6 +186,7 @@ export default {
     background-color: #00000088;
     color: #fff;
     padding: 10px;
+    font-size: 1rem;
     border-radius: 3px;
     opacity: 0;
     transition: all .05s;
@@ -173,10 +194,30 @@ export default {
       opacity: 1;
     }
   }
+
+  .legend {
+    display:flex;
+    .legend-item {
+      display:flex;
+
+      margin-right: 16px;
+      .legend-name {
+        font-size: 1.4rem;
+        margin:0;
+      }
+      span {
+        width: 30px;
+        height: 30px;
+        margin-right: 10px;
+      }
+    }
+  }
+
   .axis-text {
     //fill: #f00;
-    font-family: $titleFont;
-    font-size: 1.1em;
+    font-family: $paragraphFont;
+    font-size: 1rem;
+    color: white;
   }
 
   svg{

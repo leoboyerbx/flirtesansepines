@@ -26,7 +26,8 @@ export default {
     LottieAnimation
   },
   props: {
-    value: Number
+    value: Number,
+    locked: Boolean
   },
   mounted() {
     window.addEventListener('mouseup', this.mouseUp)
@@ -34,18 +35,28 @@ export default {
   beforeDestroy() {
     window.removeEventListener('mouseup', this.mouseUp)
   },
+  watch: {
+    locked (newVal) {
+      if (newVal) {
+        this.anim.play()
+      }
+    }
+  },
   methods: {
     setAnimcontroller (anim) {
       this.anim = anim
       this.anim.goToAndStop(this.anim.getMarkerByKey('start').tm, true)
       this.flower = this.$el.querySelector('[transform="matrix(0.15000000596046448,0,0,0.15000000596046448,51.99999237060547,443.20001220703125)"]')
+      this.flower.classList.add('flower-slider-handle')
       this.flower.addEventListener('mousedown', this.mouseDown)
     },
     updateValue: function (value) {
       this.$emit('input', value)
     },
     mouseDown (e) {
-      this.dragging = true
+      if (!this.locked) {
+        this.dragging = true
+      }
     },
     mouseMove (e) {
       if (this.dragging) {
@@ -72,8 +83,11 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
-  .flower-slider {
-    transform: translateY(50%);
+<style lang="scss">
+  //.flower-slider {
+  //  transform: translateY(50%);
+  //}
+  .flower-slider-handle {
+    cursor: pointer;
   }
 </style>

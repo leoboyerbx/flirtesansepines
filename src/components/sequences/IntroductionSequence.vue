@@ -1,34 +1,45 @@
 <template>
   <article
-      :style="{transform: transformProprety }"
-      v-on:wheel="onWheel"
       class="experience-introduction"
-      :class="currentState"
+      @scroll="onScroll"
+      @wheel="onWheel"
+      :class="[ currentState, arrivingClass ]"
+      :style="{ display: displayStyle }"
   >
-    <section class="lottie-wrapper">
-      <lottieAnimation
-          class="intro-lottie"
-          path="lottie/introAnim.json"
-          :auto-play="false"
-          :loop="false"
-          @AnimControl="setAnimController"
-          :speed="0.4"
-      />
+    <section class="lottie-wrapper" :style="{ height: lottieWrapperHeight + 'px' }">
+      <div class="sitcky-wrapper">
+        <lottieAnimation
+            class="intro-lottie"
+            path="lottie/introAnim.json"
+            :auto-play="false"
+            :loop="false"
+            @AnimControl="setAnimController"
+            :speed="0.4"
+            ref="lottie"
+        />
+        <div class="title" :class="{ visible: animationFinished }">
+          <h1>Flirt sans épines</h1>
+        </div>
+        <div class="scroll-incite" :class="{ visible: displayScrollIncite }">
+          <ScrollIncitator /> <p>Scrollez pour démarrer...</p>
+        </div>
+      </div>
     </section>
-    <div class="title" :class="{ visible: titleVisible }">
-      <h1>Flirt sans épines</h1>
-    </div>
-    <HIVEstimation @confirm="confirmEstimation" class="hiv-estimation" />
+    <HIVEstimation @confirm="confirmEstimation" :locked="locked" class="hiv-estimation" />
   </article>
 </template>
 
 <script>
 import LottieAnimation from "@/components/lib/LottieAnimation";
 import HIVEstimation from "@/components/sequences/partials/HIVEstimation";
+import sequence from "@/mixins/sequenceMixin";
+import ScrollIncitator from "@/components/lib/ScrollIncitator";
 
 export default {
   name: 'IntroductionSequence',
+  mixins: [ sequence ],
   components: {
+    ScrollIncitator,
     HIVEstimation,
     LottieAnimation
   },
@@ -38,8 +49,23 @@ export default {
     lottieFactor: 1,
     lottiePlaying: false,
     isScrollAnimating: false,
-    titleVisible: false
+    animationFinished: false,
+    lottieScrollHeight: 3000,
+    lottieHeight: 0,
+    animationEndedScrollOffset: 100,
+    locked: true,
+    displayScrollIncite: false
   }),
+  mounted () {
+    window.addEventListener('resize', this.onResize.bind(this))
+
+    setTimeout(() => {
+      this.displayScrollIncite = true
+    }, 1000)
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.onResize.bind(this))
+  },
   props: {
     currentState: {
       type: String,
@@ -47,81 +73,60 @@ export default {
     }
   },
   computed: {
-    transformProprety () {
-      return this.currentState ===  'past'
-          ? 'translate3d(0, -100%, 0)'
-          : 'translate3d(0, ' + this.translateY + 'px ,0)'
-    },
     totalFrames () {
       return this.anim.totalFrames || 0
+    },
+    lottieWrapperHeight () {
+      return this.lottieHeight + this.currentLottieScrollHeight
+    },
+    currentLottieScrollHeight () {
+      return this.animationFinished ? 0 : this.lottieScrollHeight
     }
   },
   methods: {
-    onWheel (e) {
-      if (this.anim.currentFrame < this.totalFrames -1) {
-        this.handleWheelLottie(e)
-      } else {
-        this.handleWheelScroll(e)
-      }
-    },
-    handleWheelScroll (e) {
-      const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
-      const scrollLimit = this.$el.offsetHeight - vh
-      if (!this.isScrollAnimating) {
+    onScroll () {
+      const progress = this.$el.scrollTop / (this.lottieScrollHeight - this.animationEndedScrollOffset)
+      this.displayScrollIncite = false
 
-        const canGoUp = e.deltaY < 0 && this.translateY < 0
-        const canGoDown = e.deltaY > 0 && this.translateY > -scrollLimit
-        if (canGoUp || canGoDown) {
-          this.translateY -= e.deltaY * this.scrollFactor
-          this.isScrollAnimating = true
-          setTimeout(() => {
-            this.isScrollAnimating = false
-          }, 400)
-        }
-        // else if (e.deltaY > 0 && this.translateY <= -scrollLimit && !this.displayNextSlide) {
-        //   if (this.currentState !== 'past') {
-        //     this.$emit('next-slide')
-        //   }
-        // }
-      }
-      if (this.translateY > 0) this.translateY = 0
-      if (this.translateY < -scrollLimit) this.translateY = -scrollLimit
-    },
-    handleWheelLottie (e) {
-      if (!this.lottiePlaying && e.deltaY > 0) {
-        this.anim.play()
-        this.lottiePlaying = true
+      if (!this.animationFinished ) {
+        if (progress < 1) {
+          this.handleScrollLottie(progress)
 
-        if (this.anim.currentFrame < 90) {
-          setTimeout(() => {
-            this.anim.pause()
-            this.lottiePlaying = false
-          }, 400)
         } else {
-          this.anim.setSpeed(1)
+          this.animationFinished = true
+          this.$el.scrollTop = 0
         }
       }
+    },
+    onWheel (e) {
+      if (!this.locked && e.deltaY > 0 && this.$el.scrollTop === (this.$el.scrollHeight - this.$el.offsetHeight))  {
+        this.$emit('next-slide')
+      }
+    },
+    onResize () {
+      if (this.$refs.lottie) {
+        this.lottieHeight = this.$refs.lottie.$el.offsetHeight
+      }
+      // this.vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
+    },
+    handleScrollLottie (progress) {
+      if (this.anim) {
+        this.anim.goToAndStop(progress * this.totalFrames, true)
+      }
 
-      // if (e.deltaY > 0) {
-      //   this.anim.goToAndStop(this.anim.currentFrame + 1, true)
-      // }
-      // if (e.deltaY > 0) {
-      //   console.log(this.anim.currentFrame)
-      //   this.anim.playSegments([
-      //     [this.anim.currentSlide, this.anim.currentSlide + e.deltaY * this.lottieFactor]
-      //   ], false)
-      // }
     },
     confirmEstimation () {
+      this.locked = false
       this.$emit('next-slide')
     },
     setAnimController (anim) {
       this.anim = anim
-      this.anim.goToAndStop(50, true)
       window.anim = anim
       this.anim.addEventListener('complete', () => {
-        this.titleVisible = true
+        this.animationFinished = true
+        this.$el.scrollTop = 0
       })
+      this.onResize()
       // window.setInterval(() => {
       //   console.log(this.anim.currentFrame)
       // }, 10)
@@ -137,12 +142,29 @@ export default {
   top: 0;
   left: 0;
   width: 100%;
-  min-height: 100%;
-  transition: all .6s ease;
+  height: 100vh;
+  transition: all $slideDurationEasing;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
+  &.past {
+    transform: translate3d(0, -100vh, 0);
+  }
+
+  &.arriving-backward {
+    animation: arriving-from-top $slideDurationEasing;
+  }
   .lottie-wrapper {
     width: 100%;
     //background-color: $themeRed;
+
+    .sitcky-wrapper {
+      position: sticky;
+      top: 0;
+    }
     .intro-lottie {
       position: relative;
       //left: 0;
@@ -155,7 +177,7 @@ export default {
       &::after {
         content: '';
         position: absolute;
-        bottom: -12px;
+        bottom: -10px;
         height: 20px;
         left: 0;
         width: 100%;
@@ -186,7 +208,32 @@ export default {
     }
   }
   .hiv-estimation {
-    transform: translateY(-150px);
+    //transform: translateY(-150px);
+  }
+  .scroll-incite {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    color: #fff;
+    font-size: 1.8rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all .5s;
+    opacity: 0;
+    pointer-events: none;
+    &.visible {
+      opacity: .6;
+      transition: all .8s;
+    }
+    .incite-wrapper {
+      transform: scale(.8);
+    }
+    p {
+      margin-left: 15px;
+    }
   }
 }
 </style>

@@ -1,11 +1,23 @@
 <template>
-  <article class="css-animation-sequence" v-on:wheel="onWheel"  :class="currentState">
+  <article
+      class="css-animation-sequence"
+      v-on:wheel="onWheel"
+      :class="[ currentState, arrivingClass ]"
+      :style="{ display: displayStyle }"
+  >
 
-    <div class="box">
-      <h1 class="first-title" :class="{ visible: currentStep === 0 }">Contrairement aux idées reçues, le VIH est toujours présent en France.</h1>
-      <h1 class="second-title" :class="{ visible: currentStep === 1 }">Il est toujours possible de faire diminuer le nombre de contaminations.</h1>
+    <div
+        class="box"
+        ref="box"
+    >
+      <h1 class="first-title" :class="{ visible: currentStep === 0 }">
+        Contrairement aux idées reçues, le VIH est toujours présent en France.
+      </h1>
+      <h1 class="second-title" :class="{ visible: currentStep === 1 }">
+        Il est cependant toujours possible de faire diminuer le nombre de contaminations.
+      </h1>
 
-      <svg :class="'step' + currentStep" class='ronce1HG' viewBox="0 0 1393 156" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg :class="'step' + currentStep" class='ronce1HG ronce' viewBox="0 0 1393 156" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M1383.04 -226.778C1383.04 -226.778 492.956 510.501 -236.337 -118.684" stroke="white" stroke-width="20" stroke-miterlimit="10"/>
         <path d="M965.028 39.8609C964.428 42.6582 961.93 42.7581 960.531 42.7581C963.429 41.0598 961.63 38.5622 960.431 37.4633C959.232 36.3644 956.734 36.0646 953.836 35.3653C950.638 34.5661 950.638 30.7698 949.439 28.4721L959.732 24.1763C961.43 25.475 965.628 27.7728 964.029 30.57C961.93 34.2664 966.327 32.9677 965.028 39.8609Z" fill="white"/>
         <path d="M911.365 18.5817C911.965 15.7844 914.463 15.7844 915.762 15.7844C912.964 17.3829 914.663 19.9803 915.762 21.0792C916.861 22.1782 919.46 22.4779 922.158 23.2771C925.256 24.1762 925.256 27.8726 926.455 30.2703L916.162 34.3663C914.463 33.0675 910.366 30.57 912.065 27.7727C914.263 24.2761 909.866 25.475 911.365 18.5817Z" fill="white"/>
@@ -26,7 +38,7 @@
         <path d="M-2.79945 58.7425C-5.19778 60.1412 -6.99653 58.3429 -7.99584 57.3439C-4.79806 58.3429 -4.09855 55.3459 -4.09855 53.7474C-4.09855 52.149 -5.59751 50.051 -6.8966 47.4536C-8.39556 44.5564 -5.59751 42.0588 -4.69813 39.5613L5.29492 44.4565C5.49478 46.5544 6.59402 51.2499 3.39624 51.9492C-0.70091 52.6485 3.29631 55.146 -2.79945 58.7425Z" fill="white"/>
       </svg>
 
-      <svg :class="'step' + currentStep" class="ronce2HD" viewBox="0 0 355 1023" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg :class="'step' + currentStep" class="ronce2HD ronce" viewBox="0 0 355 1023" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M752.724 1023C752.724 1023 -211.606 467.743 74.0951 -217.088" stroke="white" stroke-width="20" stroke-miterlimit="10"/>
         <path d="M345.407 729.487C342.609 729.986 341.509 727.688 340.91 726.39C343.608 728.388 345.307 725.79 345.806 724.292C346.406 722.793 345.606 720.296 345.207 717.398C344.707 714.102 348.205 712.703 349.904 710.705C352.502 713.402 355.2 716 357.798 718.697C357.298 720.795 356.699 725.59 353.501 725.091C349.404 724.492 352.402 728.088 345.407 729.487Z" fill="white"/>
         <path d="M344.407 671.344C347.205 670.844 348.205 673.142 348.704 674.441C346.106 672.442 344.407 675.04 343.808 676.439C343.208 677.937 343.908 680.435 344.207 683.332C344.607 686.629 341.11 688.027 339.411 689.925L331.616 681.833C332.116 679.835 332.815 675.04 336.113 675.539C340.21 676.239 337.412 672.542 344.407 671.344Z" fill="white"/>
@@ -44,7 +56,7 @@
         <path d="M41.3179 28.2723C43.6163 29.8707 42.717 32.1685 42.2173 33.3673C41.8176 30.1705 38.7197 30.7699 37.3207 31.3693C35.8217 31.9687 34.6226 34.1665 32.8238 36.4643C30.8252 39.0618 27.3277 37.6631 24.7295 37.8629V32.2684L24.8294 26.6739C26.6281 25.5749 30.5254 22.7777 32.4241 25.3751C34.8224 28.7718 35.422 24.2762 41.3179 28.2723Z" fill="white"/>
       </svg>
 
-      <svg :class="'step' + currentStep" class="ronce3HD" viewBox="0 0 750 433" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg :class="'step' + currentStep" class="ronce3HD ronce" viewBox="0 0 750 433" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M10.5139 -435.574C10.5139 -435.574 204.579 420.389 1108.75 410.998" stroke="white" stroke-width="20" stroke-miterlimit="10"/>
         <path d="M241.753 -13.9863C244.551 -14.1861 245.251 -11.8884 245.65 -10.5896C243.352 -12.7875 241.353 -10.3898 240.554 -9.0911C239.755 -7.69246 240.154 -5.19491 240.154 -2.39764C240.154 0.799236 236.557 1.89816 234.658 3.69641L227.963 -4.8952C228.762 -6.79334 229.961 -11.4888 233.059 -10.5896C237.056 -9.59061 234.758 -13.3869 241.753 -13.9863Z" fill="white"/>
         <path d="M236.257 43.1578C233.459 43.4575 232.66 41.0598 232.16 39.7611C234.558 41.9589 236.457 39.5613 237.156 38.1626C237.856 36.764 237.356 34.1665 237.256 31.2694C237.156 27.9726 240.754 26.8737 242.653 25.0754L249.548 33.5671C248.848 35.5652 247.849 40.2606 244.651 39.4614C240.754 38.5623 243.352 42.3585 236.257 43.1578Z" fill="white"/>
@@ -60,7 +72,7 @@
         <path d="M741.106 381.227C738.908 383.026 736.909 381.527 735.81 380.628C739.108 381.127 739.307 378.03 739.108 376.532C738.908 374.933 737.109 373.135 735.41 370.837C733.512 368.24 735.91 365.343 736.41 362.745L746.902 365.842C747.402 367.84 749.101 372.336 746.103 373.535C742.305 374.933 746.602 376.732 741.106 381.227Z" fill="white"/>
       </svg>
 
-      <svg :class="'step' + currentStep" class="ronce4HG" viewBox="0 0 343 488" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg :class="'step' + currentStep" class="ronce4HG ronce" viewBox="0 0 343 488" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M322.375 -378.63C322.375 -378.63 231.438 477.333 -192.268 467.943" stroke="white" stroke-width="20" stroke-miterlimit="10"/>
         <path d="M259.718 4.49555C261.417 6.79331 259.818 8.89126 258.919 9.99018C259.518 6.5935 256.42 6.2938 254.822 6.4936C253.223 6.6934 251.324 8.59155 248.926 10.2899C246.227 12.2879 243.33 9.79038 240.831 9.19096L244.329 -1.79829C246.427 -2.29781 250.924 -4.09605 252.023 -0.899173C253.422 3.19682 255.321 -1.19888 259.718 4.49555Z" fill="white"/>
         <path d="M208.154 33.0675C206.455 30.7698 208.054 28.7717 208.953 27.6728C208.354 30.9696 211.452 31.3692 212.951 31.1694C214.55 30.9696 216.448 29.1714 218.847 27.5729C221.545 25.6748 224.443 28.1723 226.941 28.7717L223.144 39.6611C221.045 40.1606 216.448 41.759 215.449 38.5622C214.45 34.4662 212.351 38.762 208.154 33.0675Z" fill="white"/>
@@ -72,7 +84,7 @@
         <path d="M25.281 355.053C24.7814 352.356 26.9799 351.257 28.279 350.657C26.3803 353.355 28.9785 354.953 30.3775 355.552C31.8765 356.152 34.3747 355.353 37.1728 354.953C40.4705 354.454 41.9695 357.85 43.9681 359.549C41.2699 362.246 38.6717 365.043 35.8737 367.641C33.7751 367.141 28.9785 366.542 29.5781 363.245C30.1776 359.149 26.5801 361.946 25.281 355.053Z" fill="white"/>
       </svg>
 
-      <svg :class="'step' + currentStep" class="ronce5HG" viewBox="0 0 360 881" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg :class="'step' + currentStep" class="ronce5HG ronce" viewBox="0 0 360 881" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M342.76 967.915C342.76 967.915 257.32 11.4499 -140.903 21.9397" stroke="white" stroke-width="20" stroke-miterlimit="10"/>
         <path d="M307.385 846.933C304.787 845.734 305.386 843.337 305.686 842.038C306.686 845.135 309.583 844.036 310.883 843.237C312.282 842.338 313.081 840.04 314.48 837.542C316.079 834.745 319.676 835.544 322.275 834.945L323.874 845.734C322.275 847.033 318.877 850.53 316.579 848.232C313.581 845.335 313.781 849.93 307.385 846.933Z" fill="white"/>
         <path d="M340.362 799.979C342.96 801.178 342.461 803.576 342.161 804.975C341.161 801.878 338.264 802.976 336.964 803.876C335.565 804.775 334.766 807.172 333.467 809.67C331.968 812.567 328.27 811.768 325.772 812.367L323.973 801.578C325.572 800.179 328.87 796.683 331.168 798.98C334.166 801.678 333.867 797.082 340.362 799.979Z" fill="white"/>
@@ -91,7 +103,7 @@
         <path d="M2.09715 89.0742C-0.501044 90.0732 -1.70021 88.1751 -2.39972 86.9762C0.298401 88.3749 1.5975 85.5776 1.89729 84.0791C2.29701 82.4806 1.29771 80.2828 0.398331 77.5854C-0.501044 74.5883 2.49687 72.4904 3.8959 70.1926C6.89382 72.1907 9.79181 74.3885 12.6898 76.4865C12.4899 78.5844 12.4899 83.2798 9.29215 83.3798C5.39486 83.5796 8.59264 86.4767 2.09715 89.0742Z" fill="white"/>
       </svg>
 
-      <svg :class="'step' + currentStep" class="ronce6BG" viewBox="0 0 633 533" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg :class="'step' + currentStep" class="ronce6BG ronce" viewBox="0 0 633 533" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M-101.931 20.501C-101.931 20.501 609.575 128.495 612.573 694.842" stroke="white" stroke-width="20" stroke-miterlimit="10"/>
         <path d="M31.2769 31.8898C33.5753 30.0915 35.6738 31.69 36.873 32.4892C33.4753 31.9897 33.2755 35.0866 33.4753 36.5851C33.6752 38.1836 35.6738 40.0817 37.4726 42.3795C39.4712 45.0768 37.0728 47.974 36.5732 50.5714L25.4809 47.2747C24.8813 45.1767 22.9826 40.6811 26.1804 39.5822C30.1776 38.1836 25.6808 36.3854 31.2769 31.8898Z" fill="white"/>
         <path d="M60.5565 83.0396C58.2581 84.7379 56.2595 83.1395 55.1603 82.2404C58.458 82.8398 58.7578 79.7428 58.6578 78.2443C58.458 76.6459 56.6592 74.7478 54.9604 72.3501C53.0617 69.6528 55.4601 66.7556 56.0596 64.2581C59.6571 65.4569 63.3546 66.6557 66.9521 67.8546C67.4517 69.9525 69.1505 74.5479 65.9528 75.5469C61.9555 76.7458 66.2526 78.7438 60.5565 83.0396Z" fill="white"/>
@@ -108,7 +120,7 @@
         <path d="M606.377 516.916C607.776 517.415 608.476 518.314 608.776 519.213C609.075 520.212 608.975 521.211 608.975 522.01C607.576 518.714 604.878 520.312 603.679 521.411C602.48 522.51 601.98 525.207 600.881 528.005C599.682 531.201 595.984 530.702 593.486 531.701C592.387 528.005 591.488 524.208 590.288 520.612C591.687 519.013 594.386 514.917 597.084 516.916C600.481 519.513 599.482 514.718 606.377 516.916Z" fill="white"/>
       </svg>
 
-      <svg :class="'step' + currentStep" class="ronce7BG" viewBox="0 0 1437 219" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg :class="'step' + currentStep" class="ronce7BG ronce" viewBox="0 0 1437 219" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M-50.966 60.1553C-50.966 60.1553 1324.18 -114.074 1486.17 277.343" stroke="white" stroke-width="20" stroke-miterlimit="10"/>
         <path d="M70.5496 27.1874C71.8487 24.6898 74.247 25.3892 75.5461 25.6889C72.3483 26.4881 73.3476 29.3852 74.0472 30.7839C74.8466 32.1825 77.145 33.1816 79.5433 34.6801C82.2415 36.3785 81.2422 39.975 81.7418 42.5724L70.8494 43.5715C69.6502 41.8731 66.3525 38.3765 68.7508 36.1786C71.7488 33.5812 67.2519 33.4813 70.5496 27.1874Z" fill="white"/>
         <path d="M114.919 63.252C113.62 65.7495 111.221 65.0503 109.922 64.6506C113.02 63.8514 112.121 60.9543 111.421 59.5556C110.622 58.157 108.323 57.158 105.925 55.5595C103.227 53.8612 104.226 50.2647 103.826 47.6672L114.619 46.7681C115.818 48.4664 119.016 52.0629 116.718 54.1609C113.82 56.9581 118.316 57.058 114.919 63.252Z" fill="white"/>
@@ -136,7 +148,7 @@
         <path d="M1397.73 196.722C1395.13 197.721 1393.93 195.723 1393.33 194.524C1396.03 195.922 1397.43 193.225 1397.83 191.726C1398.23 190.228 1397.33 187.93 1396.63 185.233C1395.83 182.136 1398.93 180.138 1400.33 177.94L1408.82 184.533C1408.52 186.631 1408.32 191.327 1405.12 191.327C1401.22 191.327 1404.22 194.324 1397.73 196.722Z" fill="white"/>
       </svg>
 
-      <svg :class="'step' + currentStep" class="ronce8BD" viewBox="0 0 468 489" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg :class="'step' + currentStep" class="ronce8BD ronce" viewBox="0 0 468 489" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M20.311 561.929C20.311 561.929 111.248 14.4639 534.953 20.458" stroke="white" stroke-width="20" stroke-miterlimit="10"/>
         <path d="M35.3007 429.158C33.6019 426.861 35.3007 424.763 36.2001 423.664C35.5006 427.061 38.5985 427.36 40.1974 427.26C41.7963 427.061 43.7949 425.262 46.1932 423.564C48.9913 421.666 51.7893 424.163 54.2876 424.863L50.4902 435.752C48.3917 436.252 43.7948 437.95 42.7955 434.753C41.5964 430.557 39.5977 434.953 35.3007 429.158Z" fill="white"/>
         <path d="M87.6644 402.185C89.2633 404.483 87.5645 406.381 86.6651 407.48C87.3646 404.183 84.3667 403.783 82.7678 403.883C81.1689 403.983 79.1703 405.681 76.672 407.28C73.874 409.078 71.1758 406.481 68.5776 405.781C69.8767 402.185 71.2758 398.688 72.6748 395.092C74.7733 394.692 79.3701 393.294 80.2695 396.49C81.4687 400.487 83.6672 396.39 87.6644 402.185Z" fill="white"/>
@@ -174,11 +186,12 @@
 </template>
 
 <script>
-
+import sequence from "@/mixins/sequenceMixin";
 
 export default {
   name: 'TransitionSentenceSequence',
   components: {},
+  mixins: [ sequence ],
   data: () => ({
     displayNextSlide: false,
     scrollFactor: 10,
@@ -186,7 +199,9 @@ export default {
     currentStep: 0,
     maxStep: 2,
     isTransitioning: false,
-    animationDurations: [3000, 500, 500]
+    ronceNum: 8,
+    animationEndCount: 0,
+    delayBeforeNextSlide: 3200
   }),
   props: {
     currentState: {
@@ -194,35 +209,55 @@ export default {
       default: 'future'
     }
   },
+  mounted () {
+    this.$refs.box.addEventListener('animationend', this.boxAnimationEnd)
+    this.$refs.box.addEventListener('transitionend', this.titleTransitionEnd)
+  },
   watch: {
-    currentState (newVal) {
+    currentState (newVal, oldVal) {
       if (newVal === 'current') {
+        this.isTransitioning = true
         this.currentStep = 0
-        this.setIsTransitionning()
+        // if (oldVal === 'future') {
+        // }
+        // else {
+        //   this.$emit('prev-slide', true)
+        // }
       }
     }
   },
   methods: {
     onWheel (e) {
-
       if (!this.isTransitioning) {
         if (e.deltaY > 0) {
           if (this.currentStep < this.maxStep) {
             this.currentStep++
-            this.setIsTransitionning()
-          } else {
-            this.$emit('next-slide')
+            this.isTransitioning = true
+            if (this.currentStep >= this.maxStep) {
+              setTimeout(() => {
+                this.$emit('next-slide')
+              }, this.delayBeforeNextSlide)
+            }
           }
+        } else if (e.deltaY < 0 && this.currentStep === 0) {
+          this.$emit('prev-slide')
         }
       }
-   },
-  setIsTransitionning() {
-    this.isTransitioning = true
-    setTimeout(() => {
-      console.log('coucou')
-      this.isTransitioning = false
-    }, this.animationDurations[this.currentStep])
-  }
+    },
+    boxAnimationEnd (e) {
+      if (e.target.classList.contains('ronce')) {
+        this.animationEndCount++
+        if (this.animationEndCount >= this.ronceNum) {
+          this.isTransitioning = false
+          this.animationEndCount = 0
+        }
+      }
+    },
+    titleTransitionEnd (e) {
+      if (e.target.classList.contains('second-title')) {
+        this.isTransitioning = false
+      }
+    }
   },
 }
 </script>
@@ -235,25 +270,24 @@ export default {
   left: 0;
   width: 100%;
   min-height: 100%;
-  opacity:0;
-  visibility: hidden;
   margin: auto;
   padding: 4% 10%;
-  position:relative;
   background: #5C90B6;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-
-.css-animation-sequence.current {
   position: fixed;
-  opacity:1;
-  transition: all .5s;
-
-  visibility: visible;
-  transition-delay: .5s;
+  transition: all $slideDurationEasing;
+  &.future {
+    opacity: 0;
+  }
+  &.arriving-forward {
+    animation: fade-in $slideDurationEasing $slideDuration both;
+  }
+  &.past {
+    opacity: 0;
+  }
 
   h1 {
     font-family: $titleFont;

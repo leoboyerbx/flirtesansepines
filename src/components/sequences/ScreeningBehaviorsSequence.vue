@@ -1,6 +1,11 @@
 <template>
-  <article class="screening-behaviors" :class="currentState">
-    <h1>Comportement face au dépistage</h1>
+  <article
+      class="screening-behaviors"
+      v-on:wheel="onWheelChangeSlide"
+      :class="[ currentState, arrivingClass ]"
+      :style="{ display: displayStyle }"
+  >
+    <h1>Fréquence de dépistage par tranche d'âge</h1>
     <ScreeningBehaviorsDataviz
       :dataSource="dataSource"
       :width="800"
@@ -12,10 +17,12 @@
 <script>
 import { csv } from 'd3'
 import ScreeningBehaviorsDataviz from "@/components/dataviz/ScreeningBehaviorsDataviz";
+import sequence from "@/mixins/sequenceMixin";
 
 export default {
   name: "ScreeningBehaviorsSequence",
   components: {ScreeningBehaviorsDataviz},
+  mixins: [ sequence ],
   props: {
     currentState: {
       type: String,
@@ -37,6 +44,13 @@ export default {
         return data
       })
       this.dataSource = dataSource
+    },
+    onWheelChangeSlideCustom (e) {
+      if (e.deltaY > 0) {
+        this.$emit('next-slide')
+      } else if (e.deltaY < 0) {
+        this.$emit('prev-slide', 2)
+      }
     }
   }
 }
@@ -46,25 +60,37 @@ export default {
 //@import '@/assets/scss/globals.scss';
 
 .screening-behaviors {
-  display: none;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: $backgroundColor;
+  background-color: $themeRed;
   margin: auto;
-  &.current {
-    display: block;
+  padding: 5% 20%;
+  transition: all $slideDurationEasing;
+
+  &.future {
+    opacity: 0;
   }
+  &.arriving-forward {
+    animation: fade-in $slideDurationEasing;
+  }
+  &.past {
+    transform: translate3d(0, -100vh, 0);
+  }
+  &.arriving-backward {
+    animation: arriving-from-top $slideDurationEasing;
+  }
+
 
   h1 {
       font-family: $titleFont;
       font-size: 3.5em;
-      margin: 1.5em auto;
-      color: $themeBlue3;
-      text-align: center;
-      max-width: 60%;
+      margin: 1.5em 0;
+      color: white;
+      max-width: 50%;
+      text-align: left;
   }
 
 }

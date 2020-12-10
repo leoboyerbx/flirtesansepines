@@ -1,16 +1,18 @@
 <template>
   <div class="condom-usage-dataviz-container" >
-    <h1>Utilisation du préservatif</h1>
-    <svg class="condom-usage-dataviz" :width="width" :height="height" :class="{ details }">
+    <svg class="condom-usage-dataviz" :width="width" :height="height" :class="{ details: detailsDisplay }">
     </svg>
     <div class="tooltip" :class="{ visible: tooltipVisible }">
       <span class="arrow"></span>
       <span class="value">{{ tooltipValues.percentage }} %</span>
       <span class="desc">{{ tooltipValues.tooltip }}</span>
-      <button class="read-more"> En savoir +</button>
+      <button class="read-more" @click="learnMore"> En savoir +</button>
     </div>
-    <div class="legend">
-      <span></span>
+    <div class="legend" :class="{ details: detailsDisplay }">
+      <div class="legend-item" v-for="(data, index) in dataSource" :key="index" >
+        <div class="legend-square" :style="{ backgroundColor: $globals.dataColors.getColorCode(index) }"></div>
+        <p>{{data.name}}</p>
+      </div>
     </div>
   </div>
 </template>
@@ -21,13 +23,13 @@ import * as d3 from "d3";
 export default {
   name: 'CondomUsageDataviz',
   props: {
-    dataSource: { 
+    dataSource: {
       type: Array,
       required: true,
     },
     width: Number,
-    height: Number
-
+    height: Number,
+    detailsDisplay : Boolean,
   },
   data: () => ({
     svg: null,
@@ -38,9 +40,9 @@ export default {
     tooltipValues: {
       percentage: 0,
       tooltip: '',
-      x: 0,
-      y: 0
-    }
+      rotateAngle: 0
+    },
+    currentPie:0
   }),
   mounted() {
     this.generatePieChart();
@@ -72,32 +74,42 @@ export default {
         this.g = this.svg.append('g').attr('transform', `translate(${this.width/2}, ${this.height/2})`);
         this.updatePieChart()
     },
+    rotateChart () {
+      this.g.transition()
+                .attr("transform",  "translate(" + this.width / 2 + "," + this.height / 2 + ") rotate(" + this.tooltipValues.rotateAngle + ")")
+                .duration(1000);
+    },
     updatePieChart () {
         const pies = this.g.selectAll('.arc')
           .data(this.pie(this.dataSource))
           .enter().append('g')
           .attr('class', 'arc')
           .on("click", (e, d) => {
-              // The amount we need to rotate:
-              const rotate = 45-(e.explicitOriginalTarget.__data__.startAngle + e.explicitOriginalTarget.__data__.endAngle)/2 / Math.PI * 180;              // Transition the pie chart
-              this.g.transition()
-                .attr("transform",  "translate(" + this.width / 2 + "," + this.height / 2 + ") rotate(" + rotate + ")")
-                .duration(1000);
-              this.details = true
+              this.rotateChart()
               this.$emit('detail-index-change', d.index)
               this.$emit('detail-display')
-              
           })
           .on('mouseover', (e, d) => {
+            this.currentPie =  d.index;
             this.tooltipVisible = true;
             this.tooltipValues = {
               percentage: (d.data.value),
-              tooltip: (d.data.tooltip)
+              tooltip: (d.data.tooltip),
+              rotateAngle: 45-(e.explicitOriginalTarget.__data__.startAngle + e.explicitOriginalTarget.__data__.endAngle)/2 / Math.PI * 180
             }
-
           })
-
         pies.append('path').attr('d', this.path).attr('fill', d => this.color(d.data.value));
+    },
+    getColor (key) {
+      const index = this.dataSource.columns ? this.dataSource.columns.indexOf(key) - 1 : -1
+      if (index > -1) {
+        return this.getColorCode(index)
+      }
+    },
+    learnMore () {
+      this.rotateChart()
+      this.$emit('detail-display')
+      this.$emit('detail-index-change', this.currentPie)
     }
   }
 }
@@ -108,20 +120,39 @@ export default {
 
 
 .condom-usage-dataviz-container {
-  h1 {
-      font-family: $titleFont;
-      font-size: 3.5em;
-      margin: 1rem 0;
-      color: #ffff;
-      text-align: center;
-      width: 100%;
-  }
+
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-
- 
+  .legend {
+    display: flex;
+    flex-direction:column;
+    width: 100%;
+    color: #fff;
+    font-family: $paragraphFont;
+    font-size: 0.8rem;
+    transition: all .3s .6s;
+    &.details {
+      transition: all .3s;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      font-size: $paragraphSize;
+      margin: 5px 0;
+      p {
+        margin:0;
+      }
+      .legend-square {
+        width: 30px;
+        height: 30px;
+        margin-right:10px;
+      }
+    }
+  }
   .tooltip {
     background-color: white;
     width: 300px;
@@ -171,7 +202,7 @@ export default {
       left: -30px;
       transform: rotate(90deg);
     }
-      
+
   }
   .condom-usage-dataviz {
     cursor: pointer;
@@ -179,7 +210,7 @@ export default {
     transition: all 1s;
 
     &.details {
-      transform: translate(-80%, 55%) scale(2);
+      transform: translate(-80%, 55%) scale(1.7);
     }
     g {
       width: 100%;
@@ -201,4 +232,3 @@ export default {
 
 
 </style>
- 

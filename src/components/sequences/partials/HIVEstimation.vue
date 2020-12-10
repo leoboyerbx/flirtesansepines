@@ -2,8 +2,8 @@
   <section class="hiv-estimation">
     <p class="question">À votre avis, combien de cas de séropositivité ont été découverts en 2019 en France ?</p>
     <div class="number">{{ displayNumber }}</div>
-    <div class="confirm"><button @click="onConfirm">Valider</button></div>
-    <FlowerSlider class="flower-slider" v-model="number" />
+    <div class="confirm" :class="{ visible: locked }"><button @click="onConfirm">Valider</button></div>
+    <FlowerSlider class="flower-slider" :locked="!locked" v-model="number" />
   </section>
 </template>
 
@@ -13,6 +13,9 @@ import FlowerSlider from "@/components/sequences/partials/FlowerSlider";
 export default {
   name: "HIVEstimation",
   components: {FlowerSlider},
+  props: {
+    locked: Boolean
+  },
   data: () => ({
     number: 0,
     tweenedNumber: 0,
@@ -68,8 +71,11 @@ export default {
 <style scoped lang="scss">
 .hiv-estimation {
   position: relative;
-  height: 80vh;
+  height: 95vh;
   width: 100%;
+  margin-top: -50px;
+  overflow: hidden;
+
   .question {
     color: $themeBlue3;
     font-family: $titleFont;
@@ -83,14 +89,20 @@ export default {
     padding: 0 10%;
     font-weight: bold;
     color: $themeRed;
-    font-size: 20rem;
+    font-size: 17rem;
     text-align: right;
+    line-height: 17rem;
     //line-height: 23rem;
   }
   .confirm {
     display: flex;
     padding: 0 10%;
     justify-content: flex-end;
+    opacity: 0;
+    transition: all .3s;
+    &.visible {
+      opacity: 1;
+    }
     button {
       background-color: $themeBlue2;
       border: none;
@@ -106,7 +118,7 @@ export default {
   .flower-slider {
     position: absolute;
     width: 40%;
-    bottom: 0;
+    bottom: -50px;
     left: 0;
   }
 }

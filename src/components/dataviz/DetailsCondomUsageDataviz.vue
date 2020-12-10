@@ -1,6 +1,8 @@
 <template>
   <div class="detailsCondomUsageDataviz" :class="{ detailsDisplay }">
+    <h1>Raisons avancées</h1>
     <svg id="detail-condom-usage-dataviz"  :width="width" :height="height" ref="svg"></svg>
+    <img src="../../assets/whiteflower.svg" alt="">
   </div>
 </template>
 
@@ -18,7 +20,7 @@ export default {
   },
   data: () => ({
     svg: null,
-    margin: {top: 20, right: 20, bottom: 60, left: 350},
+    margin: {top: 20, right: 20, bottom: 60, left: 250},
     bandSpacing: 30,
     tooltipVisible: false
   }),
@@ -90,9 +92,9 @@ export default {
     styleXAxis (axis) {
     },
     styleYAxis (axis) {
-      console.log(axis.selectAll('.tick'));
       const yNodeAxis = axis.selectAll('g.tick text');
-      this.wrap(yNodeAxis, 250)
+      yNodeAxis.attr("transform", "translate(-20, -12)")
+      this.wrap(yNodeAxis, 230)
       //axis.selectAll('.tick')._groups[0].call(this.wrap, 40)
     },
     updateSvg () {
@@ -121,7 +123,6 @@ export default {
             y = text.attr("y"),
             dy = parseFloat(text.attr("dy")),
             tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
-            console.log(text)
         // eslint-disable-next-line no-cond-assign
         while (word = words.pop()) {
           line.push(word);
@@ -141,16 +142,27 @@ export default {
 <style lang="scss">
 .detailsCondomUsageDataviz {
   position: absolute;
-  left: 30%;
+  left: 35%;
+  top: 20%;
   opacity: 0;
-  width: 0;
   visibility: hidden;
-  transition: all ease-in-out 0.3s;
-  transition-delay: 1.4s;
+  transition: all ease-in-out 0.2s;
+
+  h1 {
+      font-family: $paragraphFont;
+      font-size: 1rem;
+      text-transform: uppercase;
+      margin: 0.5rem 0;
+      color: #ffff;
+      text-align: left;
+      width: 100%;
+  }
+
   &.detailsDisplay {
     opacity:1;
     width: auto;
     visibility: visible;
+    transition-delay: 1.4s;
 
     svg {
       width: auto;
@@ -167,12 +179,17 @@ export default {
     width: 0;
 
     .axis {
+
+        tspan {
+          font-family: $paragraphFont;
+          font-size: 1.2rem;
+        }
         line {
           display:none;
         }
         text{
           color: white;
-          font-size: 1rem;
+          font-size: 1.2rem;
         }
         &.y {
           .domain {
@@ -184,9 +201,17 @@ export default {
           .domain {
             color: white;
             height: 2px;
+            display: none;
           }
         }
       }
+  }
+
+  img {
+    position: fixed;
+    bottom: 0;
+    right: 40px;
+    width:100px;
   }
 }
 </style>

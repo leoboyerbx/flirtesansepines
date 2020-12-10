@@ -1,11 +1,18 @@
 <template>
-  <article class="condom-usage" :class="currentState">
-        <CondomUsageDataviz 
+  <article v-on:wheel="onWheelChangeSlide"
+           class="condom-usage scrolling-slide"
+           :class="currentState">
+        <h1>Utilisation du préservatif</h1>
+
+        <p class="return-to-global-sequence" :class="{visible: detailsDisplay}" v-on:click="detailsDisplay = false">RETOUR</p>
+
+        <CondomUsageDataviz
           :dataSource="globalCondomUsageDataSource"
           :width="500"
           :height="500"
           @detail-index-change="updateDetailsIndex"
-          @detail-display="displayDetails"
+          @detail-display="detailsDisplay = true"
+          :detailsDisplay="detailsDisplay"
 
          />
         <DetailsCondomUsageDataviz
@@ -14,6 +21,7 @@
           :width="700"
           :height="400"
         />
+
   </article>
 </template>
 
@@ -21,6 +29,7 @@
 import { csv, json } from 'd3';
 import CondomUsageDataviz from "@/components/dataviz/CondomUsageDataviz";
 import DetailsCondomUsageDataviz from "@/components/dataviz/DetailsCondomUsageDataviz";
+import sequence from "@/mixins/sequenceMixin";
 
 function dataParseInt (d) {
   d.value = +d.value
@@ -29,6 +38,7 @@ function dataParseInt (d) {
 
 export default {
   name: 'CondomUsageSequence',
+  mixins: [ sequence ],
   props: {
     currentState: {
       type: String,
@@ -45,7 +55,8 @@ export default {
     noCondomUsageDataSource: [],
     sometimesNoCondomUsageDataSource: [],
     currentDetailsIndex: 0,
-    detailsDisplay: false
+    detailsDisplay: false,
+    details: false
   }),
   async created() {
     this.getDataSource()
@@ -63,7 +74,8 @@ export default {
           break
       }
       return data
-    }
+    },
+
   },
   methods: {
     async getDataSource () {
@@ -74,9 +86,6 @@ export default {
     },
     updateDetailsIndex (index) {
       this.currentDetailsIndex = index
-    },
-    displayDetails() {
-      this.detailsDisplay = true
     }
   }
 }
@@ -86,22 +95,35 @@ export default {
 <style scoped lang="scss">
 
 .condom-usage {
-  background-color:$themeRed;
-  width: 100vw;
-  height: 100vh;
-  padding: 3% 0;
-  display:none;
+
+  h1 {
+      font-family: $titleFont;
+      font-size: 3.5em;
+      margin: 1rem 0;
+      color: #ffff;
+      text-align: left;
+      width: 100%;
+  }
   top: 0;
   left: 0;
-  &.current {
-    position: fixed;
-    display: flex;
-    position: relative;
-    justify-content: center;
-    width: 100vw;
-    overflow:hidden;
-    height: 100vh;
-    align-items: center;
+  width: 100%;
+  min-height: 100%;
+  margin: auto;
+  padding: 2% 10%;
+  background: $themeRed;
+  position: fixed;
+
+  .return-to-global-sequence {
+    opacity: 0;
+    transition: all .3s;
+    cursor: pointer;
+    color: #fff;
+    font-size: .8rem;
+
+    &.visible {
+      opacity:1;
+    }
+
 
   }
 

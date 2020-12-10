@@ -43,7 +43,7 @@ export default {
           .keys(this.dataSource.columns.slice(1))(this.dataSource)
     },
     area () {
-      return d3.area()
+      return d3.area().curve(d3.curveMonotoneX)
           .x(d => this.xScale(d.data.year))
           .y0(d => this.yScale(d[0]))
           .y1(d => this.yScale(d[1]))
@@ -67,7 +67,10 @@ export default {
           .range([this.dataHeight, 0])
     },
     xAxis() {
-      return d3.axisBottom(this.xScale).ticks(this.dataWidth / 80).tickSizeOuter(0)
+      return d3.axisBottom(this.xScale)
+          .tickFormat(x => x.toString())
+          // .ticks(this.dataWidth / 80)
+          // .tickSizeOuter(0)
     },
     yAxis() {
       return d3.axisLeft(this.yScale).tickSize(-this.dataWidth)
@@ -109,56 +112,6 @@ export default {
       this.updateSvg()
       // this.initLegend()
     },
-    // initLegend () {
-    //   // add legend
-    //   var legend = this.svg.append("g")
-    //   .attr("class", "legend")
-    //   //.attr("x", 500)
-    //   //.attr("y", 50)
-    //   .attr("height", 100)
-    //   .attr("width", 100)
-    //   .attr('transform', 'translate(-70,80)');
-    //
-    //   console.log(this.viewMode)
-    //
-    //   var legendItem =	[ ["Hommes", "#031941"],
-    //             ["Femmes", "#5C90B6"] ];
-    //   /*var legendItem = legend.selectAll('g').data(legendItem);
-    //   legendItem.enter()
-    //     .append('g')
-    //     .attr('class','legend-item')
-    //     .append('rect')
-    //     .style("fill", function(d) {
-    //           return d[1];
-    //     })*/
-    //
-    //   var legendRect = legend.selectAll('rect').data(legendItem);
-    //
-    //   console.log(this.width)
-    //   legendRect.enter()
-    //       .append("rect")
-    //       .attr("y", this.height - 105)
-    //       .attr("width", 30)
-    //       .attr("height", 30)
-    //       .attr("x", (d, i) => {
-    //         return this.width - 70 - (i * 80);
-    //       })
-    //       .style("fill", function(d) {
-    //           return d[1];
-    //       });
-    //
-    //   var legendText = legend.selectAll('text').data(legendItem);
-    //
-    //   legendText.enter()
-    //         .append("text")
-    //         .attr("y", this.height - 88)
-    //         .attr("x", (d, i) => {
-    //           return this.width - 20 - (i *100);
-    //         })
-    //         .text(function(d){
-    //           return d[0];
-    //         })
-    // },
     initAxis () {
       const xAxis = this.svg.append("g")
           .attr("class", "x axis")
@@ -184,8 +137,6 @@ export default {
       //     .style("fill", "#f00")
     },
     updateSvg () {
-      // console.log(this.area([
-      //     [0, 0]
       this.svg.select("g.areas")
           .selectAll("path")
           .data(this.series)
@@ -200,19 +151,6 @@ export default {
               update => update.call(update => update.transition().duration(1000).attr('d', this.area))
           )
       this.svg.select('rect.userEstimation').attr('y', this.yScale(this.userEstimation))
-
-      // .attr('transform', 'scale(1, 0)')
-      // .transition().duration(1000)
-      // .attr('transform', 'scale(1, 1)')
-      // .attrTween('d', () => {
-      //   const interpolator = d3.interpolateArray(startData, this.dataSource);3
-      //   return t => {
-      //     return this.area(interpolator(t));
-      //   }
-      // })
-      // .append("title")
-      // .text(({key}) => key)
-
       this.updateAxis()
     },
     updateViewMode(viewMode) {

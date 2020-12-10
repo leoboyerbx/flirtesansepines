@@ -1,127 +1,187 @@
 <template>
-  <article id="death-treatment-dataviz" :class="currentState">
-    <div id="chart"></div>
-  </article>
+  <div class="death-treatment-dataviz">
+    <svg :width="width" :height="height" ref="svg"></svg>
+  </div>
 </template>
 
 <script>
 import * as d3 from 'd3';
 export default {
-  watch: {
-  },
   name: 'DeathTreatmentDataviz',
   props: {
-    currentState: {
-      type: String,
-      default: 'future'
+    width: { type: Number },
+    height: { type: Number },
+    treatmentDataSource: { type: Array },
+    deathDataSource: { type: Array },
+  },
+  data: () => ({
+      svg: null,
+      margin: {top: 20, right: 100, bottom: 60, left: 50},
+      bandSpacing: 30,
+      tooltipVisible: false,
+      deathDataScaleCompressionRatio: 2
+  }),
+  watch: {
+    treatmentDataSource: {
+      // deep: true,
+      handler() {
+        this.updateSvg()
+      }
+    },
+    deathDataSource: {
+      // deep: true,
+      handler() {
+        this.updateSvg()
+      }
+    }
+  },
+  computed: {
+    deathColor () {
+      return this.$globals.dataColors[3]
+    },
+    treatmentColor () {
+      return this.$globals.dataColors[1]
+    },
+    dataWidth () {
+      return this.width - this.margin.left - this.margin.right
+    },
+    dataHeight() {
+      return this.height - this.margin.top - this.margin.bottom
+    },
+    colors () { return this.$globals.dataColors },
+    xScale () {
+      return d3.scaleLinear()
+          .domain(d3.extent(this.treatmentDataSource, d => d.year))
+          .range([0, this.dataWidth])
+    },
+    treatmentYScale () {
+      return d3.scaleLinear()
+          .range([this.dataHeight, 0])
+          .domain([0, d3.max(this.treatmentDataSource, d => d.value)])
+    },
+    deathYScale () {
+      return d3.scaleLinear()
+          .range([this.dataHeight, 0])
+          .domain([0, d3.max(this.deathDataSource, d => d.maxValue) * this.deathDataScaleCompressionRatio])
+    },
+    xAxis() {
+      return d3.axisBottom(this.xScale)
+          .tickFormat(x => x.toString())
+    },
+    treatmentYAxis() {
+      return d3.axisLeft(this.treatmentYScale)
+          // .tickFormat(x => x.toString())
+    },
+    deathYAxis() {
+      return d3.axisRight(this.deathYScale)
+          // .tickFormat(x => x.toString())
+    },
+    confidenceIntervalArea () {
+      return d3.area().curve(d3.curveMonotoneX)
+          .x(d => this.xScale(d.year))
+          .y0(d => this.deathYScale(d.minValue))
+          .y1(d => this.deathYScale(d.maxValue))
     }
   },
   mounted() {
-    this.generateLineChart();
+    this.initSvg();
   },
   methods: {
-    generateLineChart(){
-
-      const margin = {top: 20, right: 30, bottom: 30, left: 60},
-            width = 500,
-            height = 400 - margin.top - margin.bottom;
-
-      const x = d3.scaleLinear()
-          .range([0, width]);
-
-      const y = d3.scaleLinear()
-          .range([height, 0]);
-
-
-      const line = d3.line()
-          .x(d => x(d.year))
-          .y(d => y(d.value));
-
-       const line_2 = d3.line()
-          .x(d => x(d.year))
-          .y(d => y(d.number));
-
-      const svg = d3.select("#chart").append("svg")
-        .attr("id", "svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-      //var map = {};
-      d3.csv("datas/VIH.csv").then(function(data) {
-          // Conversion des données du fichier, parsing des dates et '+' pour expliciter une valeur numérique.
-          data.forEach(function(d) {
-              d.year = parseFloat(d.year);
-              d.value = parseFloat(d.value);
-              //map[d.year] = d; // sauvegarde sous forme de hashmap de nos données.
-              //console.log(map)
-          });
-
-
-          x.domain(d3.extent(data, d => d.year));
-          y.domain(d3.extent(data, d => d.value));
-
-          console.log(x.domain(d3.extent(data, d => d.year)));
-          console.log(y)
-
-          // Ajout de l'axe X
-          svg.append("g")
-              .attr("transform", "translate(0," + height + ")")
-              .call(d3.axisBottom(x));
-
-          // Ajout de l'axe Y et du texte associé pour la légende
-          svg.append("g")
-              .call(d3.axisLeft(y))
-
-
-          // Ajout de la grille horizontale (pour l'axe Y donc). Pour chaque tiret (ticks), on ajoute une ligne qui va
-          // de la gauche à la droite du graphique et qui se situe à la bonne hauteur.
-          svg.selectAll("y axis").data(y.ticks(10)).enter()
-              .append("line")
-              .attr("class", "horizontalGrid")
-              .attr("x1", 0)
-              .attr("x2", width)
-              .attr("y1", d => y(d))
-              .attr("y2", d => y(d));
-
-          // Ajout d'un path calculé par la fonction line à partir des données de notre fichier.
-          svg.append("path")
-              .datum(data)
-              .style("fill", "none")
-              .style("stroke", "#3498db")
-              .attr("class", "line")
-              .attr("d", line);
-     });
-
-      d3.csv("datas/VIH_test.csv").then(function(data) {
-
-          x.domain(d3.extent(data, d => d.year));
-          y.domain(d3.extent(data, d => d.number));
-
-          // Ajout d'un path calculé par la fonction line à partir des données de notre fichier.
-          svg.append("path")
-              .datum(data)
-              .style("fill", "none")
-              .style("stroke", "#3498db")
-              .attr("class", "line")
-              .attr("d", line_2);
-      });
+    initSvg() {
+      this.svg = d3.select(this.$refs.svg).attr("id", "svg")
+          .append("g")
+          .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")")
+      this.confidenceInterval = this.svg.append("path")
+          .attr("fill", this.deathColor + '44')
+      this.treatmentCurve = this.svg.append("path")
+          .attr("fill", "none")
+          .attr("stroke", this.treatmentColor)
+          .attr("stroke-width", 1.5)
+      this.deathCurve = this.svg.append("path")
+          .attr("fill", "none")
+          .attr("stroke", this.deathColor)
+          .attr("stroke-width", 1.5)
+      this.initAxis()
+      this.updateSvg()
+    },
+    initAxis () {
+      this.svg.append("g")
+          .attr("class", "x axis")
+          .attr("transform", "translate(0," + this.dataHeight + ")")
+          .call(this.xAxis)
+          .call(this.styleXAxis)
+      this.svg.append("g")
+          .attr("class", "y treatment axis")
+          .call(this.treatmentYAxis)
+          .call(this.styleTreatmentYAxis)
+      this.svg.append("g")
+          .attr("class", "y death axis")
+          .attr("transform", "translate(" + this.dataWidth + ", 0)")
+          .call(this.deathYAxis)
+          .call(this.styleDeathYAxis)
+    },
+    updateAxis () {
+      this.svg.selectAll('g.x.axis')
+          .call(this.xAxis)
+          .call(this.styleXAxis)
+      this.svg.selectAll('g.y.treatment.axis')
+          .call(this.treatmentYAxis)
+          .call(this.styleTreatmentYAxis)
+      this.svg.selectAll('g.y.death.axis')
+          .call(this.deathYAxis)
+          .call(this.styleDeathYAxis)
+    },
+    styleXAxis (axis) {
+      // axis.selectAll("text")
+      //     .style("fill", "#f00")
+      return axis
+    },
+    styleTreatmentYAxis (axis) {
+      axis.selectAll("text")
+          .style("fill", this.treatmentColor)
+      return axis
+    },
+    styleDeathYAxis (axis) {
+      axis.selectAll("text")
+          .style("fill", this.deathColor)
+          .attr('x', '9px')
+      axis.selectAll('.tick line')
+          .attr('x2', '6px')
+      return axis
+    },
+    updateSvg () {
+      this.confidenceInterval
+          .datum(this.deathDataSource)
+      .attr('d', d3.area().curve(d3.curveMonotoneX)
+          .x(d => this.xScale(d.year))
+          .y0(d => this.deathYScale(d.minValue))
+          .y1(d => this.deathYScale(d.maxValue)))
+      this.deathCurve
+          .datum(this.deathDataSource)
+          .attr("d", d3.line().curve(d3.curveBasis)
+              .x((d) => this.xScale(d.year))
+              .y((d) => this.deathYScale(d.value))
+          )
+      this.treatmentCurve
+          .datum(this.treatmentDataSource)
+          .attr("d", d3.line().curve(d3.curveBasis)
+              .x((d) => this.xScale(d.year))
+              .y((d) => this.treatmentYScale(d.value))
+          )
+      this.updateAxis()
     }
-
 }}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-
-#death-treatment-dataviz{
+.death-treatment-dataviz {
   
 
-  #chart {
-    display:flex;
-    justify-content: center;
+  .axis {
+        line {
+          display:none;
+        }
   }
 }
-
 </style>
