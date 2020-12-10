@@ -1,12 +1,13 @@
 <template>
   <article
       class="condom-usage-frequence scrolling-slide"
-      v-on:wheel="onWheelChangeSlide"
+      v-on:wheel="onWheel"
       :class="[ currentState, arrivingClass ]"
       :style="{ display: displayStyle }"
   >
   <Condom
     v-model="condomChoice"
+    @answer="onAnswer"
   />
   </article>
 </template>
@@ -24,12 +25,28 @@ export default {
     displayNextSlide: false,
     scrollFactor: 10,
     translateY: 0,
-    condomChoice: 0
+    condomChoice: 0,
+    answered: false
   }),
   props: {
     currentState: {
       type: String,
       default: 'future'
+    }
+  },
+  methods: {
+    onWheel (e) {
+      if (e.deltaY < 0) {
+        this.$emit('prev-slide')
+      } else if (e.deltaY > 0 && this.answered) {
+        this.$emit('next-slide')
+      }
+    },
+    onAnswer () {
+      this.answered = true
+      setTimeout(() => {
+        this.$emit('next-slide')
+      }, 200)
     }
   }
 }

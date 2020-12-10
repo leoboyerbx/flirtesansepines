@@ -1,5 +1,6 @@
 <template>
-  <article class="animated-condom">
+  <article class="animated-condom"
+           :class="{ disabled }">
     <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 616.26 865"
@@ -37,16 +38,14 @@
         <h1>Fais glisser le préservatif</h1>
         <p>Lors d'un rapport sexuel, utilises-tu systématiquement le préservatif? Ou es-tu radicalement contre?</p>
       </div>
-      <a href="#" @click.prevent="onConfirm">Valider</a>
-      
+      <a href="#" @click.prevent="onConfirm" :class="{ visible: showButton }">Valider</a>
+
     </div>
 
   </article>
 </template>
 
 <script>
-import * as d3 from 'd3'
-import {csv} from 'd3'
 
 function closest (array, needle) {
  return array.reduce((a, b) => {
@@ -67,7 +66,9 @@ export default {
         progress: 0,
         rectangleHeight: 0,
         yOffset: 0,
-        transition: false
+        transition: false,
+        disabled: false,
+        showButton: true
     }
   },
   props: {
@@ -87,8 +88,10 @@ export default {
   },
   methods: {
 
-    mouseDown (e) {
-      this.dragging = true
+    mouseDown () {
+      if (!this.disabled) {
+        this.dragging = true
+      }
     },
     updateValue: function (value) {
       this.$emit('input', value)
@@ -124,6 +127,11 @@ export default {
       setTimeout(() => {
         this.transition = false
       }, 400)
+    },
+    onConfirm () {
+      this.disabled = true
+      this.showButton = false
+      this.$emit('answer')
     }
   },
   computed: {
@@ -143,18 +151,17 @@ export default {
 .transition {
   transition: all .2s;
 }
-.handler {
-  cursor: grab;
-}
 
 .animated-condom {
     display: flex;
     flex-wrap: wrap;
-    width: fit-content;
     justify-content: space-between;
     width: 100%;
 
-   
+    &:not(.disabled) .handler {
+      cursor: grab;
+    }
+
     .steps {
       position:relative;
       width: auto;
@@ -196,6 +203,12 @@ export default {
         font-weight: bold;
         text-decoration: none;
         background: transparent;
+        opacity: 0;
+        transition: all .3s;
+
+        &.visible {
+          opacity: 1;
+        }
       }
       div {
         margin-bottom: 3rem;
@@ -209,7 +222,7 @@ export default {
           font-size: 1.5rem;
         }
       }
-      
+
       display: flex;
       flex-direction: column;
       button {

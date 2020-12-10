@@ -44,7 +44,7 @@
     </div>
 
     <footer>
-      <p class="produced-by">Produit par : Romain Critot, Sarah Blaisa, Léo Boyer & Maëva Reynaud</p>
+      <p class="produced-by">Produit par : Romain Critot, Sarah Blaisa, Léo Boyer, Maëva Reynaud</p>
       <div class="logos">
         <img src="../../assets/gobelins.png" alt="">
         <img src="../../assets/logo_campus.png" alt="">
@@ -129,11 +129,10 @@ export default {
         }
       }
     }
-    
+
   }
 
   background-color: $themeBlue3;
-  font-family: $titleFont;
 
   .header {
     width: 100%;
@@ -186,7 +185,7 @@ export default {
       width: 90%;
       margin: auto;
       justify-content: space-between;
-      
+
       .button {
         width: 100%;
         text-align: center;
@@ -229,18 +228,5 @@ export default {
       }
     }
   }
-
-
- 
-
-  
-
-
-
 }
-
-
-
-
-
 </style>
