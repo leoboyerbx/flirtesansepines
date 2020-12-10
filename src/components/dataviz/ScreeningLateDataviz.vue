@@ -6,10 +6,6 @@
         preserveAspectRatio="none"
         ref="svg"
         >
-        <!--<text v-for="(data, index) in chartData" 
-            :key="index"
-            :x="data.x"             
-            :width="data.widthValue"> {{ data.value }}</text>-->
 
         <rect v-for="(data, index) in chartData"
             :key="index"
@@ -21,8 +17,8 @@
             @mouseout="legendDisplayed = null"
         >
         </rect>
-        
 
+        
       </svg>
       <div class="tooltip">
           <div class="tooltip-item"
@@ -121,6 +117,11 @@ export default {
   width: 100%;
   svg {
       width: 100%;
+      text {
+          font-family: Font;
+          font-size: 0.7rem;
+          width: 100%;
+      }
   }
 
   .tooltip {

@@ -13,9 +13,11 @@
         <img class="animation" src="../../assets/handwithflower.svg">
         <div @click="booleanUser = false">
             <p>Non</p>
+            <a href="#" @click.prevent="onConfirm">Valider</a>
         </div>
       </div>
     </div>
+
   </article>
 </template>
 
@@ -77,6 +79,8 @@ export default {
     display: flex;
     flex-wrap: wrap;
     justify-content:center;
+
+    
     div:not(.animation) {
       cursor: pointer;
       display: flex;
@@ -84,11 +88,27 @@ export default {
       align-items: center;
       text-align: center;
       justify-content: center;
-      font-size: 1.8rem;
       width: 30%;
-      text-transform: uppercase;
+      position:relative;
       p {
         margin-top: -70px;
+        font-size: 1.8rem;
+        text-transform: uppercase;
+
+      }
+      a {
+        position:absolute;
+        bottom: 30px;
+        left: 40%;
+        color: $themeBlue3;
+        border-bottom: 1px solid $themeBlue3;
+        padding: .1em 0em;
+        font-size: 1.8rem;
+        cursor: pointer;
+        font-family: $paragraphFont;
+        font-weight: bold;
+        text-decoration: none;
+        background: transparent;
       }
     }
 
