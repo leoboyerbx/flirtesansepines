@@ -15,7 +15,7 @@
         <h1>
           Effectivement, il est encore possible de mourir du VIH en France
         </h1>
-        <p>Malgré les avancées scientifiques sur les différents traitements, le VIH tue encore    même si le nombre de morts diminue. 
+        <p>Malgré les avancées scientifiques sur les différents traitements, le VIH tue encore    même si le nombre de morts diminue.
             <br>
             <br>
           Pour limiter l’avancée des symptômes liés au virus, il est important de se faire dépister au moindre doute.
@@ -25,7 +25,10 @@
         <h1>
           Détrompe-toi ! Il y a encore des personnes qui meurent du VIH en France.
         </h1>
-        <p>Malgré les avancées scientifiques sur les différents traitements et ainsi la nette diminution du nombre de mort, le VIH tue encore. Pour limiter l’avancée des symptômes liés au virus, il est important de se faire dépister au moindre doute.</p>
+        <p>Malgré les avancées scientifiques sur les différents traitements et ainsi la nette diminution du nombre de mort, le VIH tue encore.
+            <br>
+            <br>
+            Pour limiter l’avancée des symptômes liés au virus, il est important de se faire dépister au moindre doute.</p>
       </div>
       <div class="legend">
         <div class="legend-item first">
@@ -34,7 +37,7 @@
         </div>
         <div class="legend-item second">
           <div class="legend-square" :style="{ backgroundColor: $globals.dataColors.getColorCode(3) }"></div>
-          <p>Nombre de morts du VIH</p>
+          <p>Nombre de morts du VIH (avec intervalle de confiance)</p>
         </div>
       </div>
       <img src="../../assets/flower.svg" alt="">
@@ -68,17 +71,14 @@ export default {
   methods: {
     async getTreatmentDataSource () {
       const treatmentApiData = await json("https://cors-anywhere.herokuapp.com/https://ghoapi.azureedge.net/api/HIV_0000000009?$filter=SpatialDim eq 'FRA'")
-      // console.log('data source: ')
       this.treatmentDataSource = treatmentApiData.value.map(data => {
         const year = data.TimeDim
         const value = +data.NumericValue
         return { year, value }
       })
-      console.log('trat data received')
     },
     async getDeathDataSource () {
       const deathsApiData = await json("https://cors-anywhere.herokuapp.com/https://ghoapi.azureedge.net/api/HIV_0000000006?$filter=SpatialDim eq 'FRA'")
-      // console.log('data source: ')
       this.deathDataSource = deathsApiData.value.map(data => {
         const parsedData = data.Value.replace(/</g, '').split(/\[|\]| |–/)
 
@@ -135,10 +135,12 @@ export default {
     width: 100%;
     font-family: $paragraphFont;
     font-size: 0.8rem;
+    font-weight: bold;
+    color: $themeBlue3;
+
     .legend-item {
       display: flex;
       align-items: center;
-      font-size: $paragraphSize;
       margin: 5px 0;
       &.first {
         .legend-square{
@@ -152,6 +154,7 @@ export default {
       }
       p {
         margin:0;
+        font-size: 1.2rem;
       }
       .legend-square {
         width: 30px;
@@ -162,18 +165,20 @@ export default {
   }
 
   .user-response {
-        width: 30%;
-      h1 {
-      font-family: $titleFont;
-      font-size: 3.5em;
+      width: 30%;
       color: $themeBlue3;
-      text-align: left;
-    }
 
-    p {
-      font-family: $paragraphFont;
-      font-size: 1.2rem;
-    }
+      h1 {
+        font-family: $titleFont;
+        font-size: 3.5em;
+        text-align: left;
+      }
+
+      p {
+        font-family: $paragraphFont;
+        font-size: 1.3rem;
+        font-weight: bold;
+      }
   }
 
 

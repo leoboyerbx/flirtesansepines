@@ -146,23 +146,27 @@ export default {
           .attr("height", y.bandwidth() - this.bandSpacing)
           .attr("x", d => x(d[1]))
           .attr("width", d => (this.dataWidth - x(d[1] - d[0])))
-          .on('mouseover', () => {
+          .on('mouseover', (e, d) => {
             this.tooltipVisible = true
+            this.updateTooltip(e, d)
           })
           .on('mousemove',  _throttle((e, d) => {
-            const pointer = d3.pointer(e, this.svg.node().parentNode.parentNode)
-            this.tooltipValues = {
-              percentage: (d[1] - d[0]),
-              key: d.key,
-              x: pointer[0],
-              y: pointer[1]
-            }
+            this.updateTooltip(e, d)
           }, 50))
           .on('mouseleave', () => {
             this.tooltipVisible = false
           })
         this.generateAxis()
     },
+    updateTooltip (e, d) {
+      const pointer = d3.pointer(e, this.svg.node().parentNode.parentNode)
+      this.tooltipValues = {
+        percentage: (d[1] - d[0]),
+        key: d.key,
+        x: pointer[0],
+        y: pointer[1]
+      }
+    }
   }
 }
 </script>
@@ -192,12 +196,13 @@ export default {
   .legend {
     display:flex;
     margin-top: 30px;
+    font-weight: bold;
     .legend-item {
       display:flex;
       align-items: center;
       margin-right: 16px;
       .legend-name {
-        font-size: 1.4rem;
+        font-size: 1.3rem;
         margin:0;
         color: white;
       }

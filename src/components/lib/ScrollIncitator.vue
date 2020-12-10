@@ -44,6 +44,7 @@ export default {
   }
 }
 .incite-wrapper {
+  pointer-events: none;
   position: relative;
   opacity: 0;
   transition:  all .4s;

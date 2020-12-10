@@ -2,7 +2,7 @@
   <div class="detailsCondomUsageDataviz" :class="{ detailsDisplay }">
     <h1>{{ dataSource.detailMessage }}</h1>
     <svg id="detail-condom-usage-dataviz"  :width="width" :height="height" ref="svg"></svg>
-    <img src="../../assets/whiteflower.svg" alt="">
+    <img src="../../assets/whiteflower.svg" alt="white flower">
   </div>
 </template>
 
@@ -101,14 +101,15 @@ export default {
       this.svg.selectAll('rect')
         .data(this.dataSource)
         .join(
-          enter => enter.append('rect').style('fill', this.$globals.dataColors[0])
+          enter => enter.append('rect').style('fill', this.dataSource.colorPie )
             .attr('x', 0 )
             .attr('width', d => this.xScale(d.value))
             .attr("y", d =>  this.yScale(d.reason))
             .attr("height", this.yScale.bandwidth()),
           update => update
             .call(update => update.transition().duration(750)
-              .attr('width', d => this.xScale(d.value)))
+              .attr('width', d => this.xScale(d.value))
+              .style('fill', this.dataSource.colorPie))
         )
       this.updateAxis()
     },
@@ -150,7 +151,7 @@ export default {
 
   h1 {
       font-family: $paragraphFont;
-      font-size: 1rem;
+      font-size: 1.2rem;
       text-transform: uppercase;
       margin: 0.5rem 0;
       color: #ffff;

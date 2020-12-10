@@ -13,13 +13,13 @@
       <h1 class="first-title" :class="{ visible: currentStep === 0 }">
         Contrairement aux idées reçues, le VIH est toujours présent en France.
         <div class="scroll-incite" :class="{ visible: !isTransitioning }">
-          <ScrollIncitator /> 
+          <ScrollIncitator />
         </div>
       </h1>
       <h1 class="second-title" :class="{ visible: currentStep === 1 }">
-        Nous devons rester vigilant afin de limiter sa propagation.
+        Nous devons rester vigilants afin de limiter sa propagation.
         <div class="scroll-incite" :class="{ visible: !isTransitioning }">
-          <ScrollIncitator /> 
+          <ScrollIncitator />
         </div>
       </h1>
 
@@ -210,28 +210,23 @@ export default {
     animationEndCount: 0,
     delayBeforeNextSlide: 3200,
     displayScrollIncite: false
-
   }),
   props: {
     currentState: {
       type: String,
       default: 'future'
-    }
+    },
+    isInertia: Boolean
   },
   mounted () {
     this.$refs.box.addEventListener('animationend', this.boxAnimationEnd)
     this.$refs.box.addEventListener('transitionend', this.titleTransitionEnd)
   },
   watch: {
-    currentState (newVal, oldVal) {
+    currentState (newVal) {
       if (newVal === 'current') {
         this.isTransitioning = true
         this.currentStep = 0
-        // if (oldVal === 'future') {
-        // }
-        // else {
-        //   this.$emit('prev-slide', true)
-        // }
       }
     }
   },
@@ -239,11 +234,9 @@ export default {
     onScroll () {
       const progress = this.$el.scrollTop / (this.lottieScrollHeight - this.animationEndedScrollOffset)
       this.displayScrollIncite = false
-
       if (!this.animationFinished ) {
         if (progress < 1) {
           this.handleScrollLottie(progress)
-
         } else {
           this.animationFinished = true
           this.$el.scrollTop = 0
@@ -251,14 +244,15 @@ export default {
       }
     },
     onWheel (e) {
-      if (!this.isTransitioning) {
+      if (!this.isTransitioning && !this.isInertia) {
         if (e.deltaY > 0) {
           if (this.currentStep < this.maxStep) {
             this.currentStep++
             this.isTransitioning = true
+            this.$emit('start-inertia')
             if (this.currentStep >= this.maxStep) {
               setTimeout(() => {
-                this.$emit('next-slide')
+                this.$emit('next-slide', false)
               }, this.delayBeforeNextSlide)
             }
           }
@@ -347,9 +341,9 @@ export default {
         margin: auto;
       }
     }
-    
 
-   
+
+
 
     //&.first-title{
     //  position: absolute;

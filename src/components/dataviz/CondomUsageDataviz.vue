@@ -73,7 +73,6 @@ export default {
       }
     },
     userCondomUsage (newVal) {
-      console.log(newVal)
       this.svg.selectAll('.chart-sector')
         .attr('stroke', 'none')
       this.svg.select('.chart-' + newVal)
@@ -110,7 +109,7 @@ export default {
             this.tooltipValues = {
               percentage: (d.data.value),
               tooltip: (d.data.tooltip),
-              rotateAngle: 45-(e.explicitOriginalTarget.__data__.startAngle + e.explicitOriginalTarget.__data__.endAngle)/2 / Math.PI * 180
+              rotateAngle: 45-(e.target.__data__.startAngle + e.target.__data__.endAngle)/2 / Math.PI * 180
             }
           })
         pies.append('path')
@@ -161,8 +160,9 @@ export default {
     .legend-item {
       display: flex;
       align-items: center;
-      font-size: $paragraphSize;
+      font-size: 1.3rem;
       margin: 5px 0;
+      font-weight: bold;
       p {
         margin:0;
       }
@@ -188,7 +188,7 @@ export default {
     font-family: $titleFont;
     height: fit-content;
     position: relative;
-    padding: 1.2rem;
+    padding: 2rem;
     margin-left: 6%;
     opacity: 0;
     transition: all ease-in-out 0.3s;
@@ -210,14 +210,15 @@ export default {
 
     .value {
       color: $themeRed;
-      font-size: 1.9rem;
+      font-size: 2.5rem;
       margin: auto auto 1.2rem auto;
     }
 
     .desc {
-      color: black;
-      font-size: 1.2rem;
-      margin-bottom: 1.2rem;
+      color: $themeBlue3;
+      font-size: 1.4rem;
+      font-weight: bold;
+      margin-bottom: 1.4rem;
       font-family:$paragraphFont;
     }
 

@@ -18,7 +18,7 @@
             ref="lottie"
         />
         <div class="title" :class="{ visible: animationFinished }">
-          <h1>Flirt sans épines</h1>
+          <img src="../../assets/title.svg" alt="flirt sans épines">
         </div>
         <div class="scroll-incite" :class="{ visible: displayScrollIncite }">
           <ScrollIncitator /> <p>Scroller pour démarrer...</p>
@@ -117,7 +117,7 @@ export default {
     },
     confirmEstimation () {
       this.locked = false
-      this.$emit('next-slide')
+      this.$emit('next-slide', false)
     },
     setAnimController (anim) {
       this.anim = anim

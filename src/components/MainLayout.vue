@@ -18,6 +18,8 @@
     />
     <TransitionSentenceSequence
         :current-state="stateOfSlide(2)"
+        :is-inertia="isInertia"
+        @start-inertia="isInertia = true"
         @next-slide="nextSlide"
         @prev-slide="prevSlide"
         @finished-enter="endedTransition"
@@ -83,11 +85,6 @@ import FrequenceCondonUsageSequence from "@/components/sequences/FrequenceCondon
 import ConclusionSequence from "@/components/sequences/ConclusionSequence";
 import _debounce from "lodash.debounce";
 
-const debouncedInertia = _debounce(comp => {
-  comp.isInertia = false
-  console.log('endinertia')
-}, 500)
-
 export default {
   name: 'MainLayout',
   components: {
@@ -132,20 +129,20 @@ export default {
         return 'future'
       }
     },
-    prevSlide (number = 1) {
+    prevSlide (inertia = true) {
       if (!this.isTransitioning && !this.isInertia && this.currentSlide > 0) {
-        this.currentSlide -= number
+        this.currentSlide--
         this.transitionDirection = -1
         this.isTransitioning = true
-        this.isInertia = true
+        this.isInertia = inertia
       }
     },
-    nextSlide (number = 1) {
+    nextSlide (inertia = true) {
       if (!this.isTransitioning && !this.isInertia && this.currentSlide + 1 < this.numberOfSlides) {
-        this.currentSlide+= number
+        this.currentSlide++
         this.transitionDirection = 1
         this.isTransitioning = true
-        this.isInertia = true
+        this.isInertia = inertia
       }
     },
     keyUp (e) {
@@ -160,8 +157,11 @@ export default {
       this.isTransitioning = false
     },
     wheelInertia () {
-      debouncedInertia(this)
-    }
+      this.debouncedInertia()
+    },
+    debouncedInertia: _debounce(function () {
+      this.isInertia = false
+    }, 500)
   }
 }
 </script>
