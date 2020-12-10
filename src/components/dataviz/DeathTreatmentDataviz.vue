@@ -6,19 +6,17 @@
 
 <script>
 import * as d3 from 'd3';
-
 export default {
   name: 'DeathTreatmentDataviz',
   props: {
     width: { type: Number },
     height: { type: Number },
-
     treatmentDataSource: { type: Array },
     deathDataSource: { type: Array },
   },
   data: () => ({
       svg: null,
-      margin: {top: 20, right: 200, bottom: 60, left: 100},
+      margin: {top: 20, right: 100, bottom: 60, left: 50},
       bandSpacing: 30,
       tooltipVisible: false,
       deathDataScaleCompressionRatio: 2
@@ -93,7 +91,6 @@ export default {
       this.svg = d3.select(this.$refs.svg).attr("id", "svg")
           .append("g")
           .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")")
-
       this.confidenceInterval = this.svg.append("path")
           .attr("fill", this.deathColor + '44')
       this.treatmentCurve = this.svg.append("path")
@@ -104,7 +101,6 @@ export default {
           .attr("fill", "none")
           .attr("stroke", this.deathColor)
           .attr("stroke-width", 1.5)
-
       this.initAxis()
       this.updateSvg()
     },
@@ -114,12 +110,10 @@ export default {
           .attr("transform", "translate(0," + this.dataHeight + ")")
           .call(this.xAxis)
           .call(this.styleXAxis)
-
       this.svg.append("g")
           .attr("class", "y treatment axis")
           .call(this.treatmentYAxis)
           .call(this.styleTreatmentYAxis)
-
       this.svg.append("g")
           .attr("class", "y death axis")
           .attr("transform", "translate(" + this.dataWidth + ", 0)")
@@ -130,7 +124,6 @@ export default {
       this.svg.selectAll('g.x.axis')
           .call(this.xAxis)
           .call(this.styleXAxis)
-
       this.svg.selectAll('g.y.treatment.axis')
           .call(this.treatmentYAxis)
           .call(this.styleTreatmentYAxis)
@@ -175,7 +168,6 @@ export default {
               .x((d) => this.xScale(d.year))
               .y((d) => this.treatmentYScale(d.value))
           )
-
       this.updateAxis()
     }
 }}
@@ -184,7 +176,12 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .death-treatment-dataviz {
+  
 
+  .axis {
+        line {
+          display:none;
+        }
+  }
 }
-
 </style>

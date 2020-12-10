@@ -1,5 +1,10 @@
 <template>
   <article class="conclusion" :class="currentState">
+      <div class="header">
+        <img src="../../assets/conclusionimg.svg" alt="abstract illustration">
+      </div>
+      <div class="responses">
+
       <h1>Vos réponses</h1>
       <div class="user-responses">
         <div class="seropositivity-estimation">
@@ -17,9 +22,21 @@
 
         </div>
         <div class="condom-usage">
+          <p  v-if="userCondomUsage === 0">
+            Comme tu l'auras compris, l'utilisation du préservatif est le seule moyen de se protéger contre le VIH, donc ne change rien !
+          </p>
+          <p v-else-if="userCondomUsage === 1">
+            Tu n'utilises pas systématiquement le préservatif. N'oublies pas que c'est le seul moyen de te protéger du VIH ! 
+          </p>
+          <p v-else>
+            N'oublies pas que le préservatif est le seul moyen de te protéger du VIH ! Nous te conseillons fortement de l'utiliser lorsque tes partenaires ne se font pas dépister.
+          </p>
           <img src="../../assets/condom.svg" alt="hand with flower">
         </div>
-      </div>      
+      </div>
+      <a target="_blank" href="https://www.ch-annecygenevois.fr/fr/article/le-centre-de-depistage-du-change">Pour plus d'infos sur le dépistage</a>  
+      </div>
+
   </article>
 </template>
 
@@ -41,9 +58,9 @@ export default {
     userEstimationDeath () {
       return this.$store.state.deathEstimation
     },
-    /*userEstimationThird () {
-      return this.$store.state.hivEstimation
-    }*/
+    userCondomUsage () {
+      return this.$store.state.condomUsage
+    }
 
   },
   methods: {
@@ -58,20 +75,39 @@ export default {
 <style scoped lang="scss">
 
 .conclusion {
-  display:none;
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-  padding: 0 6em;
-
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  transition: all $slideDurationEasing;
+  overflow-y: scroll;
+  scrollbar-width: none;
+
+  top: 0;
+  left: 0;
+  width: 100%;
   background-color: $themeBlue3;
   font-family: $titleFont;
 
+  .header {
+    width: 100%;
+    background-color: white;
+    img {
+      width: 100%;
+    }
+  }
+
+  a {
+    color: #ffff;
+    background-color: $themeBlue2;
+    border-radius: 50px;
+    padding: 15px 40px;
+    width: auto;
+    margin: auto;
+    text-decoration: none;
+    font-family: $paragraphFont;
+    font-size: 1.3rem;
+  }
 
   &.current {
     display: flex;
@@ -79,7 +115,17 @@ export default {
     justify-content: center;
   }
 
+.responses {
 
+  h1 {
+      font-family: $titleFont;
+      font-size: 50px;
+      color: white;
+      margin:auto;
+      text-align: center;
+      max-width: 60%;
+      margin-top: 2.4rem;
+    }
   .user-responses {
     display: flex;
     width: 90%;
@@ -106,21 +152,14 @@ export default {
         margin-top: 60px;
       }
     }
-
-
   }
+}
+  
   
 
 
 
-    h1 {
-      font-family: $titleFont;
-      font-size: 50px;
-      color: white;
-      margin:auto;
-      text-align: center;
-      max-width: 60%;
-    }
+    
 
     img {
       width: 30%;

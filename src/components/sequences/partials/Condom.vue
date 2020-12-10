@@ -87,6 +87,7 @@ export default {
     },
     updateValue: function (value) {
       this.$emit('input', value)
+      this.$store.commit('updateUserCondomUsage', value)
     },
     mouseMove (e) {
         if(this.dragging) {
@@ -174,15 +175,16 @@ export default {
       }
     }
     .desc {
-      width: 25%;
+      width: 35%;
+      padding-right: 3%;
       h1 {
         color:white;
         font-family: $titleFont;
-        font-size:1.6rem;
+        font-size:2rem;
       }
       p {
         color: white;
-        font-size: 1rem;
+        font-size: 1.5rem;
       }
     }
 

@@ -1,21 +1,50 @@
 <template>
-  <article class="death-treatment" :class="currentState">
+  <article class="death-treatment"
+           v-on:wheel="onWheelChangeSlide"
+           :class="[ currentState, arrivingClass ]"
+           :style="{ display: displayStyle }"
+  >
     <DeathTreatmentDataviz
       :width="900"
       :height="500"
       :treatment-data-source="treatmentDataSource"
       :death-data-source="deathDataSource"
     />
+    <div class="user-response" v-if="userEstimationFirst">
+      <h1>
+        Effectivement, il est encore possible de mourir du VIH en France
+      </h1>
+      <p>Malgré les avancées scientifiques sur les différents traitements et ainsi la nette diminution du nombre de mort, le VIH tue encore. Pour limiter l’avancée des symptômes liés au virus, il est important de se faire dépister au moindre doute.</p>
+    </div>
+    <div class="user-response" v-else>
+      <h1>
+        Détrompe-toi ! Il est encore possible de mourir du VIH en France
+      </h1>
+      <p>Malgré les avancées scientifiques sur les différents traitements et ainsi la nette diminution du nombre de mort, le VIH tue encore. Pour limiter l’avancée des symptômes liés au virus, il est important de se faire dépister au moindre doute.</p>
+    </div>
+    <div class="legend" :class="{ details: detailsDisplay }">
+      <div class="legend-item first">
+        <div class="legend-square" :style="{ backgroundColor: $globals.dataColors.getColorCode(index) }"></div>
+        <p>Nombre de personnes sous-traitement</p>
+      </div>
+      <div class="legend-item second">
+        <div class="legend-square" :style="{ backgroundColor: $globals.dataColors.getColorCode(index) }"></div>
+        <p>Nombre de mort</p>
+      </div>
+    </div>
+    <img src="../../assets/flower.svg" alt="">
   </article>
 </template>
 
 <script>
 import { json } from 'd3'
 import DeathTreatmentDataviz from "@/components/dataviz/DeathTreatmentDataviz";
+import sequence from "@/mixins/sequenceMixin";
 
 export default {
   name: "DeathTreatmentSequence",
   components: {DeathTreatmentDataviz},
+  mixins: [ sequence ],
   props: {
     currentState: {
       type: String,
@@ -60,8 +89,12 @@ export default {
           maxValue
         }
       })
-      console.log('death data received')
     }
+  },
+  computed: {
+    userEstimationFirst () {
+      return this.$store.state.deathEstimation
+    },
   }
 }
 </script>
@@ -73,17 +106,68 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: $backgroundColor;
+  background-color: white;
   margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 5%;
 
-  h1 {
+  img {
+    position: fixed;
+    bottom:0;
+    width: 100px;
+    right: 80px;
+  }
+
+  .legend {
+    display: flex;
+    flex-direction:column;
+    width: 100%;
+    font-family: $paragraphFont;
+    font-size: 0.8rem;
+    .legend-item {
+      display: flex;
+      align-items: center;
+      font-size: $paragraphSize;
+      margin: 5px 0;
+      &.first {
+        .legend-square{
+          background-color: rgb(92, 144, 182);
+        }
+      }
+      &.second {
+        .legend-square{
+          background-color: rgb(255,0,0);
+        }
+      }
+      p {
+        margin:0;
+      }
+      .legend-square {
+        width: 30px;
+        height: 30px;
+        margin-right:10px;
+      }
+    }
+  }
+
+  .user-response {
+        width: 30%;
+      h1 {
       font-family: $titleFont;
       font-size: 3.5em;
-      margin: 1.5em auto;
       color: $themeBlue3;
-      text-align: center;
-      max-width: 60%;
+      text-align: left;
+    }
+
+    p {
+      font-family: $paragraphFont;
+      font-size: 1.2rem;
+    }
   }
+
+
 
 }
 </style>
