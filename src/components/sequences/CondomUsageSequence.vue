@@ -80,8 +80,11 @@ export default {
   methods: {
     async getDataSource () {
       this.condomUsageDataSource = await csv('datas/detailsCondomUsage.csv', dataParseInt)
+      this.condomUsageDataSource.detailMessage ="Raisons avancées pour l'utilisation du préservatif"
       this.noCondomUsageDataSource = await csv('datas/detailsNoCondomUsage.csv', dataParseInt)
+      this.noCondomUsageDataSource.detailMessage ="Raisons avancées pour ne pas utiliser de préservatif"
       this.sometimesNoCondomUsageDataSource = await csv('datas/detailsSometimesNoCondomUsage.csv', dataParseInt)
+      this.sometimesNoCondomUsageDataSource.detailMessage ="Raisons avancées pour avoir manqué occasionnellement l'usage du préservatif"
       this.globalCondomUsageDataSource = await json('datas/condomUsage.json')
     },
     updateDetailsIndex (index) {

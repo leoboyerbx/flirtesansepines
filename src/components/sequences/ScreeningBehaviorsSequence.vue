@@ -6,6 +6,7 @@
       :style="{ display: displayStyle }"
   >
     <h1>Fréquence de dépistage par tranche d'âge</h1>
+    <p>Date du dernier dépistage au moment du sondage</p>
     <ScreeningBehaviorsDataviz
       :dataSource="dataSource"
       :width="800"
@@ -91,6 +92,11 @@ export default {
       color: white;
       max-width: 50%;
       text-align: left;
+  }
+  p {
+    color: #fff;
+    font-size: 1.5rem;
+    margin-bottom: 30px;
   }
 
 }

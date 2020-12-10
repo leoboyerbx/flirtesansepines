@@ -115,7 +115,7 @@ export default {
         case 2:
           cols = ['year', 'hsh', 'hetero', 'drug', 'other']
           excludedCols = ['total', 'men', 'women']
-          colsLegend = ['Année', 'Hommes ayant des rapports sexuels avec les hommes', 'Hétérosexuels', 'Drogues', 'Autre']
+          colsLegend = ['Année', 'Hommes ayant des rapports sexuels avec des hommes', 'Hétérosexuels', 'Usagers de drogues (injection intraveineuse)', 'Autre']
       }
       const result = this.dataSource.map(d => {
         const res = {}
@@ -177,6 +177,7 @@ export default {
       display: flex;
       flex-direction: column;
       margin-left: 20px;
+      width: 200px;
 
       .legend-item {
         display: flex;
@@ -187,12 +188,13 @@ export default {
           width: 25px;
           height: 25px;
           margin-right: 10px;
+          flex-shrink: 0;
         }
         .legend-line {
           width: 25px;
           height: 5px;
           margin-right: 10px;
-          background-color: $themeRed;
+          background-color: #000;
         }
       }
     }
@@ -223,6 +225,7 @@ export default {
       font-size: 1.5em;
       font-weight: bold;
       margin-right: 45px;
+      cursor: pointer;
 
       &:hover input ~ .checkmark {
         background-color: #ccc;
@@ -259,12 +262,13 @@ export default {
         }
 
         position: absolute;
-        top: 1px;
+        top: 50%;
         left: -29px;
         height: 20px;
         width: 20px;
         background-color: #eee;
         border-radius: 50%;
+        transform: translateY(-50%);
 
       }
     }

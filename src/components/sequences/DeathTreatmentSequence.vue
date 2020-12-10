@@ -81,7 +81,6 @@ export default {
         const minValue = +parsedData[2]
         const maxValue = +parsedData[3]
         const value = data.NumericValue || (minValue + maxValue) / 2
-        console.log(value)
 
         const year = data.TimeDim
         return {

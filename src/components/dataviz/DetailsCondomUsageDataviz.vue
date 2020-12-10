@@ -1,6 +1,6 @@
 <template>
   <div class="detailsCondomUsageDataviz" :class="{ detailsDisplay }">
-    <h1>Raisons avancées</h1>
+    <h1>{{ dataSource.detailMessage }}</h1>
     <svg id="detail-condom-usage-dataviz"  :width="width" :height="height" ref="svg"></svg>
     <img src="../../assets/whiteflower.svg" alt="">
   </div>
