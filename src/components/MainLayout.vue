@@ -96,7 +96,8 @@ export default {
     currentSlide: 0,
     numberOfSlides: 10,
     transitionDirection: 1,
-    isTransitioning: false
+    isTransitioning: false,
+    inertiaPreventDelay: 500
   }),
   created () {
     window.addEventListener('keydown', this.keyUp)
@@ -144,7 +145,9 @@ export default {
       }
     },
     endedTransition () {
-      this.isTransitioning = false
+      setTimeout(() => {
+        this.isTransitioning = false
+      }, this.inertiaPreventDelay)
     }
   }
 }

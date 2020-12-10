@@ -137,6 +137,7 @@ export default {
   .header {
     width: 100%;
     background-color: white;
+    padding-top: 60px;
     display: flex;
     img {
       width: 100%;
