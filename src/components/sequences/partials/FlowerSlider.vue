@@ -20,7 +20,8 @@ export default {
     dragging: false,
     flower: null,
     dataWidth: 0.75,
-    dataMarginLeft: 0.11
+    dataMarginLeft: 0.11,
+    hintVisible: true
   }),
   components: {
     LottieAnimation
@@ -36,8 +37,11 @@ export default {
     window.removeEventListener('mouseup', this.mouseUp)
   },
   watch: {
+    value () {
+      this.hintVisible = false
+    },
     locked (newVal) {
-      if (newVal) {
+      if (newVal === true) {
         this.anim.play()
       }
     }
