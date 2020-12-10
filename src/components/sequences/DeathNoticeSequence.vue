@@ -1,5 +1,10 @@
 <template>
-  <article class="conclusion" :class="currentState">
+  <article class="question"
+           v-on:wheel="onWheelChangeSlide"
+           :class="[ currentState, arrivingClass ]"
+           :style="{ display: displayStyle }"
+  >
+    <div class="wrapper">
       <h1>Penses-tu que l'on meurt encore du VIH?</h1>
       <div class="estimation-animation-container">
         <div @click="booleanUser = true">
@@ -10,12 +15,16 @@
             <p>Non</p>
         </div>
       </div>
+    </div>
   </article>
 </template>
 
 <script>
+import sequence from "@/mixins/sequenceMixin";
+
 export default {
   name: 'DeathNoticeSequence',
+  mixins: [ sequence ],
   data: () => ({
     booleanUser:true
   }),
@@ -36,33 +45,46 @@ export default {
   },
   methods: {
   }
-  
-  
+
+
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 
-.conclusion {
-  display:none;
+.question {
   position: fixed;
-  width: 100vw;
-  height: 100vh;
   padding: 0 6em;
-  &.current {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: white;
-  font-family: $titleFont;
 
+  background-color: $backgroundColor;
+  font-family: $titleFont;
+  transition: all $slideDurationEasing;
+
+  &.future {
+    transform: translate3d(0, 100vh, 0);
+  }
+  &.arriving-forward {
+    animation: arriving-from-bottom $slideDurationEasing;
+  }
+  &.past {
+    opacity: 0;
+  }
+  &.arriving-backward {
+    animation: fade-in $slideDurationEasing;
+  }
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
   .estimation-animation-container {
     display: flex;
     flex-wrap: wrap;
@@ -86,8 +108,6 @@ export default {
     }
   }
 
-
-
     h1 {
       font-family: $titleFont;
       font-size: 50px;
@@ -97,15 +117,5 @@ export default {
       text-align: center;
       max-width: 60%;
     }
-
-  
-
-
-  
 }
-
-
-
-
-
 </style>

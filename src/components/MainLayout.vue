@@ -30,30 +30,26 @@
         :current-state="stateOfSlide(4)"
         @next-slide="nextSlide"
         @prev-slide="prevSlide"
+        @finished-enter="endedTransition"
     />
 
-<!--    <DeathTreatmentSequence-->
-<!--        :current-state="stateOfSlide(5)"-->
-<!--        @next-slide="nextSlide"-->
-<!--        @prev-slide="prevSlide"-->
-<!--        @finished-transition="endedTransition"-->
-<!--    />-->
-
-    <DeathNoticeSequence
-        :current-state="stateOfSlide(4)"
-        @next-slide="nextSlide"
-        @prev-slide="prevSlide"/>
-
-
-    <ScreeningLateSequence
+    <DeathTreatmentSequence
         :current-state="stateOfSlide(5)"
         @next-slide="nextSlide"
         @prev-slide="prevSlide"
         @finished-transition="endedTransition"
     />
 
-    <CondomUsageSequence
+
+    <ScreeningLateSequence
         :current-state="stateOfSlide(6)"
+        @next-slide="nextSlide"
+        @prev-slide="prevSlide"
+        @finished-transition="endedTransition"
+    />
+
+    <CondomUsageSequence
+        :current-state="stateOfSlide(7)"
         :transition-direction="transitionDirection"
         @next-slide="nextSlide"
         @prev-slide="prevSlide"
@@ -61,14 +57,14 @@
     />
 
     <FrequenceCondonUsageSequence
-        :current-state="stateOfSlide(7)"
+        :current-state="stateOfSlide(8)"
         @next-slide="nextSlide"
         @prev-slide="prevSlide"
         @finished-transition="endedTransition"
     />
 
     <ConclusionSequence
-        :current-state="stateOfSlide(8)"
+        :current-state="stateOfSlide(9)"
         @next-slide="nextSlide"
         @prev-slide="prevSlide"
     />
@@ -130,16 +126,16 @@ export default {
         return 'future'
       }
     },
-    prevSlide (force = false) {
-      if (force || !this.isTransitioning && this.currentSlide > 0) {
-        this.currentSlide--
+    prevSlide (number = 1) {
+      if (!this.isTransitioning && this.currentSlide > 0) {
+        this.currentSlide -= number
         this.transitionDirection = -1
         this.isTransitioning = true
       }
     },
-    nextSlide (force = false) {
-      if (force || !this.isTransitioning && this.currentSlide + 1 < this.numberOfSlides) {
-        this.currentSlide++
+    nextSlide (number = 1) {
+      if (!this.isTransitioning && this.currentSlide + 1 < this.numberOfSlides) {
+        this.currentSlide+= number
         this.transitionDirection = 1
         this.isTransitioning = true
       }

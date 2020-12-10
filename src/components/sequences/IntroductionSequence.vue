@@ -22,7 +22,7 @@
         </div>
       </div>
     </section>
-    <HIVEstimation @confirm="confirmEstimation" class="hiv-estimation" />
+    <HIVEstimation @confirm="confirmEstimation" :locked="locked" class="hiv-estimation" />
   </article>
 </template>
 
@@ -105,6 +105,7 @@ export default {
 
     },
     confirmEstimation () {
+      this.locked = false
       this.$emit('next-slide')
     },
     setAnimController (anim) {

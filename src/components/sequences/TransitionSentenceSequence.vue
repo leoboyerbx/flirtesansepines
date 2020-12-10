@@ -201,7 +201,7 @@ export default {
     isTransitioning: false,
     ronceNum: 8,
     animationEndCount: 0,
-    delayBeforeNextSlide: 3000
+    delayBeforeNextSlide: 3200
   }),
   props: {
     currentState: {
@@ -216,12 +216,13 @@ export default {
   watch: {
     currentState (newVal, oldVal) {
       if (newVal === 'current') {
-        if (oldVal === 'future') {
-          this.isTransitioning = true
-          this.currentStep = 0
-        } else {
-          this.$emit('prev-slide', true)
-        }
+        this.isTransitioning = true
+        this.currentStep = 0
+        // if (oldVal === 'future') {
+        // }
+        // else {
+        //   this.$emit('prev-slide', true)
+        // }
       }
     }
   },

@@ -26,13 +26,21 @@ export default {
     LottieAnimation
   },
   props: {
-    value: Number
+    value: Number,
+    locked: Boolean
   },
   mounted() {
     window.addEventListener('mouseup', this.mouseUp)
   },
   beforeDestroy() {
     window.removeEventListener('mouseup', this.mouseUp)
+  },
+  watch: {
+    locked (newVal) {
+      if (newVal) {
+        this.anim.play()
+      }
+    }
   },
   methods: {
     setAnimcontroller (anim) {
@@ -46,7 +54,9 @@ export default {
       this.$emit('input', value)
     },
     mouseDown (e) {
-      this.dragging = true
+      if (!this.locked) {
+        this.dragging = true
+      }
     },
     mouseMove (e) {
       if (this.dragging) {
