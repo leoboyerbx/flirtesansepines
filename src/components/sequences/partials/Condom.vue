@@ -1,32 +1,37 @@
 <template>
   <article class="animated-condom">
-
-    <div class="steps">
-      <div :style="{top:step1Y}">
-        <p>Non</p>
-        <span></span>
-      </div>
-      <div :style="{top:step2Y}">
-        <p>Parfois</p>
-        <span></span>
-      </div>
-      <div :style="{top:step3Y}">
-        <p>Toujours</p>
-        <span></span>
-      </div>
-    </div>
     <svg
-    @mousemove="mouseMove"
-    ref="svg"
-     width="286" height="865" viewBox="0 0 286 865" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M30 164.5C30 102.92 79.9203 53 141.5 53C203.08 53 253 102.92 253 164.5V865H30V164.5Z" fill="#C8DEFB"/>
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M168 25C168 11.1929 156.807 0 143 0C129.193 0 118 11.1929 118 25V34.5581C64.8663 45.8281 25 93.0083 25 149.5V176H260V149.5C260 93.3633 220.633 46.4214 168 34.7744V25Z" fill="#B62220"/>
-        <rect x="25" y="176" width="235" :height="y - 180" fill="#B62220"/>
-        <rect @mousedown="mouseDown"
-               :y="y - 15" width="286" height="30" rx="15" fill="#B62220"
-               />
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 616.26 865"
+        @mousemove="mouseMove"
+    >
+      <g id="Calque_2" data-name="Calque 2">
+        <g id="Calque_1-2" data-name="Calque 1">
+          <line class="cls-1" x1="227.76" y1="233" x2="293.76" y2="233" />
+          <line class="cls-1" x1="227.76" y1="445" x2="293.76" y2="445" />
+          <line class="cls-1" x1="227.76" y1="657" x2="293.76" y2="657" />
+          <path class="cls-2" d="M360.26,164.5a111.5,111.5,0,0,1,223,0V865h-223Z" />
+          <path class="cls-3"
+                d="M498.26,25.34a25,25,0,1,0-50,0V35c-53.13,11.43-93,59.24-93,116.49v26.86h235V151.51c0-56.89-39.37-104.46-92-116.27Z" />
+          <rect class="cls-4"
+                x="355.26"
+                y="176"
+                width="235"
+                :height="y - 150"
+                :class="{ transition }"
+          />
+          <path class="cls-4 handler"
+                :style="{ transform: 'translate(0, ' + y + 'px)' }"
+                @mousedown="mouseDown"
+                d="M345.26,0h256a15,15,0,0,1,15,15h0a15,15,0,0,1-15,15h-256a15,15,0,0,1-15-15h0A15,15,0,0,1,345.26,0Z"
+                :class="{ transition }"
+          />
+          <text class="cls-5" transform="translate(88.82 241.9)">Toujours</text>
+          <text class="cls-5" transform="translate(0 451.4)">Majoritairement</text>
+          <text class="cls-5" transform="translate(106.56 664.17)">Parfois</text></g>
+      </g>
     </svg>
-    
+
     <div class="desc">
       <h1>Fais glisser le préservatif</h1>
       <p>Lors d'un rapport sexuel, utilises-tu systématiquement le préservatif? Ou es-tu radicalement contre?</p>
@@ -39,24 +44,36 @@
 import * as d3 from 'd3'
 import {csv} from 'd3'
 
-
+function closest (array, needle) {
+ return array.reduce((a, b) => {
+    return Math.abs(b - needle) < Math.abs(a - needle) ? b : a;
+  });
+}
 
 export default {
   name: 'Condom',
   components: {},
   data: () => {
-      const initialY = 200
+      const initialY = 230
       return {
         dragging: false,
         initialY: initialY,
-        lastY: 700,
-        y: initialY,
+        lastY: 660,
+        svgHeight: 865,
         progress: 0,
         rectangleHeight: 0,
-        legendOffset:0
+        yOffset: 0,
+        transition: false
     }
   },
   props: {
+    value: Number
+  },
+  watch: {
+    value (newVal) {
+      this.enableTransition()
+      this.progress = newVal / 2
+    }
   },
   mounted () {
       window.addEventListener('mouseup', this.mouseUp.bind(this))
@@ -68,31 +85,48 @@ export default {
     mouseDown (e) {
       this.dragging = true
     },
+    updateValue: function (value) {
+      this.$emit('input', value)
+      this.$store.commit('updateUserCondomUsage', value)
+    },
     mouseMove (e) {
         if(this.dragging) {
-            const y = (e.clientY - e.currentTarget.getBoundingClientRect().top)
-            this.progress = (y - this.initialY) / this.slideHeight
-            if (this.progress >= 0 && this.progress <= 1) {
-                this.y = y
-            }
-        } 
+          const rect = e.currentTarget.getBoundingClientRect()
+          const y = e.clientY - rect.top
+          const svgY = (this.svgHeight * y) / rect.height
+          let progress = (svgY - this.initialY) / this.slideHeight
+          if (progress > 1.2) {
+            progress = 1.2
+          }
+          if (progress < -0.1) {
+            progress = -0.1
+          }
+          this.progress = progress
+        }
     },
     mouseUp () {
       this.dragging = false
+      this.snapToVal()
+    },
+    snapToVal () {
+      this.enableTransition()
+      this.progress = closest([0, 0.5, 1], this.progress)
+
+      this.updateValue(this.progress * 2)
+    },
+    enableTransition () {
+      this.transition = true
+      setTimeout(() => {
+        this.transition = false
+      }, 400)
     }
   },
   computed: {
+    y () {
+      return this.initialY + this.progress * this.slideHeight - 15
+    },
     slideHeight () {
         return this.lastY - this.initialY
-    },
-    step1Y () {
-      return (this.initialY + this.legendOffset)+'px';
-    },
-    step2Y () {
-      return (this.initialY + this.slideHeight)+'px';
-    },
-    step3Y () {
-      return (this.initialY + this.lastY)/2+'px';
     }
   }
 }
@@ -100,6 +134,13 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+
+.transition {
+  transition: all .2s;
+}
+.handler {
+  cursor: grab;
+}
 
 .animated-condom {
     display: flex;
@@ -134,21 +175,88 @@ export default {
       }
     }
     .desc {
-      width: 25%;
+      width: 35%;
+      padding-right: 3%;
       h1 {
         color:white;
         font-family: $titleFont;
-        font-size:1.6rem;
+        font-size:2rem;
       }
       p {
         color: white;
-        font-size: 1rem;
+        font-size: 1.5rem;
       }
     }
 
     svg {
-      width: 18%;
+      width: 50%;
     }
+}
+
+
+.cls-1 {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 4px;
+}
+
+.cls-2 {
+  fill: #c8defb;
+}
+
+.cls-3,
+.cls-4 {
+  fill: #b62220;
+}
+
+.cls-3 {
+  fill-rule: evenodd;
+}
+
+.cls-5 {
+  font-size: 34.32px;
+  fill: #fff;
+  font-family: Soria-Soria, Soria;
+}
+
+.cls-6 {
+  letter-spacing: -0.17em;
+}
+
+.cls-7 {
+  letter-spacing: -0.02em;
+}
+
+.cls-8 {
+  letter-spacing: -0.03em;
+}
+
+.cls-9 {
+  letter-spacing: -0.02em;
+}
+
+.cls-10 {
+  letter-spacing: -0.02em;
+}
+
+.cls-11 {
+  letter-spacing: 0em;
+}
+
+.cls-12 {
+  letter-spacing: -0.02em;
+}
+
+.cls-13 {
+  letter-spacing: -0.03em;
+}
+
+.cls-14 {
+  letter-spacing: 0em;
+}
+
+.cls-15 {
+  letter-spacing: -0.09em;
 }
 
 </style>

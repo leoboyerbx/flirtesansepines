@@ -11,9 +11,9 @@
     </div>
     <div class="legend">
           <div class="legend-item"
-          v-for="(data, key, index) in dataSource[0]"
+          v-for="(data, key, index) in legendsData"
             :key="key">
-            <span class="identifier" 
+            <span class="identifier"
                 :style="{ backgroundColor: $globals.dataColors.getColorCode(index) }"></span>
             <p class="legend-name">{{ key }}</p>
           </div>
@@ -49,6 +49,14 @@ export default {
   computed: {
     dataWidth () {
       return this.width - this.margin.left - this.margin.right
+    },
+    legendsData () {
+      if (this.dataSource[0]) {
+        const result = Object.assign({}, this.dataSource[0])
+        delete result.age
+        return result
+      }
+      return {}
     },
     dataHeight() {
       return this.height - this.margin.top - this.margin.bottom

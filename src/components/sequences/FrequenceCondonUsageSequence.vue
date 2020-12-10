@@ -4,8 +4,10 @@
       class="condom-usage-frequence"
       :class="currentState"
   >
-  <Condom />
-  
+  <Condom
+    v-model="condomChoice"
+  />
+
 
   </article>
 </template>
@@ -24,7 +26,8 @@ export default {
     viewMode: 0,
     displayNextSlide: false,
     scrollFactor: 10,
-    translateY: 0
+    translateY: 0,
+    condomChoice: 0
   }),
   props: {
     currentState: {
