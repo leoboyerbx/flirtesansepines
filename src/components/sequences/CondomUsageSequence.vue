@@ -1,7 +1,9 @@
 <template>
   <article v-on:wheel="onWheelChangeSlide"
            class="condom-usage scrolling-slide"
-           :class="currentState">
+           :class="[ currentState, arrivingClass ]"
+           :style="{ display: displayStyle }"
+  >
         <h1>Utilisation du préservatif</h1>
 
         <p class="return-to-global-sequence" :class="{visible: detailsDisplay}" v-on:click="detailsDisplay = false">RETOUR</p>

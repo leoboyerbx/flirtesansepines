@@ -1,19 +1,29 @@
 <template>
   <article class="question scrolling-slide"
-           v-on:wheel="onWheelChangeSlide"
+           v-on:wheel="onWheel"
            :class="[ currentState, arrivingClass ]"
            :style="{ display: displayStyle }"
   >
     <div class="wrapper">
       <h1>Penses-tu que l'on meurt encore du VIH?</h1>
       <div class="estimation-animation-container">
-        <div @click="booleanUser = true">
+        <div
+            :class="{
+          faded: answered && booleanUser === false,
+          emphasis: answered && booleanUser === true
+        }"
+            @click="makeChoice(true)">
             <p> Oui</p>
         </div>
         <img class="animation" src="../../assets/handwithflower.svg">
-        <div @click="booleanUser = false">
+        <div
+            :class="{
+          faded: answered && booleanUser === true,
+          emphasis: answered && booleanUser === false
+        }"
+            @click="makeChoice(false)">
             <p>Non</p>
-            <a href="#" @click.prevent="onConfirm">Valider</a>
+<!--            <a href="#" @click.prevent="onConfirm">Valider</a>-->
         </div>
       </div>
     </div>
@@ -28,7 +38,8 @@ export default {
   name: 'DeathNoticeSequence',
   mixins: [ sequence ],
   data: () => ({
-    booleanUser:true
+    booleanUser:true,
+    answered: false
   }),
   props: {
     currentState: {
@@ -38,7 +49,6 @@ export default {
   },
   watch: {
     booleanUser (newVal) {
-      this.$store.commit('updateDeathUserData', newVal)
     }
   },
   computed: {
@@ -46,6 +56,23 @@ export default {
 
   },
   methods: {
+    makeChoice (bool) {
+      if (!this.answered) {
+        this.booleanUser = bool
+        this.$store.commit('updateDeathUserData', bool)
+        this.answered = true
+        setTimeout(() => {
+          this.$emit('next-slide')
+        }, 200)
+      }
+    },
+    onWheel (e) {
+      if (e.deltaY < 0) {
+        this.$emit('prev-slide')
+      } else if (e.deltaY > 0 && this.answered) {
+        this.$emit('next-slide')
+      }
+    }
   }
 
 
@@ -80,7 +107,7 @@ export default {
     flex-wrap: wrap;
     justify-content:center;
 
-    
+
     div:not(.animation) {
       cursor: pointer;
       display: flex;
@@ -89,12 +116,22 @@ export default {
       text-align: center;
       justify-content: center;
       width: 30%;
+      transition: all .3s;
       position:relative;
       p {
         margin-top: -70px;
-        font-size: 1.8rem;
+        font-size: 3rem;
         text-transform: uppercase;
-
+        transition: all .3s;
+      }
+      &.faded {
+        opacity: .3;
+        transform: scale(.8);
+      }
+      &.emphasis {
+        p {
+          transform: scale(1.3);
+        }
       }
       a {
         position:absolute;
