@@ -119,8 +119,8 @@ export default {
     transition: all .3s;
     cursor: pointer;
     color: #fff;
-    font-size: .8rem;
-    margin:0;
+    font-size: 1.3rem;
+    margin-top:15px;
 
     &.visible {
       opacity:1;

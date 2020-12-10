@@ -191,6 +191,18 @@ export default {
         width: 100%;
         text-align: center;
         margin-top: 60px;
+        a {
+          color: white;
+          border-bottom: 1px solid white;
+          padding: .1em 0em;
+          font-size: 1.8rem;
+          cursor: pointer;
+          font-family: $paragraphFont;
+          font-weight: bold;
+          text-decoration: none;
+          background: transparent;
+          border-radius:0;
+        }
       }
 
       div {

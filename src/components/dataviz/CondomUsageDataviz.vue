@@ -6,7 +6,7 @@
       <span class="arrow"></span>
       <span class="value">{{ tooltipValues.percentage }} %</span>
       <span class="desc">{{ tooltipValues.tooltip }}</span>
-      <button class="read-more" @click="learnMore"> En savoir +</button>
+      <a href="#" class="read-more" @click="learnMore">En savoir +</a>
     </div>
     <div class="legend" :class="{ details: detailsDisplay }">
       <div class="legend-item" v-for="(data, index) in dataSource" :key="index" >
@@ -192,17 +192,32 @@ export default {
     opacity: 0;
     transition: all ease-in-out 0.3s;
     pointer-events: none;
+    align-items: flex-start;
+
+    a {
+      color: $themeBlue3;
+      border-bottom: 1px solid $themeBlue3;
+      padding: .1em 0em;
+      font-size: 1.4rem;
+      cursor: pointer;
+      font-family: $paragraphFont;
+      font-weight: bold;
+      text-decoration: none;
+      background: transparent;
+      margin: auto;
+    }
 
     .value {
       color: $themeRed;
       font-size: 1.9rem;
-      margin-bottom: 1rem;
+      margin: auto auto 1.2rem auto;
     }
 
     .desc {
       color: black;
       font-size: 1.2rem;
-      margin-bottom: 2.3rem;
+      margin-bottom: 1.2rem;
+      font-family:$paragraphFont;
     }
 
     button {
