@@ -8,7 +8,7 @@
       <img src="../../assets/conclusionimg.svg" alt="abstract illustration">
     </div>
     <div class="responses">
-      <h1>Tes réponses</h1>
+      <h1>Pour résumer :</h1>
       <div class="user-responses">
         <div class="seropositivity-estimation">
           <p>Selon toi, <span>{{userEstimationFirst}}</span> personnes ont été détectées séropositives en 2018.</p>
@@ -43,7 +43,10 @@
     </div>
 
     <footer>
-      <p class="produced-by">Réalisé par : Romain Critot, Sarah Blaisa, Léo Boyer, Maëva Reynaud</p>
+      <div>
+        <p class="produced-by">Réalisé par : Romain Critot, Sarah Blaisa, Léo Boyer, Maëva Reynaud</p>
+        <a target="_blank" href="https://docs.google.com/spreadsheets/d/1YKJx8cLYmyNs-wn2jJhnB1kJ_5zeaT2GN0aq2a79KI4/edit#gid=0">Sources</a>
+      </div>
       <div class="logos">
         <img src="../../assets/gobelins.png" alt="">
         <img src="../../assets/logo_campus.png" alt="">
@@ -104,6 +107,7 @@ export default {
   overflow-y: scroll;
   //scrollbar-width: none;
 
+
   footer {
     background-color: white;
     display: flex;
@@ -112,9 +116,22 @@ export default {
     padding: 2% 5%;
     margin-top: 100px;
 
+    a {
+        border-bottom: 1px solid white;
+        background-color: transparent;
+        padding: .1em 0em;
+        cursor: pointer;
+        text-decoration: none;
+        background: transparent;
+        color: $themeBlue3;
+        font-weight: bold;
+      }
+
     .produced-by {
         font-family: $paragraphFont;
         font-size: 1.2rem;
+        color: $themeBlue3;
+        font-weight: bold;
     }
 
     div {
