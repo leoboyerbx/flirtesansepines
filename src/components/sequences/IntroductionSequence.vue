@@ -117,7 +117,7 @@ export default {
     },
     confirmEstimation () {
       this.locked = false
-      this.$emit('next-slide')
+      this.$emit('next-slide', false)
     },
     setAnimController (anim) {
       this.anim = anim

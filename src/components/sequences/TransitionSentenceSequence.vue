@@ -13,13 +13,13 @@
       <h1 class="first-title" :class="{ visible: currentStep === 0 }">
         Contrairement aux idées reçues, le VIH est toujours présent en France.
         <div class="scroll-incite" :class="{ visible: !isTransitioning }">
-          <ScrollIncitator /> 
+          <ScrollIncitator />
         </div>
       </h1>
       <h1 class="second-title" :class="{ visible: currentStep === 1 }">
         Nous devons rester vigilants afin de limiter sa propagation.
         <div class="scroll-incite" :class="{ visible: !isTransitioning }">
-          <ScrollIncitator /> 
+          <ScrollIncitator />
         </div>
       </h1>
 
@@ -258,7 +258,7 @@ export default {
             this.isTransitioning = true
             if (this.currentStep >= this.maxStep) {
               setTimeout(() => {
-                this.$emit('next-slide')
+                this.$emit('next-slide', false)
               }, this.delayBeforeNextSlide)
             }
           }
@@ -347,9 +347,9 @@ export default {
         margin: auto;
       }
     }
-    
 
-   
+
+
 
     //&.first-title{
     //  position: absolute;

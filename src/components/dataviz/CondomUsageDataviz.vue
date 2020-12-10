@@ -73,7 +73,6 @@ export default {
       }
     },
     userCondomUsage (newVal) {
-      console.log(newVal)
       this.svg.selectAll('.chart-sector')
         .attr('stroke', 'none')
       this.svg.select('.chart-' + newVal)

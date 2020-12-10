@@ -15,7 +15,7 @@
         <h1>
           Effectivement, il est encore possible de mourir du VIH en France
         </h1>
-        <p>Malgré les avancées scientifiques sur les différents traitements, le VIH tue encore    même si le nombre de morts diminue. 
+        <p>Malgré les avancées scientifiques sur les différents traitements, le VIH tue encore    même si le nombre de morts diminue.
             <br>
             <br>
           Pour limiter l’avancée des symptômes liés au virus, il est important de se faire dépister au moindre doute.
@@ -25,7 +25,7 @@
         <h1>
           Détrompe-toi ! Il y a encore des personnes qui meurent du VIH en France.
         </h1>
-        <p>Malgré les avancées scientifiques sur les différents traitements et ainsi la nette diminution du nombre de mort, le VIH tue encore. 
+        <p>Malgré les avancées scientifiques sur les différents traitements et ainsi la nette diminution du nombre de mort, le VIH tue encore.
             <br>
             <br>
             Pour limiter l’avancée des symptômes liés au virus, il est important de se faire dépister au moindre doute.</p>
@@ -71,17 +71,14 @@ export default {
   methods: {
     async getTreatmentDataSource () {
       const treatmentApiData = await json("https://cors-anywhere.herokuapp.com/https://ghoapi.azureedge.net/api/HIV_0000000009?$filter=SpatialDim eq 'FRA'")
-      // console.log('data source: ')
       this.treatmentDataSource = treatmentApiData.value.map(data => {
         const year = data.TimeDim
         const value = +data.NumericValue
         return { year, value }
       })
-      console.log('trat data received')
     },
     async getDeathDataSource () {
       const deathsApiData = await json("https://cors-anywhere.herokuapp.com/https://ghoapi.azureedge.net/api/HIV_0000000006?$filter=SpatialDim eq 'FRA'")
-      // console.log('data source: ')
       this.deathDataSource = deathsApiData.value.map(data => {
         const parsedData = data.Value.replace(/</g, '').split(/\[|\]| |–/)
 

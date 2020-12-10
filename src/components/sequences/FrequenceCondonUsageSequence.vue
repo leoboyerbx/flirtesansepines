@@ -45,7 +45,7 @@ export default {
     onAnswer () {
       this.answered = true
       setTimeout(() => {
-        this.$emit('next-slide')
+        this.$emit('next-slide', false)
       }, 200)
     }
   }

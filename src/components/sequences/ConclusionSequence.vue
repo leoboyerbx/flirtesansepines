@@ -105,7 +105,10 @@ export default {
   height: 100vh;
   transition: all $slideDurationEasing;
   overflow-y: scroll;
-  //scrollbar-width: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
 
   footer {
@@ -209,7 +212,7 @@ export default {
           color: $themeRed;
           font-weight: 600;
         }
-        
+
       }
       .button {
         width: 100%;

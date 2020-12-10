@@ -5,7 +5,7 @@
            :style="{ display: displayStyle }"
   >
     <div class="wrapper">
-      <h1>Selon toi, peut-on encore mourir du VIH en France ?</h1>
+      <h1>Selon toi, peut-on encore mourir du VIH en France&nbsp;?</h1>
       <div class="estimation-animation-container">
         <div
             :class="{
@@ -98,7 +98,7 @@ export default {
         this.$store.commit('updateDeathUserData', bool)
         this.answered = true
         setTimeout(() => {
-          this.$emit('next-slide')
+          this.$emit('next-slide', false)
         }, 200)
       }
     },
