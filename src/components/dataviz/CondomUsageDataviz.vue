@@ -8,8 +8,8 @@
       <span class="desc">{{ tooltipValues.tooltip }}</span>
       <button class="read-more"> En savoir +</button>
     </div>
-    <div class="legend">
-      <div class="legend-item" v-for="(data, index) in dataSource" :key="index">
+    <div class="legend" :class="{ details: detailsDisplay }">
+      <div class="legend-item" v-for="(data, index) in dataSource" :key="index" >
         <div class="legend-square" :style="{ backgroundColor: $globals.dataColors.getColorCode(index) }"></div>
         <p>{{data.name}}</p>
       </div>
@@ -124,6 +124,9 @@ export default {
     color: #fff;
     font-family: $paragraphFont;
     font-size: 0.8rem;
+    &.details {
+      opacity: 0;
+    }
     .legend-item {
       display: flex;
       align-items: center;

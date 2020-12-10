@@ -38,11 +38,6 @@
         @prev-slide="prevSlide"
         @finished-transition="endedTransition"
     />
-    <DeathNoticeSequence
-        :current-state="stateOfSlide(4)"
-        @next-slide="nextSlide"
-        @prev-slide="prevSlide"/>
-
 
     <ScreeningLateSequence
         :current-state="stateOfSlide(5)"
@@ -65,9 +60,6 @@
         @prev-slide="prevSlide"
         @finished-transition="endedTransition"
     />
-    <ConclusionSequence
-        :current-state="stateOfSlide(9)"
-
     <ConclusionSequence
         :current-state="stateOfSlide(8)"
         @next-slide="nextSlide"
@@ -161,4 +153,6 @@ export default {
 
 
 <style scoped lang="scss">
+
+
 </style>
