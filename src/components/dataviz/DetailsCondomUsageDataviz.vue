@@ -92,7 +92,6 @@ export default {
     styleXAxis (axis) {
     },
     styleYAxis (axis) {
-      console.log(axis.selectAll('.tick'));
       const yNodeAxis = axis.selectAll('g.tick text');
       yNodeAxis.attr("transform", "translate(-20, -12)")
       this.wrap(yNodeAxis, 230)
@@ -124,7 +123,6 @@ export default {
             y = text.attr("y"),
             dy = parseFloat(text.attr("dy")),
             tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
-            console.log(text)
         // eslint-disable-next-line no-cond-assign
         while (word = words.pop()) {
           line.push(word);

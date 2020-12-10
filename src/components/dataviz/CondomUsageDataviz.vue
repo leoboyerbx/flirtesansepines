@@ -6,7 +6,7 @@
       <span class="arrow"></span>
       <span class="value">{{ tooltipValues.percentage }} %</span>
       <span class="desc">{{ tooltipValues.tooltip }}</span>
-      <button class="read-more"> En savoir +</button>
+      <button class="read-more" @click="learnMore"> En savoir +</button>
     </div>
     <div class="legend" :class="{ details: detailsDisplay }">
       <div class="legend-item" v-for="(data, index) in dataSource" :key="index" >
@@ -40,9 +40,9 @@ export default {
     tooltipValues: {
       percentage: 0,
       tooltip: '',
-      x: 0,
-      y: 0
-    }
+      rotateAngle: 0
+    },
+    currentPie:0
   }),
   mounted() {
     this.generatePieChart();
@@ -74,25 +74,28 @@ export default {
         this.g = this.svg.append('g').attr('transform', `translate(${this.width/2}, ${this.height/2})`);
         this.updatePieChart()
     },
+    rotateChart () {
+      this.g.transition()
+                .attr("transform",  "translate(" + this.width / 2 + "," + this.height / 2 + ") rotate(" + this.tooltipValues.rotateAngle + ")")
+                .duration(1000);
+    },
     updatePieChart () {
         const pies = this.g.selectAll('.arc')
           .data(this.pie(this.dataSource))
           .enter().append('g')
           .attr('class', 'arc')
           .on("click", (e, d) => {
-              // The amount we need to rotate:
-              const rotate = 45-(e.explicitOriginalTarget.__data__.startAngle + e.explicitOriginalTarget.__data__.endAngle)/2 / Math.PI * 180;              // Transition the pie chart
-              this.g.transition()
-                .attr("transform",  "translate(" + this.width / 2 + "," + this.height / 2 + ") rotate(" + rotate + ")")
-                .duration(1000);
+              this.rotateChart()
               this.$emit('detail-index-change', d.index)
               this.$emit('detail-display')
           })
           .on('mouseover', (e, d) => {
+            this.currentPie =  d.index;
             this.tooltipVisible = true;
             this.tooltipValues = {
               percentage: (d.data.value),
-              tooltip: (d.data.tooltip)
+              tooltip: (d.data.tooltip),
+              rotateAngle: 45-(e.explicitOriginalTarget.__data__.startAngle + e.explicitOriginalTarget.__data__.endAngle)/2 / Math.PI * 180
             }
           })
         pies.append('path').attr('d', this.path).attr('fill', d => this.color(d.data.value));
@@ -102,6 +105,11 @@ export default {
       if (index > -1) {
         return this.getColorCode(index)
       }
+    },
+    learnMore () {
+      this.rotateChart()
+      this.$emit('detail-display')
+      this.$emit('detail-index-change', this.currentPie)
     }
   }
 }
