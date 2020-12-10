@@ -33,8 +33,12 @@
     </svg>
 
     <div class="desc">
-      <h1>Fais glisser le préservatif</h1>
-      <p>Lors d'un rapport sexuel, utilises-tu systématiquement le préservatif? Ou es-tu radicalement contre?</p>
+      <div>
+        <h1>Fais glisser le préservatif</h1>
+        <p>Lors d'un rapport sexuel, utilises-tu systématiquement le préservatif? Ou es-tu radicalement contre?</p>
+      </div>
+      <button>Valider</button>
+      
     </div>
 
   </article>
@@ -82,6 +86,7 @@ export default {
       window.removeEventListener('mouseup', this.mouseUp.bind(this))
   },
   methods: {
+
     mouseDown (e) {
       this.dragging = true
     },
@@ -148,6 +153,8 @@ export default {
     width: fit-content;
     justify-content: space-between;
     width: 100%;
+
+   
     .steps {
       position:relative;
       width: auto;
@@ -177,14 +184,31 @@ export default {
     .desc {
       width: 35%;
       padding-right: 3%;
-      h1 {
+      div {
+        margin-bottom: 3rem;
+        h1 {
         color:white;
         font-family: $titleFont;
         font-size:2rem;
+        }
+        p {
+          color: white;
+          font-size: 1.5rem;
+        }
       }
-      p {
-        color: white;
-        font-size: 1.5rem;
+      
+      display: flex;
+      flex-direction: column;
+      button {
+        color: #ffff;
+        background-color: $themeBlue2;
+        border-radius: 50px;
+        padding: 15px 40px;
+        width: auto;
+        text-decoration: none;
+        font-family: $paragraphFont;
+        font-size: 1.3rem;
+        border:none;
       }
     }
 

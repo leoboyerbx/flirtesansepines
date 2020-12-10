@@ -86,6 +86,7 @@ export default {
   top: 0;
   left: 0;
   width: 100%;
+  display: none;
   background-color: $themeBlue3;
   font-family: $titleFont;
 
@@ -124,7 +125,7 @@ export default {
       margin:auto;
       text-align: center;
       max-width: 60%;
-      margin-top: 2.4rem;
+      margin-top: 2rem;
     }
   .user-responses {
     display: flex;
@@ -155,11 +156,6 @@ export default {
   }
 }
   
-  
-
-
-
-    
 
     img {
       width: 30%;

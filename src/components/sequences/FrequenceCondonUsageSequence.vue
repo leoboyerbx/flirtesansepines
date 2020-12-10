@@ -8,7 +8,6 @@
     v-model="condomChoice"
   />
 
-
   </article>
 </template>
 
@@ -35,7 +34,7 @@ export default {
       default: 'future'
     }
   },
-  methods: {
+  methods: { 
     onWheel (e) {
       const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
       const scrollLimit = this.$el.offsetHeight - vh
