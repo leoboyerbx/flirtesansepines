@@ -210,7 +210,9 @@ export default {
   }
 
   img {
-    transform: translate(20%,60%);
+    position: fixed;
+    bottom: 0;
+    right: 40px;
     width:100px;
   }
 }

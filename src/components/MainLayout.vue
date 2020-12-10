@@ -32,12 +32,13 @@
         @prev-slide="prevSlide"
     />
 
-    <DeathTreatmentSequence
-        :current-state="stateOfSlide(5)"
-        @next-slide="nextSlide"
-        @prev-slide="prevSlide"
-        @finished-transition="endedTransition"
-    />
+<!--    <DeathTreatmentSequence-->
+<!--        :current-state="stateOfSlide(5)"-->
+<!--        @next-slide="nextSlide"-->
+<!--        @prev-slide="prevSlide"-->
+<!--        @finished-transition="endedTransition"-->
+<!--    />-->
+
     <DeathNoticeSequence
         :current-state="stateOfSlide(4)"
         @next-slide="nextSlide"
@@ -65,13 +66,12 @@
         @prev-slide="prevSlide"
         @finished-transition="endedTransition"
     />
-    <ConclusionSequence
-        :current-state="stateOfSlide(9)"
 
     <ConclusionSequence
         :current-state="stateOfSlide(8)"
         @next-slide="nextSlide"
-        @prev-slide="prevSlide"/>
+        @prev-slide="prevSlide"
+    />
   </section>
 </template>
 
