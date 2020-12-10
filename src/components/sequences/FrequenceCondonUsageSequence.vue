@@ -31,9 +31,6 @@ export default {
       type: String,
       default: 'future'
     }
-  },
-  computed: {
-
   }
 }
 </script>
