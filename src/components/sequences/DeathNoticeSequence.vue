@@ -12,16 +12,31 @@
           faded: answered && booleanUser === false,
           emphasis: answered && booleanUser === true
         }"
-            @click="makeChoice(true)">
+            @click="makeChoice(true)"
+            @mouseover="hoverYes"
+            @mouseleave="mouseOut"
+        >
             <p> Oui</p>
         </div>
-        <img class="animation" src="../../assets/handwithflower.svg">
+<!--        <img class="animation" src="../../assets/handwithflower.svg">-->
+        <LottieAnimation
+            class="animation"
+            path="lottie/yesnoflower.json"
+            :auto-play="false"
+            :loop="false"
+            @AnimControl="setAnimController"
+            ref="lottie"
+        />
+
         <div
             :class="{
           faded: answered && booleanUser === true,
           emphasis: answered && booleanUser === false
         }"
-            @click="makeChoice(false)">
+            @click="makeChoice(false)"
+            @mouseenter="hoverNo"
+            @mouseleave="mouseOut"
+        >
             <p>Non</p>
 <!--            <a href="#" @click.prevent="onConfirm">Valider</a>-->
         </div>
@@ -33,19 +48,48 @@
 
 <script>
 import sequence from "@/mixins/sequenceMixin";
+import LottieAnimation from "@/components/lib/LottieAnimation";
+import gsap from 'gsap'
 
 export default {
   name: 'DeathNoticeSequence',
   mixins: [ sequence ],
+  components: { LottieAnimation },
   data: () => ({
     booleanUser:true,
-    answered: false
+    answered: false,
+    frame: 0,
+    tweenedFrame: 0,
+    animationDurationBase: 5
   }),
   props: {
     currentState: {
       type: String,
       default: 'future'
     },
+  },
+  watch: {
+    frame: function(newValue, oldValue) {
+      const animationAmount = ((newValue - oldValue) / this.anim.totalFrames)
+      gsap.to(this.$data, { duration: 2.5, ease: "power1.inOut", tweenedFrame: newValue });
+    },
+    animatedFrame (newValue) {
+      this.anim.goToAndStop(newValue, true)
+    }
+  },
+  computed: {
+    animatedFrame: function() {
+      return this.tweenedFrame.toFixed(2);
+    },
+    deathMarker () {
+      return this.anim.getMarkerByKey('death')
+    },
+    middleMarker () {
+      return this.anim.getMarkerByKey('middle')
+    },
+    aliveMarker () {
+      return this.anim.getMarkerByKey('alive')
+    }
   },
   methods: {
     makeChoice (bool) {
@@ -63,6 +107,26 @@ export default {
         this.$emit('prev-slide')
       } else if (e.deltaY > 0 && this.answered) {
         this.$emit('next-slide')
+      }
+    },
+    setAnimController (anim) {
+      this.anim = anim
+      this.anim.goToAndStop(this.middleMarker.tm, true)
+      this.frame = this.middleMarker.tm
+    },
+    hoverNo () {
+      if (!this.answered) {
+        this.frame = this.aliveMarker.tm
+      }
+    },
+    hoverYes () {
+      if (!this.answered) {
+        this.frame = this.deathMarker.tm
+      }
+    },
+    mouseOut () {
+      if (!this.answered) {
+        this.frame = this.middleMarker.tm
       }
     }
   }
