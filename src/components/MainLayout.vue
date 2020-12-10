@@ -1,5 +1,9 @@
 <template>
-  <section ref="slides" class="slides">
+  <section
+      ref="slides"
+      class="slides"
+      @wheel="wheelInertia"
+  >
     <IntroductionSequence
         :current-state="stateOfSlide(0)"
         @next-slide="nextSlide"
@@ -77,6 +81,12 @@ import ScreeningBehaviorsSequence from "@/components/sequences/ScreeningBehavior
 import CondomUsageSequence from "@/components/sequences/CondomUsageSequence";
 import FrequenceCondonUsageSequence from "@/components/sequences/FrequenceCondonUsageSequence";
 import ConclusionSequence from "@/components/sequences/ConclusionSequence";
+import _debounce from "lodash.debounce";
+
+const debouncedInertia = _debounce(comp => {
+  comp.isInertia = false
+  console.log('endinertia')
+}, 500)
 
 export default {
   name: 'MainLayout',
@@ -97,7 +107,7 @@ export default {
     numberOfSlides: 10,
     transitionDirection: 1,
     isTransitioning: false,
-    inertiaPreventDelay: 500
+    isInertia: true
   }),
   created () {
     window.addEventListener('keydown', this.keyUp)
@@ -123,17 +133,19 @@ export default {
       }
     },
     prevSlide (number = 1) {
-      if (!this.isTransitioning && this.currentSlide > 0) {
+      if (!this.isTransitioning && !this.isInertia && this.currentSlide > 0) {
         this.currentSlide -= number
         this.transitionDirection = -1
         this.isTransitioning = true
+        this.isInertia = true
       }
     },
     nextSlide (number = 1) {
-      if (!this.isTransitioning && this.currentSlide + 1 < this.numberOfSlides) {
+      if (!this.isTransitioning && !this.isInertia && this.currentSlide + 1 < this.numberOfSlides) {
         this.currentSlide+= number
         this.transitionDirection = 1
         this.isTransitioning = true
+        this.isInertia = true
       }
     },
     keyUp (e) {
@@ -145,9 +157,10 @@ export default {
       }
     },
     endedTransition () {
-      setTimeout(() => {
-        this.isTransitioning = false
-      }, this.inertiaPreventDelay)
+      this.isTransitioning = false
+    },
+    wheelInertia () {
+      debouncedInertia(this)
     }
   }
 }
