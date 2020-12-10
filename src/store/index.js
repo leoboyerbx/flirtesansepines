@@ -11,7 +11,7 @@ export default new Vuex.Store({
   },
   mutations: {
     updateEstimaton (state, n) {
-      state.hivEstimation = n
+      state.hivEstimation = parseInt(n)
     },
     updateDeathUserData(state, n) {
       state.deathEstimation = n

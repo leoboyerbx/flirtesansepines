@@ -1,8 +1,8 @@
 <template>
   <section class="hiv-estimation">
-    <p class="question">À votre avis, combien de cas de séropositivité ont été découverts en 2019 en France ?</p>
+    <p class="question">À ton avis, combien de cas de séropositivité VIH ont été découverts en France en 2018 ?</p>
     <div class="number">{{ displayNumber }}</div>
-    <div class="confirm" :class="{ visible: locked }"><button @click="onConfirm">Valider</button></div>
+    <div class="confirm" :class="{ visible: locked }"><a href="#" @click.prevent="onConfirm">Valider</a></div>
     <FlowerSlider class="flower-slider" :locked="!locked" v-model="number" />
   </section>
 </template>
@@ -91,8 +91,7 @@ export default {
     color: $themeRed;
     font-size: 17rem;
     text-align: right;
-    line-height: 17rem;
-    //line-height: 23rem;
+    line-height: 20rem;
   }
   .confirm {
     display: flex;
@@ -103,16 +102,16 @@ export default {
     &.visible {
       opacity: 1;
     }
-    button {
-      background-color: $themeBlue2;
-      border: none;
-      padding: .5em 1.5em;
-      border-radius: 100px;
-      color: #fff;
+    a {
+      color: $themeBlue3;
+      border-bottom: 1px solid $themeBlue3;
+      padding: .1em 0em;
       font-size: 1.8rem;
       cursor: pointer;
       font-family: $paragraphFont;
       font-weight: bold;
+      text-decoration: none;
+      background: transparent;
     }
   }
   .flower-slider {

@@ -6,12 +6,16 @@
       <span class="arrow"></span>
       <span class="value">{{ tooltipValues.percentage }} %</span>
       <span class="desc">{{ tooltipValues.tooltip }}</span>
-      <button class="read-more" @click="learnMore"> En savoir +</button>
+      <a href="#" class="read-more" @click="learnMore">En savoir +</a>
     </div>
     <div class="legend" :class="{ details: detailsDisplay }">
       <div class="legend-item" v-for="(data, index) in dataSource" :key="index" >
-        <div class="legend-square" :style="{ backgroundColor: $globals.dataColors.getColorCode(index) }"></div>
+        <div class="legend-square" :style="{ backgroundColor: $globals.dataColors3.getColorCode(index) }"></div>
         <p>{{data.name}}</p>
+      </div>
+      <div class="legend-item" >
+        <div class="legend-line"></div>
+        <p>Votre réponse</p>
       </div>
     </div>
   </div>
@@ -49,13 +53,16 @@ export default {
   },
   computed: {
     color () {
-      return d3.scaleOrdinal(this.$globals.dataColors)
+      return d3.scaleOrdinal(this.$globals.dataColors3)
     },
     pie () {
-      return d3.pie().value(d => d.value)
+      return d3.pie().value(d => d.value).sort(null)
     },
     path () {
       return d3.arc().outerRadius(this.radius).innerRadius(0)
+    },
+    userCondomUsage () {
+      return this.$store.state.condomUsage
     }
   },
   watch: {
@@ -64,6 +71,14 @@ export default {
       handler () {
         this.updatePieChart()
       }
+    },
+    userCondomUsage (newVal) {
+      console.log(newVal)
+      this.svg.selectAll('.chart-sector')
+        .attr('stroke', 'none')
+      this.svg.select('.chart-' + newVal)
+        .attr('stroke', this.$globals.dataColors3[3])
+        .attr('stroke-width', '2')
     }
   },
   methods: {
@@ -98,7 +113,12 @@ export default {
               rotateAngle: 45-(e.explicitOriginalTarget.__data__.startAngle + e.explicitOriginalTarget.__data__.endAngle)/2 / Math.PI * 180
             }
           })
-        pies.append('path').attr('d', this.path).attr('fill', d => this.color(d.data.value));
+        pies.append('path')
+        .attr('class',d => 'chart-sector chart-' + d.index)
+        .attr('d', this.path)
+        .attr('fill', d => this.color(d.data.value))
+        .attr('stroke', d => d.index === this.$store.state.condomUsage ? this.$globals.dataColors3[3] : 'none')
+        .attr('stroke-width', '2')
     },
     getColor (key) {
       const index = this.dataSource.columns ? this.dataSource.columns.indexOf(key) - 1 : -1
@@ -151,6 +171,12 @@ export default {
         height: 30px;
         margin-right:10px;
       }
+      .legend-line {
+        width: 30px;
+        height: 5px;
+        margin-right:10px;
+        background-color: $themeBlue3;
+      }
     }
   }
   .tooltip {
@@ -167,17 +193,32 @@ export default {
     opacity: 0;
     transition: all ease-in-out 0.3s;
     pointer-events: none;
+    align-items: flex-start;
+
+    a {
+      color: $themeBlue3;
+      border-bottom: 1px solid $themeBlue3;
+      padding: .1em 0em;
+      font-size: 1.4rem;
+      cursor: pointer;
+      font-family: $paragraphFont;
+      font-weight: bold;
+      text-decoration: none;
+      background: transparent;
+      margin: auto;
+    }
 
     .value {
       color: $themeRed;
       font-size: 1.9rem;
-      margin-bottom: 1rem;
+      margin: auto auto 1.2rem auto;
     }
 
     .desc {
       color: black;
       font-size: 1.2rem;
-      margin-bottom: 2.3rem;
+      margin-bottom: 1.2rem;
+      font-family:$paragraphFont;
     }
 
     button {

@@ -16,7 +16,7 @@ export default {
   },
   data: () => ({
       svg: null,
-      margin: {top: 20, right: 100, bottom: 60, left: 50},
+      margin: {top: 20, right: 100, bottom: 60, left: 60},
       bandSpacing: 30,
       tooltipVisible: false,
       deathDataScaleCompressionRatio: 2
@@ -70,11 +70,12 @@ export default {
     },
     treatmentYAxis() {
       return d3.axisLeft(this.treatmentYScale)
-          // .tickFormat(x => x.toString())
+          .tickFormat(x => x.toLocaleString("fr-FR"))
+
     },
     deathYAxis() {
       return d3.axisRight(this.deathYScale)
-          // .tickFormat(x => x.toString())
+           .tickFormat(x => x.toLocaleString("fr-FR"))
     },
     confidenceIntervalArea () {
       return d3.area().curve(d3.curveMonotoneX)
@@ -132,21 +133,33 @@ export default {
           .call(this.styleDeathYAxis)
     },
     styleXAxis (axis) {
-      // axis.selectAll("text")
-      //     .style("fill", "#f00")
+      axis.selectAll("text")
+          .style('font-size','.9rem')
+          .style('font-weight','600')
+      axis.selectAll('.tick line')
+          .style('display','none')
       return axis
     },
     styleTreatmentYAxis (axis) {
+      axis.selectAll('.tick line')
+          .style('display','none')
       axis.selectAll("text")
           .style("fill", this.treatmentColor)
+          .style('font-size','.9rem')
+          .style('font-weight','500')
+
       return axis
     },
     styleDeathYAxis (axis) {
       axis.selectAll("text")
           .style("fill", this.deathColor)
           .attr('x', '9px')
+          .style('font-size','.9rem')
+          .style('font-weight','500')
+
       axis.selectAll('.tick line')
           .attr('x2', '6px')
+          .style('display','none')
       return axis
     },
     updateSvg () {
@@ -179,8 +192,13 @@ export default {
   
 
   .axis {
-        line {
-          display:none;
+        
+        .tick {
+          font-size: 1rem;
+
+          line {
+            display:none;
+          }
         }
   }
 }

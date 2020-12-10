@@ -21,7 +21,7 @@
           <h1>Flirt sans épines</h1>
         </div>
         <div class="scroll-incite" :class="{ visible: displayScrollIncite }">
-          <ScrollIncitator /> <p>Scrollez pour démarrer...</p>
+          <ScrollIncitator /> <p>Scroller pour démarrer...</p>
         </div>
       </div>
     </section>

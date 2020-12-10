@@ -11,7 +11,7 @@
       <h1>Tes réponses</h1>
       <div class="user-responses">
         <div class="seropositivity-estimation">
-          <p>Selon toi, {{userEstimationFirst}} personnes ont été détectées séropositives en 2019.</p>
+          <p>Selon toi, <span>{{userEstimationFirst}}</span> personnes ont été détectées séropositives en 2019.</p>
           <img src="../../assets/flower.svg" alt="flower">
         </div>
         <div class="death-estimation">
@@ -26,7 +26,7 @@
         </div>
         <div class="condom-usage">
           <p  v-if="userCondomUsage === 0">
-            Comme tu l'auras compris, l'utilisation du préservatif est le seule moyen de se protéger contre le VIH, donc ne change rien !
+            Comme tu l'auras compris, l'utilisation du préservatif est le seule moyen de se protéger contre le VIH, ne change rien !
           </p>
           <p v-else-if="userCondomUsage === 1">
             Tu n'utilises pas systématiquement le préservatif. N'oublies pas que c'est le seul moyen de te protéger du VIH !
@@ -36,9 +36,20 @@
           </p>
           <img src="../../assets/condom.svg" alt="hand with flower">
         </div>
+        <span class="button">
+          <a target="_blank" href="https://www.sida-info-service.org/categorie/vihsida/depistage-vih/?gclid=CjwKCAiAq8f-BRBtEiwAGr3DgfxR5nOsfQRJ9JhSCYQ8dp0z5lz_znD5G4TEe-jLoDFMDqYqx0vdmRoCr78QAvD_BwE">Pour plus d'infos sur le dépistage</a>
+        </span>
+
       </div>
-      <a target="_blank" href="https://www.ch-annecygenevois.fr/fr/article/le-centre-de-depistage-du-change">Pour plus d'infos sur le dépistage</a>
     </div>
+
+    <footer>
+      <p class="produced-by">Réalisé par : Romain Critot, Sarah Blaisa, Léo Boyer, Maëva Reynaud</p>
+      <div class="logos">
+        <img src="../../assets/gobelins.png" alt="">
+        <img src="../../assets/logo_campus.png" alt="">
+      </div>
+    </footer>
 
   </article>
 </template>
@@ -94,12 +105,40 @@ export default {
   overflow-y: scroll;
   //scrollbar-width: none;
 
+  footer {
+    background-color: white;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 2% 5%;
+    margin-top: 100px;
+
+    .produced-by {
+        font-family: $paragraphFont;
+        font-size: 1.2rem;
+    }
+
+    div {
+      flex:1;
+      &.logos {
+        display: flex;
+        justify-content: flex-end;
+        img {
+          margin-left: 30px;
+          width: 80px;
+        }
+      }
+    }
+
+  }
+
   background-color: $themeBlue3;
-  font-family: $titleFont;
 
   .header {
     width: 100%;
     background-color: white;
+    padding-top: 60px;
+    display: flex;
     img {
       width: 100%;
     }
@@ -124,20 +163,55 @@ export default {
   }
 
   .responses {
+    margin-top: -2px;
+    background: $themeBlue3;
+
+     img {
+      width: 30%;
+      margin: 0 auto;
+    }
 
     h1 {
       font-family: $titleFont;
       font-size: 50px;
       color: white;
-      margin:auto;
+      margin: auto;
+      padding: 30px 0;
       text-align: center;
       max-width: 60%;
     }
     .user-responses {
       display: flex;
+      flex-wrap: wrap;
       width: 90%;
       margin: auto;
       justify-content: space-between;
+
+      .seropositivity-estimation {
+
+        span {
+          color: $themeRed;
+          font-weight: 600;
+        }
+        
+      }
+      .button {
+        width: 100%;
+        text-align: center;
+        margin-top: 60px;
+        a {
+          color: white;
+          border-bottom: 1px solid white;
+          padding: .1em 0em;
+          font-size: 1.8rem;
+          cursor: pointer;
+          font-family: $paragraphFont;
+          font-weight: bold;
+          text-decoration: none;
+          background: transparent;
+          border-radius:0;
+        }
+      }
 
       div {
         margin: 1%;
@@ -150,6 +224,8 @@ export default {
 
         p {
           font-size: 1.5rem;
+          margin: auto;
+          text-align: center;
         }
 
         img {
@@ -161,26 +237,5 @@ export default {
       }
     }
   }
-
-
-  img {
-    width: 30%;
-    margin: 0 auto;
-  }
-
-  p {
-    margin: auto;
-    text-align: center;
-    font-size: 2rem;
-
-  }
-
-
-
 }
-
-
-
-
-
 </style>

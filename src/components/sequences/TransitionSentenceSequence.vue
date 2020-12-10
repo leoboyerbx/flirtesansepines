@@ -12,9 +12,15 @@
     >
       <h1 class="first-title" :class="{ visible: currentStep === 0 }">
         Contrairement aux idées reçues, le VIH est toujours présent en France.
+        <div class="scroll-incite" :class="{ visible: !isTransitioning }">
+          <ScrollIncitator /> 
+        </div>
       </h1>
       <h1 class="second-title" :class="{ visible: currentStep === 1 }">
-        Il est cependant toujours possible de faire diminuer le nombre de contaminations.
+        Nous devons rester vigilant afin de limiter sa propagation.
+        <div class="scroll-incite" :class="{ visible: !isTransitioning }">
+          <ScrollIncitator /> 
+        </div>
       </h1>
 
       <svg :class="'step' + currentStep" class='ronce1HG ronce' viewBox="0 0 1393 156" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -187,10 +193,11 @@
 
 <script>
 import sequence from "@/mixins/sequenceMixin";
+import ScrollIncitator from "@/components/lib/ScrollIncitator";
 
 export default {
   name: 'TransitionSentenceSequence',
-  components: {},
+  components: {ScrollIncitator},
   mixins: [ sequence ],
   data: () => ({
     displayNextSlide: false,
@@ -201,7 +208,9 @@ export default {
     isTransitioning: false,
     ronceNum: 8,
     animationEndCount: 0,
-    delayBeforeNextSlide: 3200
+    delayBeforeNextSlide: 3200,
+    displayScrollIncite: false
+
   }),
   props: {
     currentState: {
@@ -227,6 +236,20 @@ export default {
     }
   },
   methods: {
+    onScroll () {
+      const progress = this.$el.scrollTop / (this.lottieScrollHeight - this.animationEndedScrollOffset)
+      this.displayScrollIncite = false
+
+      if (!this.animationFinished ) {
+        if (progress < 1) {
+          this.handleScrollLottie(progress)
+
+        } else {
+          this.animationFinished = true
+          this.$el.scrollTop = 0
+        }
+      }
+    },
     onWheel (e) {
       if (!this.isTransitioning) {
         if (e.deltaY > 0) {
@@ -307,6 +330,26 @@ export default {
       transition-delay: .3s;
     }
 
+
+    .scroll-incite {
+      display: flex;
+      margin: 30px auto 0 auto;
+      opacity: 0;
+      transition-delay: 1s;
+
+      transition: all ease-in-out .3s;
+      &.visible {
+        opacity:1;
+        transition-delay: 1s;
+
+      }
+      .incite-wrapper {
+        margin: auto;
+      }
+    }
+    
+
+   
 
     //&.first-title{
     //  position: absolute;

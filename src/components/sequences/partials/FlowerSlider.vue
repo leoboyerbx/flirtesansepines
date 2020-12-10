@@ -2,6 +2,7 @@
   <div class="flower-slider"
        @mousemove="mouseMove"
   >
+    <img :class="{invisible: !hintVisible}" src="../../../assets/arrow-right.svg" alt="">
     <LottieAnimation
         path="lottie/pullFlower.json"
         @AnimControl="setAnimcontroller"
@@ -20,7 +21,8 @@ export default {
     dragging: false,
     flower: null,
     dataWidth: 0.75,
-    dataMarginLeft: 0.11
+    dataMarginLeft: 0.11,
+    hintVisible: true
   }),
   components: {
     LottieAnimation
@@ -36,8 +38,11 @@ export default {
     window.removeEventListener('mouseup', this.mouseUp)
   },
   watch: {
+    value () {
+      this.hintVisible = false
+    },
     locked (newVal) {
-      if (newVal) {
+      if (newVal === true) {
         this.anim.play()
       }
     }
@@ -89,5 +94,19 @@ export default {
   //}
   .flower-slider-handle {
     cursor: pointer;
+  }
+  .flower-slider {
+    display: flex;
+    flex-direction: column;
+    img{
+      opacity: 1;
+      transition: all ease-in-out 1s;
+      width: 60px;
+      margin-left: 40px;
+      transform: translateY(120px);
+      &.invisible {
+        opacity:0;
+      }
+    }
   }
 </style>

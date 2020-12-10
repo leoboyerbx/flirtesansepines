@@ -1,14 +1,17 @@
 <template>
   <div class="seropositivityDataviz">
     <svg :width="width" :height="height" ref="svg"></svg>
-    <!--    <div-->
-    <!--        class="tooltip"-->
-    <!--        ref="tooltip"-->
-    <!--        :class="{ visible: tooltipVisible }"-->
-    <!--        :style="`transform: translate(${tooltipValues.x}px, ${tooltipValues.y}px)`"-->
-    <!--    >-->
-    <!--      {{ tooltipKey }}: {{ tooltipValues.percentage }}%-->
-    <!--    </div>-->
+        <div
+            class="tooltip"
+            ref="tooltip"
+            :class="{ visible: tooltipVisible }"
+            :style="`transform: translate(${tooltipValues.x}px, ${tooltipValues.y}px)`"
+        >
+          <span>{{ tooltipValues.year }}</span>
+          <span>
+            {{ tooltipValues.key }}: {{ tooltipValues.value }}
+          </span>
+        </div>
   </div>
 </template>
 
@@ -23,13 +26,20 @@ export default {
     width: { type: Number },
     viewMode: { type: Number},
     dataSource: { type: Array },
-    userEstimation: Number
+    userEstimation: Number,
   },
   data: () => ({
     svg: null,
     margin: { top: 20, right: 0, bottom: 0, left: 40 },
     bandSpacing: 30,
-    tooltipVisible: false
+    tooltipVisible: false,
+    tooltipValues: {
+      x: 0,
+      y: 0,
+      year: 0,
+      value: 0,
+      key: 0
+    }
   }),
   computed: {
     dataWidth () {
@@ -48,7 +58,7 @@ export default {
           .y0(d => this.yScale(d[0]))
           .y1(d => this.yScale(d[1]))
     },
-    colors () { return this.$globals.dataColors },
+    colors () { return this.$globals.dataColors2 },
     color () {
       return d3.scaleOrdinal()
           .domain(this.dataSource.columns.slice(1))
@@ -79,7 +89,7 @@ export default {
       return d3.transition().duration(1000)
     },
     bisect () {
-      return d3.bisector(d =>  d.year).left
+      return d3.bisector(d =>  d.year).center
     }
   },
   mounted() {
@@ -105,8 +115,8 @@ export default {
       this.svg.append("rect").attr('class', 'userEstimation')
           .attr('x', 0)
           .attr('y', 0)
-          .attr('height', 3)
-          .attr('fill', '#f00')
+          .attr('height', 2)
+          .attr('fill', '#000')
           .attr('width', this.dataWidth)
       this.initAxis()
       this.updateSvg()
@@ -136,6 +146,14 @@ export default {
       // axis.selectAll("text")
       //     .style("fill", "#f00")
     },
+    updateTooltip (e, key, year, value) {
+      this.tooltipVisible = true
+      this.tooltipValues.key = this.keyToTooltipText(key)
+      this.tooltipValues.year = year
+      this.tooltipValues.value = value
+      this.tooltipValues.x = e.layerX
+      this.tooltipValues.y = e.layerY
+    },
     updateSvg () {
       this.svg.select("g.areas")
           .selectAll("path")
@@ -144,9 +162,14 @@ export default {
                   // .transition().duration(1000)
                   .attr("fill", ({key}) => this.color(key))
                   .attr("d", this.area)
-                  .on('mousemove', (e) => {
+                  .on('mousemove', (e, d) => {
                     const x0 = this.xScale.invert(d3.pointer(e)[0]);
-                    var i = this.bisect(this.dataSource, x0, 1);
+                    const i = this.bisect(this.dataSource, x0, 1);
+                    const data = d[i].data
+                    this.updateTooltip(e, d.key, data.year, data[d.key])
+                  })
+                  .on('mouseleave', () => {
+                    this.tooltipVisible = false
                   }),
               update => update.call(update => update.transition().duration(1000).attr('d', this.area))
           )
@@ -155,8 +178,20 @@ export default {
     },
     updateViewMode(viewMode) {
       this.$emit('update-view-mode', viewMode)
+    },
+    keyToTooltipText (key) {
+      const matching = {
+        total: "Nombre total de contaminations",
+        men: "Hommes",
+        women: "Femmes",
+        hsh: "Hommes ayant des rapports sexuels avec des hommes",
+        hetero: "Hétérosexuels",
+        drug: "Usagers de drogues (injection intraveineuse)",
+        other: "Autres modes de contamination"
+      }
+      return matching[key]
     }
-  }
+  },
 }
 </script>
 
@@ -166,16 +201,28 @@ export default {
   .tooltip {
     pointer-events: none;
     position: absolute;
-    top: 0;
-    left: 0;
-    background-color: #00000088;
+    top: 10px;
+    left: 10px;
+    background-color: $themeBlue3;
     color: #fff;
     padding: 10px;
     border-radius: 3px;
     opacity: 0;
-    transition: all .05s;
+    font-size: 1.1rem;
+    transition: opacity .1s;
     &.visible {
       opacity: 1;
+    }
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    span:first-child {
+      font-weight: bold;
+      font-size: 1.1em;
+      border-bottom: solid white .5px;
+      padding: 0 10px 5px 0;
+      margin-bottom: 6px;
     }
   }
 

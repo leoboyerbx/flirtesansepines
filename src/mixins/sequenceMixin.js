@@ -5,6 +5,7 @@
  */
 //
 
+
 const sequence = {
     data: () => ({
         arrivingClass: '',

@@ -17,7 +17,6 @@ export default {
       LottieAnimation
   },
   data: () => ({
-    msg: "A votre avis, combien de cas de séropositivité ont été découverts en 2019 en France ?",
     number:1000,
     defaultOptions: {animationData: animationData},
     animationSpeed: 1,

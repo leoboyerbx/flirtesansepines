@@ -1,7 +1,9 @@
 <template>
   <article v-on:wheel="onWheelChangeSlide"
            class="condom-usage scrolling-slide"
-           :class="currentState">
+           :class="[ currentState, arrivingClass ]"
+           :style="{ display: displayStyle }"
+  >
         <h1>Utilisation du préservatif</h1>
 
         <p class="return-to-global-sequence" :class="{visible: detailsDisplay}" v-on:click="detailsDisplay = false">RETOUR</p>
@@ -80,8 +82,11 @@ export default {
   methods: {
     async getDataSource () {
       this.condomUsageDataSource = await csv('datas/detailsCondomUsage.csv', dataParseInt)
+      this.condomUsageDataSource.detailMessage ="Raisons avancées pour l'utilisation du préservatif"
       this.noCondomUsageDataSource = await csv('datas/detailsNoCondomUsage.csv', dataParseInt)
+      this.noCondomUsageDataSource.detailMessage ="Raisons avancées pour ne pas utiliser de préservatif"
       this.sometimesNoCondomUsageDataSource = await csv('datas/detailsSometimesNoCondomUsage.csv', dataParseInt)
+      this.sometimesNoCondomUsageDataSource.detailMessage ="Raisons avancées pour avoir manqué occasionnellement l'usage du préservatif"
       this.globalCondomUsageDataSource = await json('datas/condomUsage.json')
     },
     updateDetailsIndex (index) {
@@ -103,6 +108,7 @@ export default {
       color: #ffff;
       text-align: left;
       width: 100%;
+      margin-bottom:0;
   }
   top: 0;
   left: 0;
@@ -118,7 +124,8 @@ export default {
     transition: all .3s;
     cursor: pointer;
     color: #fff;
-    font-size: .8rem;
+    font-size: 1.3rem;
+    margin-top:15px;
 
     &.visible {
       opacity:1;
