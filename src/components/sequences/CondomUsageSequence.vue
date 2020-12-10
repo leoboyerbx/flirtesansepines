@@ -103,6 +103,7 @@ export default {
       color: #ffff;
       text-align: left;
       width: 100%;
+      margin-bottom:0;
   }
   top: 0;
   left: 0;
@@ -119,6 +120,7 @@ export default {
     cursor: pointer;
     color: #fff;
     font-size: .8rem;
+    margin:0;
 
     &.visible {
       opacity:1;

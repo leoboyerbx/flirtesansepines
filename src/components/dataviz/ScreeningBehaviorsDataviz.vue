@@ -11,11 +11,11 @@
     </div>
     <div class="legend">
           <div class="legend-item"
-          v-for="(data, key, index) in legendsData"
+          v-for="(data, key) in legendValue"
             :key="key">
             <span class="identifier"
-                :style="{ backgroundColor: $globals.dataColors.getColorCode(index) }"></span>
-            <p class="legend-name">{{ key }}</p>
+                :style="{ backgroundColor: $globals.dataColors.getColorCode(key) }"></span>
+            <p class="legend-name">{{ data }}</p>
           </div>
     </div>
   </div>
@@ -44,19 +44,12 @@ export default {
       key: '',
       x: 0,
       y: 0
-    }
+    },
+    legendValue: ['Jamais', 'Dans les 12 derniers mois', 'Il y a plus de 12 mois' ]
   }),
   computed: {
     dataWidth () {
       return this.width - this.margin.left - this.margin.right
-    },
-    legendsData () {
-      if (this.dataSource[0]) {
-        const result = Object.assign({}, this.dataSource[0])
-        delete result.age
-        return result
-      }
-      return {}
     },
     dataHeight() {
       return this.height - this.margin.top - this.margin.bottom
@@ -199,7 +192,7 @@ export default {
     display:flex;
     .legend-item {
       display:flex;
-
+      align-items: center;
       margin-right: 16px;
       .legend-name {
         font-size: 1.4rem;

@@ -78,6 +78,7 @@ export default {
     flex-wrap: wrap;
     justify-content:center;
     div:not(.animation) {
+      cursor: pointer;
       display: flex;
       height: 100%;
       align-items: center;

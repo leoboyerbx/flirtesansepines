@@ -48,7 +48,7 @@ export default {
           .y0(d => this.yScale(d[0]))
           .y1(d => this.yScale(d[1]))
     },
-    colors () { return this.$globals.dataColors },
+    colors () { return this.$globals.dataColors2 },
     color () {
       return d3.scaleOrdinal()
           .domain(this.dataSource.columns.slice(1))

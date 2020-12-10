@@ -94,7 +94,7 @@ export default {
     getColor (key) {
       const index = this.dataSource.columns ? this.dataSource.columns.indexOf(key) - 1 : -1
       if (index > -1) {
-        return this.$globals.dataColors.getColorCode(index)
+        return this.$globals.dataColors2.getColorCode(index)
       }
     }
   },
@@ -115,7 +115,7 @@ export default {
         case 2:
           cols = ['year', 'hsh', 'hetero', 'drug', 'other']
           excludedCols = ['total', 'men', 'women']
-          colsLegend = ['Année', 'HSH', 'Hétérosexuels', 'Drogues', 'Autre']
+          colsLegend = ['Année', 'Hommes ayant des rapports sexuels avec les hommes', 'Hétérosexuels', 'Drogues', 'Autre']
       }
       const result = this.dataSource.map(d => {
         const res = {}

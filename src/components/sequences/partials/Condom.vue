@@ -26,9 +26,9 @@
                 d="M345.26,0h256a15,15,0,0,1,15,15h0a15,15,0,0,1-15,15h-256a15,15,0,0,1-15-15h0A15,15,0,0,1,345.26,0Z"
                 :class="{ transition }"
           />
-          <text class="cls-5" transform="translate(88.82 241.9)">Toujours</text>
+          <text class="cls-5" transform="translate(88.82 241.9)">Jamais</text>
           <text class="cls-5" transform="translate(0 451.4)">Majoritairement</text>
-          <text class="cls-5" transform="translate(106.56 664.17)">Parfois</text></g>
+          <text class="cls-5" transform="translate(106.56 664.17)">Toujours</text></g>
       </g>
     </svg>
 
