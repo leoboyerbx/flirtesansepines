@@ -7,7 +7,7 @@
         :class="{ visible: tooltipVisible }"
         :style="`transform: translate(${tooltipValues.x}px, ${tooltipValues.y}px)`"
     >
-      {{ tooltipKey }}: {{ tooltipValues.percentage }}%
+      {{ tooltipKey }}: <strong>{{ tooltipValues.percentage }}%</strong>
     </div>
     <div class="legend">
           <div class="legend-item"
@@ -35,7 +35,7 @@ export default {
   },
   data: () => ({
     svg: null,
-    margin: {top: 20, right: 200, bottom: 60, left: 120},
+    margin: {top: 0, right: 10, bottom: 30, left: 110},
     keys: ['age', "never", "over12Months", "in12Months"],
     bandSpacing: 30,
     tooltipVisible: false,
@@ -174,9 +174,9 @@ export default {
   .tooltip {
     pointer-events: none;
     position: absolute;
-    top: 0;
-    left: 0;
-    background-color: #00000088;
+    top: 10px;
+    left: 10px;
+    background-color: $themeBlue3;
     color: #fff;
     padding: 10px;
     font-size: 1rem;

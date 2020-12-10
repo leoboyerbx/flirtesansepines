@@ -91,8 +91,7 @@ export default {
     color: $themeRed;
     font-size: 17rem;
     text-align: right;
-    line-height: 17rem;
-    //line-height: 23rem;
+    line-height: 20rem;
   }
   .confirm {
     display: flex;
