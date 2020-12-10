@@ -11,35 +11,34 @@
       <h1>Tes réponses</h1>
       <div class="user-responses">
         <div class="seropositivity-estimation">
-          <p>Selon toi, <span>{{userEstimationFirst}}</span> personnes ont été détectées séropositives en 2019.</p>
+          <p>Selon toi, <span>{{userEstimationFirst}}</span> personnes ont été détectées séropositives en 2018.</p>
           <img src="../../assets/flower.svg" alt="flower">
         </div>
         <div class="death-estimation">
           <p v-if="userEstimationDeath">
-            Contrairement à un bon nombre de personne, tu est conscient(e) que l'on meurt encore du VIH en France.
+            Contrairement à un bon nombre de personnes, tu es conscient(e) que l'on meurt encore du VIH en France.
           </p>
           <p v-else>
-            N'oublie pas que malgré les progrès de les médecine, le VIH fait des victimes chaque année.
+            N'oublie pas que malgré les progrès de la médecine, le VIH fait des victimes chaque année.
           </p>
           <img src="../../assets/handwithflower.svg" alt="hand with flower">
 
         </div>
         <div class="condom-usage">
           <p  v-if="userCondomUsage === 0">
-            Comme tu l'auras compris, l'utilisation du préservatif est le seule moyen de se protéger contre le VIH, ne change rien !
+            Comme tu l'as compris, l'utilisation du préservatif est le seul moyen de se protéger contre le VIH, ne change rien !
           </p>
           <p v-else-if="userCondomUsage === 1">
-            Tu n'utilises pas systématiquement le préservatif. N'oublies pas que c'est le seul moyen de te protéger du VIH !
+            Tu n'utilises pas systématiquement le préservatif. N'oublie pas que c'est le seul moyen de te protéger du VIH !
           </p>
           <p v-else>
-            N'oublies pas que le préservatif est le seul moyen de te protéger du VIH ! Nous te conseillons fortement de l'utiliser lorsque tes partenaires ne se font pas dépister.
+            N'oublie pas que le préservatif est le seul moyen de te protéger du VIH ! Nous te conseillons fortement de l'utiliser lorsque tes partenaires ne se sont pas faits dépister.
           </p>
           <img src="../../assets/condom.svg" alt="hand with flower">
         </div>
         <span class="button">
           <a target="_blank" href="https://www.sida-info-service.org/categorie/vihsida/depistage-vih/?gclid=CjwKCAiAq8f-BRBtEiwAGr3DgfxR5nOsfQRJ9JhSCYQ8dp0z5lz_znD5G4TEe-jLoDFMDqYqx0vdmRoCr78QAvD_BwE">Pour plus d'infos sur le dépistage</a>
         </span>
-
       </div>
     </div>
 

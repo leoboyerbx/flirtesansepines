@@ -83,7 +83,9 @@ export default {
           // .tickSizeOuter(0)
     },
     yAxis() {
-      return d3.axisLeft(this.yScale).tickSize(-this.dataWidth)
+      return d3.axisLeft(this.yScale)
+          .tickSize(0)
+          .tickFormat(x => x.toLocaleString("fr-FR"))
     },
     transition () {
       return d3.transition().duration(1000)
@@ -139,11 +141,16 @@ export default {
       this.styleYAxis(yAxis)
     },
     styleXAxis (axis) {
-      // axis.selectAll("text")
+      axis.selectAll("text")
+          .style('font-size','.9rem')
+          .style('font-weight','600')
       //     .style("fill", "#f00")
     },
     styleYAxis (axis) {
-      // axis.selectAll("text")
+       axis.selectAll("text")
+          .style('font-size','.9rem')
+          .style('font-weight','600')
+
       //     .style("fill", "#f00")
     },
     updateTooltip (e, key, year, value) {

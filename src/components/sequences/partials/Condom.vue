@@ -36,7 +36,7 @@
     <div class="desc">
       <div>
         <h1>Fais glisser le préservatif</h1>
-        <p>Selon ton expérience et les contraceptions qui t’entourent, à quelle fréquence utilises-tu le préservatif  ?</p>
+        <p>Lors de tes rapports sexuels, à quelle fréquence utilises-tu le préservatif ?</p>
       </div>
       <a href="#" @click.prevent="onConfirm" :class="{ visible: showButton }">Valider</a>
 

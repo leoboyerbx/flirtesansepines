@@ -67,15 +67,18 @@ export default {
     xAxis() {
       return d3.axisBottom(this.xScale)
           .tickFormat(x => x.toString())
+          .tickSize(0)
     },
     treatmentYAxis() {
       return d3.axisLeft(this.treatmentYScale)
           .tickFormat(x => x.toLocaleString("fr-FR"))
+          .tickSize(0)
 
     },
     deathYAxis() {
       return d3.axisRight(this.deathYScale)
            .tickFormat(x => x.toLocaleString("fr-FR"))
+           .tickSize(0)
     },
     confidenceIntervalArea () {
       return d3.area().curve(d3.curveMonotoneX)
@@ -136,6 +139,7 @@ export default {
       axis.selectAll("text")
           .style('font-size','.9rem')
           .style('font-weight','600')
+          .style('transform','translateY(10px)')
       axis.selectAll('.tick line')
           .style('display','none')
       return axis
@@ -147,6 +151,7 @@ export default {
           .style("fill", this.treatmentColor)
           .style('font-size','.9rem')
           .style('font-weight','500')
+          .style('transform','translateX(-7px)')
 
       return axis
     },

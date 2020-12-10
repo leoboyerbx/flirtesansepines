@@ -92,6 +92,7 @@ export default {
     font-size: 17rem;
     text-align: right;
     line-height: 20rem;
+    margin-top: 30px;
   }
   .confirm {
     display: flex;
