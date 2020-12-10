@@ -6,7 +6,7 @@
       :style="{ display: displayStyle }"
   >
     <h1>Fréquence de dépistage par tranche d’âge</h1>
-    <p>Mêmes si les jeunes de 18 à 25 ans se font dépistés plus souvent que le reste de la population, presque la moitié d’eux ne se sont jamais fait testés.</p>
+    <p>Même si les jeunes de 18 à 25 ans se font dépister plus souvent que le reste de la population, presque la moitié d’entre eux ne se sont jamais fait tester.</p>
     <ScreeningBehaviorsDataviz
       :dataSource="dataSource"
       :width="800"
