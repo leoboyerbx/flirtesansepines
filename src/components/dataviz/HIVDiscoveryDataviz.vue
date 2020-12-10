@@ -79,8 +79,6 @@ export default {
     xAxis() {
       return d3.axisBottom(this.xScale)
           .tickFormat(x => x.toString())
-          // .ticks(this.dataWidth / 80)
-          // .tickSizeOuter(0)
     },
     yAxis() {
       return d3.axisLeft(this.yScale)
@@ -240,6 +238,12 @@ export default {
       font-size: $paragraphSize;
       line{
         display:none;
+      }
+    }
+
+    .axis {
+      .tick {
+        margin-top: 20px;
       }
     }
   }

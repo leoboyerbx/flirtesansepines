@@ -45,8 +45,8 @@ export default {
   width: 100%;
   min-height: 100%;
   transition: all $slideDurationEasing;
-  margin: auto;
-  padding: 4% 10%;
+  margin: 0;
+  padding: 2% 10%;
 
   h1 {
     color: $themeBlue3;
@@ -56,7 +56,7 @@ export default {
     margin: .4em 0;
   }
   p {
-    font-size: $paragraphSize;
+    font-size: 1.1rem;
     margin-bottom: 40px;
   }
 }

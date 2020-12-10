@@ -114,6 +114,7 @@ export default {
 
 
 .screening-late-dataviz {
+  color: $themeBlue3;
   width: 100%;
   svg {
       width: 100%;
@@ -134,7 +135,7 @@ export default {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
-        width: 300px;
+        width: 350px;
         transition: all .3s;
         opacity: 0;
         &.visible {
@@ -150,25 +151,31 @@ export default {
 
             .percent {
                 font-family: $titleFont;
-                font-size: 1.5rem;
-                margin-bottom: 0.5rem;
+                font-size: 1.8rem;
+                margin: 1.2rem 0;
+                
             }
 
             .info {
                 font-family: $paragraphFont;
-                font-size: 1.2rem;
+                font-size: 1.3rem;
+                font-weight: bold;
                 margin-top:0;
             }
       }
   }
 
   .legend {
-      display: flex;
+        display: flex;
+        margin-top: 20px;
+        font-size: 1.3rem;
+        font-weight: bold;
+
       .legend-item{
-          display: flex;
+         display: flex;
          margin-right: 30px;
          align-items: center;
-         font-size: 1.4rem;
+         font-size: 1.3rem;
           span {
               width: 25px;
               height: 25px;

@@ -135,6 +135,9 @@ export default {
     width: 100%;
     font-family: $paragraphFont;
     font-size: 0.8rem;
+    font-weight: bold;
+    color: $themeBlue3;
+
     .legend-item {
       display: flex;
       align-items: center;
@@ -162,18 +165,20 @@ export default {
   }
 
   .user-response {
-        width: 30%;
-      h1 {
-      font-family: $titleFont;
-      font-size: 3.5em;
+      width: 30%;
       color: $themeBlue3;
-      text-align: left;
-    }
 
-    p {
-      font-family: $paragraphFont;
-      font-size: 1.2rem;
-    }
+      h1 {
+        font-family: $titleFont;
+        font-size: 3.5em;
+        text-align: left;
+      }
+
+      p {
+        font-family: $paragraphFont;
+        font-size: 1.3rem;
+        font-weight: bold;
+      }
   }
 
 

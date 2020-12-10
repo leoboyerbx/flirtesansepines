@@ -184,6 +184,7 @@ export default {
         align-items: flex-start;
         margin-bottom: 8px;
         font-size: 1.4rem;
+        font-weight: bold;
 
         .legend-line {
           margin-top: 10px;
@@ -223,6 +224,8 @@ export default {
     justify-content: flex-start;
     max-width: 72%;
     margin: 60px 0;
+    font-size:.9rem;
+      font-weight:bold;
 
     label {
       position: relative;
@@ -230,6 +233,7 @@ export default {
       font-size: 1.5em;
       font-weight: bold;
       margin-right: 45px;
+      
       cursor: pointer;
 
       &:hover input ~ .checkmark {
