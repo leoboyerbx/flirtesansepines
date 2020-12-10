@@ -197,6 +197,7 @@ export default {
       .legend-name {
         font-size: 1.4rem;
         margin:0;
+        color: white;
       }
       span {
         width: 30px;

@@ -58,7 +58,7 @@ export default {
   mixins: [sequence],
   components: {HIVDiscoveryDataviz},
   data: () => ({
-    msg: "A votre avis, combien de cas de séropositivité ont été découverts en 2019 en France ?",
+    msg: "À ton avis, combien de cas de séropositivité VIH ont été découverts en France en 2018 ?",
     number:1000,
     dataSource: [],
     viewMode: 0,

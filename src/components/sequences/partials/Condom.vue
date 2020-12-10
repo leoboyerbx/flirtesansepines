@@ -37,7 +37,7 @@
         <h1>Fais glisser le préservatif</h1>
         <p>Lors d'un rapport sexuel, utilises-tu systématiquement le préservatif? Ou es-tu radicalement contre?</p>
       </div>
-      <button>Valider</button>
+      <a href="#" @click.prevent="onConfirm">Valider</a>
       
     </div>
 
@@ -184,6 +184,19 @@ export default {
     .desc {
       width: 35%;
       padding-right: 3%;
+      align-items: flex-start;
+
+      a {
+        color: white;
+        border-bottom: 1px solid white;
+        padding: .1em 0em;
+        font-size: 1.8rem;
+        cursor: pointer;
+        font-family: $paragraphFont;
+        font-weight: bold;
+        text-decoration: none;
+        background: transparent;
+      }
       div {
         margin-bottom: 3rem;
         h1 {

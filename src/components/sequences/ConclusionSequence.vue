@@ -36,9 +36,20 @@
           </p>
           <img src="../../assets/condom.svg" alt="hand with flower">
         </div>
+        <span class="button">
+          <a target="_blank" href="https://www.ch-annecygenevois.fr/fr/article/le-centre-de-depistage-du-change">Pour plus d'infos sur le dépistage</a>
+        </span>
+
       </div>
-      <a target="_blank" href="https://www.ch-annecygenevois.fr/fr/article/le-centre-de-depistage-du-change">Pour plus d'infos sur le dépistage</a>
     </div>
+
+    <footer>
+      <p class="produced-by">Produit par : Romain Critot, Sarah Blaisa, Léo Boyer & Maëva Reynaud</p>
+      <div class="logos">
+        <img src="../../assets/gobelins.png" alt="">
+        <img src="../../assets/logo_campus.png" alt="">
+      </div>
+    </footer>
 
   </article>
 </template>
@@ -94,12 +105,40 @@ export default {
   overflow-y: scroll;
   //scrollbar-width: none;
 
+  footer {
+    background-color: white;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 2% 5%;
+    margin-top: 100px;
+
+    .produced-by {
+        font-family: $paragraphFont;
+        font-size: 1.2rem;
+    }
+
+    div {
+      flex:1;
+      &.logos {
+        display: flex;
+        justify-content: flex-end;
+        img {
+          margin-left: 30px;
+          width: 80px;
+        }
+      }
+    }
+    
+  }
+
   background-color: $themeBlue3;
   font-family: $titleFont;
 
   .header {
     width: 100%;
     background-color: white;
+    display: flex;
     img {
       width: 100%;
     }
@@ -124,20 +163,35 @@ export default {
   }
 
   .responses {
+    margin-top: -2px;
+    background: $themeBlue3;
+
+     img {
+      width: 30%;
+      margin: 0 auto;
+    }
 
     h1 {
       font-family: $titleFont;
       font-size: 50px;
       color: white;
-      margin:auto;
+      margin: auto;
+      padding: 30px 0;
       text-align: center;
       max-width: 60%;
     }
     .user-responses {
       display: flex;
+      flex-wrap: wrap;
       width: 90%;
       margin: auto;
       justify-content: space-between;
+      
+      .button {
+        width: 100%;
+        text-align: center;
+        margin-top: 60px;
+      }
 
       div {
         margin: 1%;
@@ -150,6 +204,8 @@ export default {
 
         p {
           font-size: 1.5rem;
+          margin: auto;
+          text-align: center;
         }
 
         img {
@@ -163,17 +219,9 @@ export default {
   }
 
 
-  img {
-    width: 30%;
-    margin: 0 auto;
-  }
+ 
 
-  p {
-    margin: auto;
-    text-align: center;
-    font-size: 2rem;
-
-  }
+  
 
 
 
