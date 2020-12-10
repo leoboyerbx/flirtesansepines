@@ -193,6 +193,10 @@ export default {
       padding-right: 3%;
       align-items: flex-start;
 
+      p {
+        font-weight: bold;
+      }
+
       a {
         color: white;
         border-bottom: 1px solid white;

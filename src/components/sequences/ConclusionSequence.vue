@@ -44,8 +44,8 @@
 
     <footer>
       <div>
-        <p class="produced-by">Réalisé par : Romain Critot, Sarah Blaisa, Léo Boyer, Maëva Reynaud</p>
-        <a target="_blank" href="https://docs.google.com/spreadsheets/d/1YKJx8cLYmyNs-wn2jJhnB1kJ_5zeaT2GN0aq2a79KI4/edit#gid=0">Sources</a>
+        <p class="produced-by"> Travail étudiant réalisé par : Romain Critot, Sarah Blaisa, Léo Boyer, Maëva Reynaud</p>
+        <a target="_blank" href="https://docs.google.com/spreadsheets/d/1YKJx8cLYmyNs-wn2jJhnB1kJ_5zeaT2GN0aq2a79KI4/edit?usp=sharing">Sources</a>
       </div>
       <div class="logos">
         <img src="../../assets/gobelins.png" alt="">
@@ -142,6 +142,9 @@ export default {
         img {
           margin-left: 30px;
           width: 80px;
+          display: flex;
+          height: 100%;
+          object-fit: contain;
         }
       }
     }
@@ -202,6 +205,7 @@ export default {
       width: 90%;
       margin: auto;
       justify-content: space-between;
+      font-weight: bold;
 
       .seropositivity-estimation {
 

@@ -95,8 +95,9 @@ export default {
   }
   p {
     color: #fff;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     margin-bottom: 30px;
+    font-weight: bold;
   }
 
 }

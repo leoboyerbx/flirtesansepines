@@ -192,12 +192,13 @@ export default {
   .legend {
     display:flex;
     margin-top: 30px;
+    font-weight: bold;
     .legend-item {
       display:flex;
       align-items: center;
       margin-right: 16px;
       .legend-name {
-        font-size: 1.2rem;
+        font-size: 1.3rem;
         margin:0;
         color: white;
       }
