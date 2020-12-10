@@ -136,6 +136,7 @@ export default {
     &.details {
       transition: all .3s;
       opacity: 0;
+      pointer-events: none;
     }
     .legend-item {
       display: flex;

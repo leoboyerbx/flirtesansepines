@@ -20,6 +20,9 @@
         <div class="title" :class="{ visible: animationFinished }">
           <h1>Flirt sans épines</h1>
         </div>
+        <div class="scroll-incite" :class="{ visible: displayScrollIncite }">
+          <ScrollIncitator /> <p>Scrollez pour démarrer...</p>
+        </div>
       </div>
     </section>
     <HIVEstimation @confirm="confirmEstimation" :locked="locked" class="hiv-estimation" />
@@ -30,11 +33,13 @@
 import LottieAnimation from "@/components/lib/LottieAnimation";
 import HIVEstimation from "@/components/sequences/partials/HIVEstimation";
 import sequence from "@/mixins/sequenceMixin";
+import ScrollIncitator from "@/components/lib/ScrollIncitator";
 
 export default {
   name: 'IntroductionSequence',
   mixins: [ sequence ],
   components: {
+    ScrollIncitator,
     HIVEstimation,
     LottieAnimation
   },
@@ -48,10 +53,15 @@ export default {
     lottieScrollHeight: 3000,
     lottieHeight: 0,
     animationEndedScrollOffset: 100,
-    locked: true
+    locked: true,
+    displayScrollIncite: false
   }),
   mounted () {
     window.addEventListener('resize', this.onResize.bind(this))
+
+    setTimeout(() => {
+      this.displayScrollIncite = true
+    }, 1000)
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.onResize.bind(this))
@@ -71,11 +81,12 @@ export default {
     },
     currentLottieScrollHeight () {
       return this.animationFinished ? 0 : this.lottieScrollHeight
-    },
+    }
   },
   methods: {
     onScroll () {
       const progress = this.$el.scrollTop / (this.lottieScrollHeight - this.animationEndedScrollOffset)
+      this.displayScrollIncite = false
 
       if (!this.animationFinished ) {
         if (progress < 1) {
@@ -198,6 +209,31 @@ export default {
   }
   .hiv-estimation {
     //transform: translateY(-150px);
+  }
+  .scroll-incite {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    color: #fff;
+    font-size: 1.8rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all .5s;
+    opacity: 0;
+    pointer-events: none;
+    &.visible {
+      opacity: .6;
+      transition: all .8s;
+    }
+    .incite-wrapper {
+      transform: scale(.8);
+    }
+    p {
+      margin-left: 15px;
+    }
   }
 }
 </style>
