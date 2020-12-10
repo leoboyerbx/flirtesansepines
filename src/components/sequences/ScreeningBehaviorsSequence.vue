@@ -5,8 +5,8 @@
       :class="[ currentState, arrivingClass ]"
       :style="{ display: displayStyle }"
   >
-    <h1>Fréquence de dépistage par tranche d'âge</h1>
-    <p>Date du dernier dépistage au moment du sondage</p>
+    <h1>Fréquence de dépistage par tranche d’âge</h1>
+    <p>Mêmes si les jeunes de 18 à 25 ans se font dépistés plus souvent que le reste de la population, presque la moitié d’eux ne se sont jamais fait testés.</p>
     <ScreeningBehaviorsDataviz
       :dataSource="dataSource"
       :width="800"
@@ -88,7 +88,7 @@ export default {
   h1 {
       font-family: $titleFont;
       font-size: 3.5em;
-      margin: 1.5em 0;
+      margin: 0em 0 1em 0;
       color: white;
       max-width: 50%;
       text-align: left;

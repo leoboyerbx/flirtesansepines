@@ -11,7 +11,7 @@
       <h1>Tes réponses</h1>
       <div class="user-responses">
         <div class="seropositivity-estimation">
-          <p>Selon toi, {{userEstimationFirst}} personnes ont été détectées séropositives en 2019.</p>
+          <p>Selon toi, <span>{{userEstimationFirst}}</span> personnes ont été détectées séropositives en 2019.</p>
           <img src="../../assets/flower.svg" alt="flower">
         </div>
         <div class="death-estimation">
@@ -26,7 +26,7 @@
         </div>
         <div class="condom-usage">
           <p  v-if="userCondomUsage === 0">
-            Comme tu l'auras compris, l'utilisation du préservatif est le seule moyen de se protéger contre le VIH, donc ne change rien !
+            Comme tu l'auras compris, l'utilisation du préservatif est le seule moyen de se protéger contre le VIH, ne change rien !
           </p>
           <p v-else-if="userCondomUsage === 1">
             Tu n'utilises pas systématiquement le préservatif. N'oublies pas que c'est le seul moyen de te protéger du VIH !
@@ -37,14 +37,14 @@
           <img src="../../assets/condom.svg" alt="hand with flower">
         </div>
         <span class="button">
-          <a target="_blank" href="https://www.ch-annecygenevois.fr/fr/article/le-centre-de-depistage-du-change">Pour plus d'infos sur le dépistage</a>
+          <a target="_blank" href="https://www.sida-info-service.org/categorie/vihsida/depistage-vih/?gclid=CjwKCAiAq8f-BRBtEiwAGr3DgfxR5nOsfQRJ9JhSCYQ8dp0z5lz_znD5G4TEe-jLoDFMDqYqx0vdmRoCr78QAvD_BwE">Pour plus d'infos sur le dépistage</a>
         </span>
 
       </div>
     </div>
 
     <footer>
-      <p class="produced-by">Produit par : Romain Critot, Sarah Blaisa, Léo Boyer, Maëva Reynaud</p>
+      <p class="produced-by">Réalisé par : Romain Critot, Sarah Blaisa, Léo Boyer, Maëva Reynaud</p>
       <div class="logos">
         <img src="../../assets/gobelins.png" alt="">
         <img src="../../assets/logo_campus.png" alt="">
@@ -187,6 +187,14 @@ export default {
       margin: auto;
       justify-content: space-between;
 
+      .seropositivity-estimation {
+
+        span {
+          color: $themeRed;
+          font-weight: 600;
+        }
+        
+      }
       .button {
         width: 100%;
         text-align: center;

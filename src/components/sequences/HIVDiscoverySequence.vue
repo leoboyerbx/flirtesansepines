@@ -5,7 +5,7 @@
       :class="[ currentState, arrivingClass ]"
       :style="{ display: displayStyle }"
   >
-    <h1>Nombre de séropositifs, <br> en France</h1>
+    <h1>Nombre de cas séropositifs <br>en France</h1>
     <section class="diag">
       <HIVDiscoveryDataviz
         :width="900"
@@ -58,7 +58,6 @@ export default {
   mixins: [sequence],
   components: {HIVDiscoveryDataviz},
   data: () => ({
-    msg: "À ton avis, combien de cas de séropositivité VIH ont été découverts en France en 2018 ?",
     number:1000,
     dataSource: [],
     viewMode: 0,

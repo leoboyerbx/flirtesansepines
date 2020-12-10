@@ -109,13 +109,14 @@ export default {
       const yAxisGenerator = d3.axisLeft(y)
       const yAxis = this.svg.append("g")
           .attr("class", "y axis")
-          .attr("transform", "translate(-30,0)")
+          .attr("transform", "translate(-15,0)")
           .call(yAxisGenerator)
 
 
       yAxis.selectAll("text")
           .style("text-anchor", "end")
           .attr('class', 'axis-text')
+          .style('font-size','1.3rem')
       yAxis.selectAll(".domain, line").remove()
     },
 
@@ -190,6 +191,7 @@ export default {
 
   .legend {
     display:flex;
+    margin-top: 30px;
     .legend-item {
       display:flex;
       align-items: center;

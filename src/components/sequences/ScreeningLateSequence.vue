@@ -6,6 +6,7 @@
       :style="{ display: displayStyle }"
   >
     <h1>Sur 100 personnes séropositives...</h1>
+    <p>* Plus le dépistage est précoce, plus la prise en charge est facilitée. Il est donc important de se faire dépister régulièrement.</p>
     <ScreeningLateDataviz
         :height="300"
       />
@@ -52,6 +53,11 @@ export default {
     font-size: $titleSize;
     text-align: left;
     font-family: $titleFont;
+    margin: .4em 0;
+  }
+  p {
+    font-size: $paragraphSize;
+    margin-bottom: 40px;
   }
 }
 
