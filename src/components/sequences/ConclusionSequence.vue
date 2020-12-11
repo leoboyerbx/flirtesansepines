@@ -222,7 +222,7 @@ export default {
         margin-top: 60px;
         a {
           color: white;
-          border-bottom: 1px solid $themeBlue3;
+          border-bottom: 1px solid white;
           padding: .1em 0em;
           font-size: 1.8rem;
           cursor: pointer;
