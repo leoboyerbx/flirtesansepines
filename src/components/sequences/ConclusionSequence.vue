@@ -25,7 +25,7 @@
 
         </div>
         <div class="condom-usage">
-          <p  v-if="userCondomUsage === 0">
+          <p  v-if="userCondomUsage === 2">
             Comme tu l'as compris, l'utilisation du préservatif est le seul moyen de se protéger contre le VIH, ne change rien !
           </p>
           <p v-else-if="userCondomUsage === 1">
