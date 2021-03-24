@@ -18,7 +18,7 @@
         >
         </rect>
 
-        
+
       </svg>
       <div class="tooltip">
           <div class="tooltip-item"
@@ -29,7 +29,7 @@
         >
             <span class="border" :style="{ backgroundColor: data.color}"></span>
             <div>
-                <p class="percent">{{ data.value }} personnes</p>
+                <p class="percent">{{ Math.round(data.value) }} personnes</p>
                 <p class="info">{{ data.comment }}</p>
             </div>
           </div>
@@ -146,14 +146,14 @@ export default {
               width: 2%;
           }
           div {
-              width: 90%;   
+              width: 90%;
           }
 
             .percent {
                 font-family: $titleFont;
                 font-size: 1.8rem;
                 margin: 1.2rem 0;
-                
+
             }
 
             .info {
@@ -191,4 +191,3 @@ export default {
 
 
 </style>
- 

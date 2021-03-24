@@ -70,7 +70,7 @@ export default {
   },
   methods: {
     async getTreatmentDataSource () {
-      const treatmentApiData = await json("https://cors-anywhere.herokuapp.com/https://ghoapi.azureedge.net/api/HIV_0000000009?$filter=SpatialDim eq 'FRA'")
+      const treatmentApiData = await json("https://cors-proxy.lbxs.dev/https://ghoapi.azureedge.net/api/HIV_0000000009?$filter=SpatialDim eq 'FRA'")
       this.treatmentDataSource = treatmentApiData.value.map(data => {
         const year = data.TimeDim
         const value = +data.NumericValue
@@ -78,7 +78,7 @@ export default {
       })
     },
     async getDeathDataSource () {
-      const deathsApiData = await json("https://cors-anywhere.herokuapp.com/https://ghoapi.azureedge.net/api/HIV_0000000006?$filter=SpatialDim eq 'FRA'")
+      const deathsApiData = await json("https://cors-proxy.lbxs.dev/https://ghoapi.azureedge.net/api/HIV_0000000006?$filter=SpatialDim eq 'FRA'")
       this.deathDataSource = deathsApiData.value.map(data => {
         const parsedData = data.Value.replace(/</g, '').split(/\[|\]| |–/)
 
